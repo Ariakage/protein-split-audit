@@ -9,12 +9,25 @@ semantic versioning where it applies.
 
 No changes recorded.
 
+## 0.1.1 - 2026-07-14
+
+### Changed
+
+- Corrected public documentation to reflect that v0.1.0 has been published, and moved the former
+  readiness report to the historical audits directory.
+- Updated package and citation metadata for the v0.1.1 corrective tag.
+
+### Release scope
+
+v0.1.1 changes documentation and release metadata only. It does not change pipeline behavior,
+publish a new dataset, or close the known acceptance gaps documented for v0.1.0.
+
 ## 0.1.0 - 2026-07-14
 
 ### Added
 
-- Governance and contribution guidance, along with the product, roadmap, protocol, data card,
-  reproducibility, licensing, and scope documents.
+- Contribution guidance, roadmap, research protocol, data card, reproducibility guide, and
+  licensing documentation.
 - The `psaudit --version` and `psaudit doctor` commands.
 - Validated YAML configuration, project-root discovery, SHA-256 hashing, and read-only Git
   metadata helpers.
@@ -32,6 +45,7 @@ No changes recorded.
 
 - The console entry point is `psaudit`.
 
-## Publication status
+### Publication
 
-No Git tag or GitHub Release has been published for this version.
+v0.1.0 was published as the first candidate-dataset pipeline release. Some originally proposed
+CLI and audit capabilities remain planned for a future corrective release.

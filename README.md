@@ -3,18 +3,25 @@
 # ProteinSplitAudit
 
 ProteinSplitAudit builds a candidate protein enzyme dataset with enough provenance to audit each
-source and transformation step. Version 0.1.0 covers a reviewed UniProtKB/Swiss-Prot pilot
-workflow. It does not choose final EC classes, create train/validation/test splits, train models,
-or report benchmark results.
+source and transformation step. Version 0.1.1 is a documentation and release-metadata correction
+to the reviewed UniProtKB/Swiss-Prot pilot workflow published in v0.1.0. It does not change the
+pipeline, choose final EC classes, create train/validation/test splits, train models, or report
+benchmark results.
 
 ## Project status
 
-The package is at version 0.1.0, but this repository state is not a published release. There is no
-Git tag, GitHub Release, candidate dataset, benchmark dataset, or approved profile artifact. Raw
-downloads and files containing processed sequences remain local and untracked.
+ProteinSplitAudit v0.1.0 is the project's first public software release. The v0.1.1 correction tag
+updates public documentation and version metadata without changing its candidate-dataset
+pipeline. Neither version is a frozen benchmark dataset. The software does not run MMseqs2
+clustering, create train/validation/test splits, train or evaluate models, or make claims about
+sequence leakage or predictive performance.
 
-See `docs/releases/v0.1.0.md` for the release-readiness audit. The listed blockers require review
-before anyone creates a tag or GitHub Release.
+Raw downloads and processed files containing UniProt sequences remain local and untracked. The
+current development branch may contain changes made after the v0.1.0 tag.
+
+See `docs/releases/v0.1.0.md` for the published pipeline scope and `docs/releases/v0.1.1.md` for
+the corrective tag. The earlier readiness review is preserved in
+`docs/audits/v0.1.0-pre-release-readiness.md` as a historical record.
 
 ## Install
 
@@ -29,7 +36,7 @@ uv run psaudit doctor
 The distribution is named `protein-split-audit`, the Python package is `protein_split_audit`, and
 the command-line program is `psaudit`.
 
-## Commands available in v0.1.0
+## Commands available in v0.1.1
 
 ```text
 psaudit --version
@@ -76,5 +83,4 @@ Original code and tests use Apache-2.0. Original documentation uses CC-BY-4.0. U
 sequences and metadata keep their upstream terms; this project does not relicense them. Details are
 in `LICENSES/`, `DATA_LICENSE.md`, `THIRD_PARTY_NOTICES.md`, and `docs/LICENSE_POLICY.md`.
 
-Citation metadata is available in `CITATION.cff`. Publishing a tag or release requires explicit
-maintainer approval.
+Citation metadata is available in `CITATION.cff`.
