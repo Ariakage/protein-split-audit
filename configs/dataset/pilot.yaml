@@ -1,0 +1,64 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+run_name: swissprot-ecoli-k12-enzyme-pilot
+
+source:
+  database: UniProtKB/Swiss-Prot
+  endpoint: https://rest.uniprot.org/uniprotkb/search
+  query: "reviewed:true AND taxonomy_id:83333 AND fragment:false AND ec:*"
+  format: tsv
+  page_size: 100
+  timeout_seconds: 60.0
+  fields:
+    - name: accession
+      response_header: Entry
+      required: true
+    - name: id
+      response_header: Entry Name
+      required: true
+    - name: protein_name
+      response_header: Protein names
+      required: true
+    - name: organism_name
+      response_header: Organism
+      required: true
+    - name: organism_id
+      response_header: Organism (ID)
+      required: true
+    - name: ec
+      response_header: EC number
+      required: true
+    - name: sequence
+      response_header: Sequence
+      required: true
+
+retry:
+  max_retries: 4
+  backoff_initial_seconds: 1.0
+  backoff_max_seconds: 16.0
+
+output:
+  raw_dir: ../../data/raw
+  manifest_dir: ../../data/manifests
+  compressed_filename: swissprot-ecoli-k12-enzyme-pilot.tsv.gz
+  manifest_filename: swissprot-ecoli-k12-enzyme-pilot.download.json
+  overwrite: false
+
+candidate_selection:
+  allowed_amino_acids: ACDEFGHIKLMNPQRSTVWY
+  min_sequence_length: 50
+  max_sequence_length: 1000
+  require_single_ec: true
+  require_complete_ec: true
+
+build_output:
+  processed_dir: ../../data/processed
+  manifest_dir: ../../data/manifests
+  parquet_filename: pilot.parquet
+  fasta_filename: pilot.fasta
+  manifest_filename: pilot.build.json
+  deduplication_filename: pilot.deduplication.json
+  conflicts_filename: pilot.conflicting-duplicates.json
+  rejections_filename: pilot.rejections.json
+  overwrite: false
