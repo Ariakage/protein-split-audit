@@ -1,0 +1,12 @@
+{
+  "reason_counts": {
+    "incomplete_ec": 489,
+    "invalid_sequence_characters": 3,
+    "malformed_ec": 18,
+    "multiple_ec": 243,
+    "sequence_too_long": 20,
+    "sequence_too_short": 1
+  },
+  "rejected_record_count": 774,
+  "schema_version": 1
+}

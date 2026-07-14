@@ -1,0 +1,60 @@
+{
+  "artifact_schema_version": 1,
+  "built_at_utc": "2026-07-14T13:36:52.741791Z",
+  "configuration_file": "configs/dataset/pilot.yaml",
+  "configuration_sha256": "6fcc3aaca2963d4f77f21cfeb6b35da4105199bfcebec7732d587914cf66aac8",
+  "conflict_group_count": 0,
+  "conflicting_record_count": 0,
+  "counts": {
+    "after_conflict_filter": 1858,
+    "after_ec_filter": 1882,
+    "after_sequence_filter": 1858,
+    "input_records": 2632,
+    "retained_candidates": 1182
+  },
+  "duplicate_alias_count": 676,
+  "duplicate_group_count": 368,
+  "git_commit": "9a08febd5515f674e378ccead7df7c3a4dfe3525",
+  "git_dirty": true,
+  "input_file": "data/raw/swissprot-ecoli-k12-enzyme-pilot.tsv.gz",
+  "input_file_sha256": "8b19f31db890e5bfe211b06bd7af49719994df3735cf50a79a34acb9d71c0e7f",
+  "input_normalized_content_sha256": "b88328a5adda62346181fc551fba1a88c8fcbc0f3b4faad920fad3e35475a691",
+  "manifest_schema_version": 1,
+  "output_file_sha256": {
+    "pilot.conflicting-duplicates.json": "09c8dd3493a14d5aead7ac7d91478935868cbadd43fc3c0325250d16a39b5af2",
+    "pilot.deduplication.json": "7dcdca22b828dcec764e52b14552cb04b775f81242b778aa84737d70a31fffcd",
+    "pilot.fasta": "f06817f295015d345ea7e8ebb073a1151a9855129bd1e3c7783316b712e1ef11",
+    "pilot.parquet": "158548284f65b2c85204f776987abea4ff5d852e5c303eb66a463357648befb0",
+    "pilot.rejections.json": "aac1e6f5e2ee0ccd47bda3b5ab477f14d6b26eec74ab198591327b35f236627d"
+  },
+  "parent_download_manifest": "data/manifests/swissprot-ecoli-k12-enzyme-pilot.download.json",
+  "parquet_writer": {
+    "compression": "zstd",
+    "data_page_version": "1.0",
+    "store_schema": true,
+    "use_dictionary": false,
+    "version": "2.6",
+    "write_statistics": true
+  },
+  "processing_rules": {
+    "deduplication": "exact-sequence-sha256-v1",
+    "ec_pattern": "^\\d+\\.\\d+\\.\\d+\\.\\d+$",
+    "max_sequence_length": 1000,
+    "min_sequence_length": 50,
+    "require_complete_ec": true,
+    "require_single_ec": true,
+    "sequence_alphabet": "ACDEFGHIKLMNPQRSTVWY"
+  },
+  "python_version": "3.12.11",
+  "rejection_reason_counts": {
+    "incomplete_ec": 489,
+    "invalid_sequence_characters": 3,
+    "malformed_ec": 18,
+    "multiple_ec": 243,
+    "sequence_too_long": 20,
+    "sequence_too_short": 1
+  },
+  "software_version": "0.1.0",
+  "source_manifest_sha256": "bc4a42eb38057a261a436e0ba13e3479582bcedcfef4b47b5d671cfab135a0b4",
+  "uv_lock_sha256": "1082532cdecc76668921d91145094c6449668e38af9d207e46fe897a173c6e31"
+}

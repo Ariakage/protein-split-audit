@@ -1,0 +1,356 @@
+{
+  "canonical_request_url": "https://rest.uniprot.org/uniprotkb/search?query=reviewed%3Atrue+AND+taxonomy_id%3A83333+AND+fragment%3Afalse+AND+ec%3A%2A&format=tsv&fields=accession%2Cid%2Cprotein_name%2Corganism_name%2Corganism_id%2Cec%2Csequence&size=100",
+  "downloaded_at_utc": "2026-07-14T13:36:36.640568Z",
+  "endpoint": "https://rest.uniprot.org/uniprotkb/search",
+  "expected_total_count": 2632,
+  "git_commit": "9a08febd5515f674e378ccead7df7c3a4dfe3525",
+  "git_dirty": true,
+  "local_compressed_file": "data/raw/swissprot-ecoli-k12-enzyme-pilot.tsv.gz",
+  "local_compressed_file_sha256": "8b19f31db890e5bfe211b06bd7af49719994df3735cf50a79a34acb9d71c0e7f",
+  "manifest_schema_version": 1,
+  "normalized_content_sha256": "b88328a5adda62346181fc551fba1a88c8fcbc0f3b4faad920fad3e35475a691",
+  "page_count": 27,
+  "pages": [
+    {
+      "normalized_page_sha256": "36bb0d155b80926bd0ee45c7dfaae5199a06fd09fc6071941f3269fea9ff1840",
+      "page_number": 1,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?query=reviewed%3Atrue+AND+taxonomy_id%3A83333+AND+fragment%3Afalse+AND+ec%3A%2A&format=tsv&fields=accession%2Cid%2Cprotein_name%2Corganism_name%2Corganism_id%2Cec%2Csequence&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "47bcbd64e880272033ad27f31d290093ffada614df9ee1d859befb4317dd0209",
+      "page_number": 2,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=bc4hnkgsgmiobbrx2vevyc0iiifxth8bgloxj&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "f8b4dc3a911972e60866e7de77ed6a5669c0b40878bd61d33e34ae3f4d965454",
+      "page_number": 3,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=bkf6tu31j3a6ulb2qrst06go23org4krfy54q&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "5cb1e27100f57927f9b6ed6987f5b921fa6efb4ae546b0c1876459c7d017c2d4",
+      "page_number": 4,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=bspw03palk1pduu8dd81xqmb8dc0qkd0rgab4&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "68a563cb6c68ac6311efb286c883a7b1527af00ed50fe1cdc0057961496d763f",
+      "page_number": 5,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=c10l6dbjo0t7x4de19lyzl2gryku8fi1y4ugl&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "c1e3aec1bf9a6f7f93405e8d5f7a411e4aacd3f3e9ccb58d4ff8fcd2bb3a4e49",
+      "page_number": 6,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=c9bacmxsqhkqgdwjp0vdwqmiwepa9tnn3e1bn&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "f6aa044fc9774bce04a44f886b7657e92909e2ea006ebca2f842df025b3f9d3c",
+      "page_number": 7,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=chlziwk1syc8znfpcx9ayl2ofzy3rosoaxoca&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "8ad94e2770ea61eff0e0481295c27c5a0ee95e8409d0f0aba34407316f66938c",
+      "page_number": 8,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=cpwop66avf3riwyv0q8ar4lfkfmof7t20afjk&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "bcbd730f4b0c6864c9383e481862ef9eb988d89cbdd5db5ca960d4d6e522e012",
+      "page_number": 9,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=cy7dvfsjxvva26i0omm7sz1l40vhx2y3gc96g&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "f39786ce1e03300203eb6c09252d20ba923b46145691a01c0c19854d903cd59f",
+      "page_number": 10,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=d6i31pet0cmslg16cg1rg5znxbvndrf5fe1dm&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "d080db0dbba33283c4684b2fa22f7752385521e477b4497afbc02e7f30f75121",
+      "page_number": 11,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28m7xk8oeejl5mhhib2a9158q43oku4quqvqhru&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "b8546851dfa732898544666a83955ef97e60330a80994cc6a2d293c9423cc339",
+      "page_number": 12,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28mg89ey0nm1x50r0m7k9znw32tolg7lu0z4ho9&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "d38a1a14986f682006da54f7252747f3262229e72a93897e3fc546db42d09b37",
+      "page_number": 13,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28moiyl7mwoionk0jrvqvk3i3ksf1lr3hqsjwvk&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "fd95a4eebf13598f01b62701e9c362b3125e4176b3034e9d37bf7aa8c6d10fae",
+      "page_number": 14,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28mwtnrh95qzg63a2xjhp4pb4of19ueto4bqyd6&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "2fb087e6df357d51879cbf901688c4ef90cc8c40090841d053a77696529c9e23",
+      "page_number": 15,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28n54cxqvetg7omjm35qkh8heqd114jm7o82oon&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "c25335235343f5b43a63772f65a69a6e98ea62534573c6193800ed69fee06d07",
+      "page_number": 16,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28ndf240hnvwz75t4c1lzngjs3wzeqy78sd4321&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "3ac4b086603af6e87c3a6b9fe24341932bc86d013172842b14d1a7db80ad1059",
+      "page_number": 17,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28nlpraa3wydqpp2nhnygrynpknsazflz6bfnsh&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "eed18fb155c5005cb155e585ea785141b98a3f26dde4fbe64233b698cfb892fd",
+      "page_number": 18,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28nu0ggjq60ui88c6nbnl4wixxvq1uc1sq9nxbs&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "8dc8f4618287e08c28178ab8c25452b835b6a3f0be264924eb51f313a84a8cc0",
+      "page_number": 19,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28o2b5mtcf3b9qrlph27h3qclnwue3pahtdthys&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "58e3d7ae8502b2a8ffbb9ebe3836bfa7a3f60b848fd506b576ccf0c3e2f41a3b",
+      "page_number": 20,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=28oalut2yo5s19av8morh9cae5xu3soxpo7gg8i&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "dcc3e9bf418404cfee96b6a1add8c17e05060a986cbf7e1092d9d7194dde08f4",
+      "page_number": 21,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=2a980kt2mw2stfh9ohnrif7ngbnw507r2sdafqt&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "823313b6670215e49933d6fe4666a25d37e05fd732a26807b29311252d57a8ef",
+      "page_number": 22,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=2a9gb9zc9559ky0j7nblc3mki1ss3rp3vnm731v&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "d762fbd72ec520d2d514bdd0f2d2bc6c9b73703b02b9ab9c10c607e584a01dce",
+      "page_number": 23,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=2a9olz5lve7qcgjsqsxulxz58wqif142lbzdgfs&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "379458cd3faaba15b21ae8ea12d2f4603c29daafe3bb0b49eed1aa65c48cbbaa",
+      "page_number": 24,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=2a9wwobvhna73z328t6byq47jbxks2yb5fwke9f&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "88639418bb0e934622d201388ec72ecd4b936fce161dd92c8e834473fffe7100",
+      "page_number": 25,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=2aa57di53wcnvhmbroatcpeh63r5ds119li3xo4&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "bd8bc4efb6ba6e8c79e1a1100d29195cfb4fc9b7676d5cb3f684694b999c2a70",
+      "page_number": 26,
+      "record_count": 100,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=2aadi2oeq5f4n05latz1oanyq3fe0974crle2k8&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    },
+    {
+      "normalized_page_sha256": "c31d9d364e10e0c1402df5059c862a007564706b0784e0d451259bf7de982e01",
+      "page_number": 27,
+      "record_count": 32,
+      "request_url": "https://rest.uniprot.org/uniprotkb/search?format=tsv&fields=accession,id,protein_name,organism_name,organism_id,ec,sequence&query=reviewed%3Atrue%20AND%20taxonomy_id%3A83333%20AND%20fragment%3Afalse%20AND%20ec%3A%2A&cursor=2aalsruocehleioutzmsqjif3f64xdud75xt0kw&size=100",
+      "response_headers": {
+        "content-type": "text/plain;format=tsv",
+        "x-total-results": "2632",
+        "x-uniprot-release": "2026_02",
+        "x-uniprot-release-date": "10-June-2026"
+      }
+    }
+  ],
+  "python_version": "3.12.11",
+  "query": "reviewed:true AND taxonomy_id:83333 AND fragment:false AND ec:*",
+  "record_count": 2632,
+  "requested_fields": [
+    "accession",
+    "id",
+    "protein_name",
+    "organism_name",
+    "organism_id",
+    "ec",
+    "sequence"
+  ],
+  "software_version": "0.1.0",
+  "source_database": "UniProtKB/Swiss-Prot",
+  "uniprot_release": "2026_02",
+  "uniprot_release_date": "10-June-2026",
+  "uv_lock_sha256": "1082532cdecc76668921d91145094c6449668e38af9d207e46fe897a173c6e31"
+}
