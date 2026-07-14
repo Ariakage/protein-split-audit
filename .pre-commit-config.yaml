@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: Apache-2.0
+
+minimum_pre_commit_version: "4.6.0"
+default_install_hook_types: [pre-commit, pre-push]
+
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: Ruff check
+        entry: uv run --locked ruff check
+        language: system
+        types: [python]
+      - id: ruff-format-check
+        name: Ruff format check
+        entry: uv run --locked ruff format --check
+        language: system
+        types: [python]
+      - id: mypy
+        name: MyPy strict
+        entry: uv run --locked mypy src
+        language: system
+        pass_filenames: false
+        types: [python]
+      - id: pytest
+        name: pytest offline suite
+        entry: uv run --locked pytest -q
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

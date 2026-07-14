@@ -1,7 +1,37 @@
-.venv
-*.DS_Store
-data/raw/
-data/interim/
-data/processed/
-cache/
-results/runs/
+# SPDX-License-Identifier: Apache-2.0
+
+# Python and uv
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+
+# Local third-party and generated data
+/data/raw/
+/data/interim/
+/data/processed/
+/cache/*
+!/cache/.gitkeep
+
+# Local run artifacts
+/results/runs/
+/report/_build/
+/notebooks/.ipynb_checkpoints/
+
+AGENTS.md
+PRD.md
+docs/plans
+docs/decisions
+dist
