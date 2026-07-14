@@ -1,0 +1,99 @@
+[project]
+name = "protein-split-audit"
+version = "0.1.0.dev0"
+description = "A reproducible benchmark for auditing sequence-similarity leakage in protein enzyme classification."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+
+authors = [
+    { name = "Jiajie Chen", email = "ariakage233@gmail.com" },
+]
+
+keywords = [
+    "bioinformatics",
+    "computational-biology",
+    "protein-classification",
+    "sequence-similarity",
+    "homology-leakage",
+    "machine-learning",
+    "esm2",
+    "reproducible-research",
+]
+
+dependencies = [
+    "biopython>=1.87",
+    "httpx>=0.28.1",
+    "joblib>=1.5.3",
+    "matplotlib>=3.11.0",
+    "numpy>=2.5.1",
+    "pandas>=3.0.3",
+    "psutil>=7.2.2",
+    "pyarrow>=25.0.0",
+    "pydantic>=2.13.4",
+    "pyyaml>=6.0.3",
+    "rich>=15.0.0",
+    "scikit-learn>=1.9.0",
+    "scipy>=1.18.0",
+    "tqdm>=4.68.4",
+    "typer>=0.26.8",
+]
+
+[project.scripts]
+protein-split-audit = "protein_split_audit.cli:main"
+
+[project.optional-dependencies]
+esm = [
+    "accelerate>=1.14.0",
+    "safetensors>=0.8.0",
+    "torch>=2.13.0",
+    "transformers>=5.13.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.8,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.0",
+    "pandas-stubs>=3.0.3.260530",
+    "pre-commit>=4.6.0",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.21",
+    "types-pyyaml>=6.0.12.20260518",
+]
+notebook = [
+    "ipykernel>=7.3.0",
+    "jupyterlab>=4.6.1",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "B",
+    "UP",
+    "SIM",
+    "RUF",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q --strict-markers"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+pretty = true

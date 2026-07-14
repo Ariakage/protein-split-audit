@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use ProteinSplitAudit in your research, please cite it using the metadata below."
+
+title: "ProteinSplitAudit: Auditing Sequence-Similarity Leakage in Protein Enzyme Classification"
+
+type: software
+
+authors:
+  - family-names: "Chen"
+    given-names: "Jiajie"
+    alias: "Ariakage"
+    orcid: "https://orcid.org/0009-0001-6214-219X"
+
+repository-code: "https://github.com/ariakage/protein-split-audit"
+url: "https://github.com/ariakage/protein-split-audit"
+
+license: Apache-2.0
+
+version:
+
+date-released:
+
+keywords:
+  - bioinformatics
+  - computational biology
+  - protein classification
+  - homology leakage
+  - machine learning
+  - ESM-2
+  - reproducible research

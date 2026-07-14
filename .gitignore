@@ -1,0 +1,7 @@
+.venv
+*.DS_Store
+data/raw/
+data/interim/
+data/processed/
+cache/
+results/runs/
