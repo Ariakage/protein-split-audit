@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+name: aac
+kind: aac
+implementation_version: aac20-v1
+alphabet: ACDEFGHIKLMNPQRSTVWY
+feature_count: 20
+dtype: float64
+normalization: sequence_length
+preprocessing:
+  scaler: standard_train_only

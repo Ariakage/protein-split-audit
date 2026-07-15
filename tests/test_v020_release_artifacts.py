@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from protein_split_audit import __version__
 from protein_split_audit.provenance import sha256_file
 
 PROJECT_ROOT = Path(__file__).parents[1]
@@ -63,8 +62,7 @@ def test_v020_release_json_is_aggregate_only_and_path_safe() -> None:
         assert "ariakage" not in content.lower()
 
 
-def test_v020_release_versions_and_audit_gates_are_consistent() -> None:
-    assert __version__ == "0.2.0"
+def test_v020_release_metadata_and_audit_gates_remain_consistent() -> None:
     citation = (PROJECT_ROOT / "CITATION.cff").read_text(encoding="utf-8")
     changelog = (PROJECT_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     notes = (PROJECT_ROOT / "docs/releases/v0.2.0.md").read_text(encoding="utf-8")

@@ -30,12 +30,21 @@ from protein_split_audit.config import (
     load_build_config,
     load_cohort_config_document,
     load_download_config,
+    load_experiment_config,
     load_similarity_config,
     load_similarity_config_document,
 )
 from protein_split_audit.data.build_candidates import BuildError, build_candidate_dataset
 from protein_split_audit.data.download_uniprot import DownloadError, download_uniprot
 from protein_split_audit.data.profile import ProfileError, profile_candidate_dataset
+from protein_split_audit.evaluation.standalone import verify_evaluation_run
+from protein_split_audit.experiments.aggregate import write_validation_aggregates
+from protein_split_audit.experiments.matrix import run_matrix
+from protein_split_audit.experiments.replay import compare_validation_replays
+from protein_split_audit.experiments.runner import run_experiment_cell
+from protein_split_audit.experiments.test_gate import RealTestAccessDenied, enforce_test_gate
+from protein_split_audit.features.extract import extract_feature_cache
+from protein_split_audit.models.standalone import train_cached_model
 from protein_split_audit.paths import find_project_root, is_writable_directory
 from protein_split_audit.provenance import git_metadata
 from protein_split_audit.similarity.audit_train_test import (
@@ -65,10 +74,18 @@ data_app = typer.Typer(help="Source-data commands.", no_args_is_help=True)
 cohort_app = typer.Typer(help="Pilot-cohort commands.", no_args_is_help=True)
 similarity_app = typer.Typer(help="Sequence-similarity commands.", no_args_is_help=True)
 split_app = typer.Typer(help="Dataset-split commands.", no_args_is_help=True)
+feature_app = typer.Typer(help="Classical feature commands.", no_args_is_help=True)
+model_app = typer.Typer(help="Classical baseline commands.", no_args_is_help=True)
+evaluate_app = typer.Typer(help="Validation evaluation commands.", no_args_is_help=True)
+experiment_app = typer.Typer(help="Validation experiment commands.", no_args_is_help=True)
 app.add_typer(data_app, name="data")
 app.add_typer(cohort_app, name="cohort")
 app.add_typer(similarity_app, name="similarity")
 app.add_typer(split_app, name="split")
+app.add_typer(feature_app, name="feature")
+app.add_typer(model_app, name="model")
+app.add_typer(evaluate_app, name="evaluate")
+app.add_typer(experiment_app, name="experiment")
 
 
 @dataclass(frozen=True, slots=True)
@@ -671,6 +688,304 @@ def data_profile(
 
     typer.echo(f"Profile summary: {result.profile_summary_path}")
     typer.echo(f"Profile artifacts: {len(result.artifact_paths)}")
+
+
+@feature_app.command("extract")
+def feature_extract(
+    config: Annotated[
+        Path,
+        typer.Option("--config", exists=True, dir_okay=False, readable=True, resolve_path=True),
+    ],
+    cohort_manifest: Annotated[
+        Path,
+        typer.Option(
+            "--cohort-manifest", exists=True, dir_okay=False, readable=True, resolve_path=True
+        ),
+    ],
+    cohort_content_manifest: Annotated[
+        Path,
+        typer.Option(
+            "--cohort-content-manifest",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+        ),
+    ],
+    cohort_fasta: Annotated[
+        Path,
+        typer.Option(
+            "--cohort-fasta", exists=True, dir_okay=False, readable=True, resolve_path=True
+        ),
+    ],
+    split_manifest: Annotated[
+        Path,
+        typer.Option(
+            "--split-manifest", exists=True, dir_okay=False, readable=True, resolve_path=True
+        ),
+    ],
+    split_content_manifest: Annotated[
+        Path,
+        typer.Option(
+            "--split-content-manifest",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+        ),
+    ],
+    evaluation_split: Annotated[
+        Literal["validation"],
+        typer.Option("--evaluation-split", help="Only Validation is authorized in v0.3."),
+    ] = "validation",
+) -> None:
+    """Extract immutable Train/Validation features without reading row labels."""
+
+    del evaluation_split
+    project_root = find_project_root(config)
+    if project_root is None:
+        typer.echo("Error: project root not found from feature configuration", err=True)
+        raise typer.Exit(code=1)
+    try:
+        result = extract_feature_cache(
+            config_path=config,
+            cohort_manifest=cohort_manifest,
+            cohort_content_manifest=cohort_content_manifest,
+            cohort_fasta=cohort_fasta,
+            split_manifest=split_manifest,
+            split_content_manifest=split_content_manifest,
+            cache_root=project_root / "cache/features",
+        )
+    except (FileExistsError, OSError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Feature cache: {result.directory}")
+    typer.echo(f"Cache key: {result.cache_key}")
+
+
+@model_app.command("train")
+def model_train(
+    feature_manifest: Annotated[
+        Path,
+        typer.Option(
+            "--feature-manifest", exists=True, dir_okay=False, readable=True, resolve_path=True
+        ),
+    ],
+    split_manifest: Annotated[
+        Path,
+        typer.Option(
+            "--split-manifest", exists=True, dir_okay=False, readable=True, resolve_path=True
+        ),
+    ],
+    split_content_manifest: Annotated[
+        Path,
+        typer.Option(
+            "--split-content-manifest",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+        ),
+    ],
+    config: Annotated[
+        Path,
+        typer.Option("--config", exists=True, dir_okay=False, readable=True, resolve_path=True),
+    ],
+    output_dir: Annotated[
+        Path,
+        typer.Option("--output-dir", file_okay=False, resolve_path=True),
+    ],
+) -> None:
+    """Fit a Majority or Logistic baseline from a verified Train-only cache."""
+
+    try:
+        result = train_cached_model(
+            feature_manifest=feature_manifest,
+            split_manifest=split_manifest,
+            split_content_manifest=split_content_manifest,
+            config_path=config,
+            output_dir=output_dir,
+        )
+    except (FileExistsError, OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Model: {result.model_path}")
+    typer.echo(f"Training manifest: {result.manifest_path}")
+
+
+@evaluate_app.command("run")
+def evaluate_run(
+    run_dir: Annotated[
+        Path,
+        typer.Option("--run-dir", exists=True, file_okay=False, readable=True, resolve_path=True),
+    ],
+) -> None:
+    """Verify a completed Validation prediction and metric bundle."""
+
+    try:
+        result = verify_evaluation_run(run_dir)
+    except (OSError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Verified {result.artifact_count} Validation artifacts")
+    typer.echo(f"Metrics: {result.metrics_path}")
+
+
+@experiment_app.command("run")
+def experiment_run(
+    config: Annotated[
+        Path,
+        typer.Option(
+            "--config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Frozen Validation experiment YAML configuration.",
+        ),
+    ],
+    split: Annotated[
+        Literal["random", "cluster70", "cluster50", "cluster30"],
+        typer.Option("--split", help="Frozen split to evaluate."),
+    ],
+    baseline: Annotated[
+        Literal[
+            "majority",
+            "length_logistic",
+            "aac_logistic",
+            "kmer3_logistic",
+            "nearest_homolog",
+        ],
+        typer.Option("--baseline", help="Frozen classical baseline to evaluate."),
+    ],
+) -> None:
+    """Run one Train-to-Validation experiment cell."""
+
+    try:
+        result = run_experiment_cell(config, split, baseline)
+    except (FileExistsError, OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Completed {result.split_name}/{result.baseline_name} on Validation")
+    typer.echo(f"Run directory: {result.run_dir}")
+    typer.echo(f"Manifest SHA-256: {result.manifest_sha256}")
+
+
+@experiment_app.command("matrix")
+def experiment_matrix(
+    config: Annotated[
+        Path,
+        typer.Option(
+            "--config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Frozen Validation experiment YAML configuration.",
+        ),
+    ],
+    resume: Annotated[
+        bool,
+        typer.Option(
+            "--resume",
+            help="Verify and reuse byte-complete cells; reject any mismatch.",
+        ),
+    ] = False,
+) -> None:
+    """Run the fixed five-baseline by four-split Validation matrix."""
+
+    try:
+        result = run_matrix(config, resume=resume)
+    except (FileExistsError, OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Completed {len(result.cells)} Validation cells")
+    typer.echo(f"Matrix summary: {result.summary_path}")
+
+
+@experiment_app.command("replay-compare")
+def experiment_replay_compare(
+    first: Annotated[
+        Path,
+        typer.Option("--first", exists=True, file_okay=False, readable=True, resolve_path=True),
+    ],
+    second: Annotated[
+        Path,
+        typer.Option("--second", exists=True, file_okay=False, readable=True, resolve_path=True),
+    ],
+    output: Annotated[
+        Path,
+        typer.Option("--output", dir_okay=False, resolve_path=True),
+    ],
+) -> None:
+    """Compare deterministic content from two Validation matrix replays."""
+
+    try:
+        report = compare_validation_replays(first, second, output)
+    except (FileExistsError, OSError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Compared {report.compared_file_count} deterministic artifacts")
+    typer.echo(f"Byte identical: {'yes' if report.byte_identical else 'no'}")
+    typer.echo(f"Report: {report.output_path}")
+    if not report.byte_identical:
+        raise typer.Exit(code=1)
+
+
+@experiment_app.command("summarize")
+def experiment_summarize(
+    matrix_dir: Annotated[
+        Path,
+        typer.Option(
+            "--matrix-dir", exists=True, file_okay=False, readable=True, resolve_path=True
+        ),
+    ],
+    output_dir: Annotated[
+        Path,
+        typer.Option("--output-dir", file_okay=False, resolve_path=True),
+    ],
+) -> None:
+    """Create a sequence-free aggregate preview from a verified Validation matrix."""
+
+    try:
+        result = write_validation_aggregates(matrix_dir, output_dir)
+    except (FileExistsError, OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Wrote {len(result.paths)} Validation aggregate files")
+    typer.echo(f"Summary: {result.summary_path}")
+
+
+@experiment_app.command("finalize-test")
+def experiment_finalize_test(
+    config: Annotated[
+        Path,
+        typer.Option(
+            "--config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Denied Test experiment YAML configuration.",
+        ),
+    ],
+) -> None:
+    """Enforce the v0.3 real-Test authorization gate before opening inputs."""
+
+    try:
+        experiment = load_experiment_config(config)
+        if experiment.evaluation.split != "test" or experiment.attestation is None:
+            raise RealTestAccessDenied(
+                "Real test access is not authorized by the active attestation"
+            )
+        enforce_test_gate(experiment.attestation)
+        raise RealTestAccessDenied("Real test access is not authorized by the active attestation")
+    except RealTestAccessDenied as error:
+        typer.echo(f"ERROR: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    except (OSError, ValueError) as error:
+        typer.echo(f"Error: invalid Test gate configuration: {error}", err=True)
+        raise typer.Exit(code=2) from error
 
 
 def main() -> None:

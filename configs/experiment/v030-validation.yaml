@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+name: v030-classical-validation
+cohort:
+  manifest: ../../data/manifests/cohorts/pilot-v1.parquet
+  content_manifest: ../../data/manifests/cohorts/pilot-v1.json
+  fasta: ../../data/processed/cohorts/pilot-v1.fasta
+splits:
+  - name: random
+    manifest: ../../data/manifests/splits/random.parquet
+    content_manifest: ../../data/manifests/splits/random.json
+  - name: cluster70
+    manifest: ../../data/manifests/splits/cluster70.parquet
+    content_manifest: ../../data/manifests/splits/cluster70.json
+  - name: cluster50
+    manifest: ../../data/manifests/splits/cluster50.parquet
+    content_manifest: ../../data/manifests/splits/cluster50.json
+  - name: cluster30
+    manifest: ../../data/manifests/splits/cluster30.parquet
+    content_manifest: ../../data/manifests/splits/cluster30.json
+baselines:
+  - name: majority
+    model_config: ../model/majority.yaml
+  - name: length_logistic
+    feature_config: ../feature/length.yaml
+    model_config: ../model/logistic_regression.yaml
+  - name: aac_logistic
+    feature_config: ../feature/aac.yaml
+    model_config: ../model/logistic_regression.yaml
+  - name: kmer3_logistic
+    feature_config: ../feature/kmer3.yaml
+    model_config: ../model/logistic_regression.yaml
+  - name: nearest_homolog
+    model_config: ../model/nearest_homolog.yaml
+evaluation:
+  split: validation
+  label_order_from_cohort: true
+  zero_division: 0
+  real_test_access_authorized: false
+runtime:
+  seed: 42
+  feature_threads: 1
+  mmseqs_threads: 8
+outputs:
+  root: ../../results/runs/v030-validation
+  refuse_overwrite: true

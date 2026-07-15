@@ -154,9 +154,51 @@ def test_help_lists_current_commands() -> None:
     assert "cohort" in result.stdout
     assert "similarity" in result.stdout
     assert "split" in result.stdout
+    assert "feature" in result.stdout
+    assert "model" in result.stdout
+    assert "evaluate" in result.stdout
+    assert "experiment" in result.stdout
     assert "download" not in result.stdout
     assert "build" not in result.stdout
     assert "profile" not in result.stdout
+
+
+def test_v030_experiment_commands_are_registered() -> None:
+    matrix = runner.invoke(app, ["experiment", "matrix", "--help"])
+    final = runner.invoke(app, ["experiment", "finalize-test", "--help"])
+
+    assert matrix.exit_code == 0
+    assert "--config" in Text.from_ansi(matrix.stdout).plain
+    assert final.exit_code == 0
+    assert "--config" in Text.from_ansi(final.stdout).plain
+
+
+def test_v030_low_level_commands_are_registered() -> None:
+    feature = runner.invoke(app, ["feature", "extract", "--help"])
+    model = runner.invoke(app, ["model", "train", "--help"])
+    evaluate = runner.invoke(app, ["evaluate", "run", "--help"])
+
+    assert feature.exit_code == 0
+    assert "--cohort-manifest" in Text.from_ansi(feature.stdout).plain
+    assert model.exit_code == 0
+    assert "--feature-manifest" in Text.from_ansi(model.stdout).plain
+    assert evaluate.exit_code == 0
+    assert "--run-dir" in Text.from_ansi(evaluate.stdout).plain
+
+
+def test_v030_formal_test_command_denies_before_real_inputs() -> None:
+    result = runner.invoke(
+        app,
+        [
+            "experiment",
+            "finalize-test",
+            "--config",
+            str(PROJECT_ROOT / "configs/experiment/v030-test.yaml"),
+        ],
+    )
+
+    assert result.exit_code == 1
+    assert "Real test access is not authorized by the active attestation" in result.stderr
 
 
 def test_data_download_help_is_registered() -> None:

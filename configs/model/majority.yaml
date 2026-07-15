@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+type: majority
+tie_break: label_lexicographic_ascending
