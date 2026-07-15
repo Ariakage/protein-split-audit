@@ -2,11 +2,10 @@
 
 # ProteinSplitAudit
 
-ProteinSplitAudit builds a candidate protein enzyme dataset with enough provenance to audit each
-source and transformation step. The current development version is 0.2.0.dev0. Its first
-similarity-analysis foundations are now in place: validated v0.2.0 configuration and CLI
-namespaces, an aggregate candidate-pool profile, controlled MMseqs2 execution and parsing, and
-deterministic 30% identity candidate-discovery artifacts for the E. coli K-12 pilot.
+ProteinSplitAudit builds protein enzyme datasets with enough provenance to check where each record
+came from and how it changed. Version 0.2.0.dev0 can profile the E. coli K-12 candidate pool, run a
+fixed MMseqs2 discovery search, and select a reproducible five-class pilot cohort. Dataset splits
+and train-test leakage audits are still under development.
 
 ## Project status
 
@@ -14,18 +13,22 @@ ProteinSplitAudit v0.1.0 is the project's first public software release. The v0.
 updates public documentation and version metadata without changing its candidate-dataset
 pipeline. Neither version is a frozen benchmark dataset.
 
-The v0.2.0 development branch can validate and profile the full candidate pool, run a fixed 30%
-identity MMseqs2 self-search, parse its output, and derive deterministic observed fixed-parameter
-similarity components from the reported edges. This candidate-discovery pass validates the
-engineering workflow before a pilot cohort is frozen. The default configuration runs in
-development mode and marks its manifest as ineligible for release.
+The development workflow profiles all 1,182 candidate proteins and runs a fixed 30% identity
+MMseqs2 self-search. It normalizes the reported edges into deterministic similarity components.
+The default discovery and cohort configurations remain development-only and produce
+`pilot-v1-candidate`.
 
-Deterministic provisional cohort selection and exact cohort-manifest validation are implemented.
-The frozen rules require at least 40 sequences and 10 observed 30%-identity discovery components
-per class, then select exactly five classes without using model performance. The current output is
-named `pilot-v1-candidate` and is not release eligible. Formal 70%, 50%, and 30% cohort groupings,
-random or cluster-aware train/validation/test splits, train-test similarity audits, features,
-model training, and benchmark claims are not implemented yet.
+A separate clean run from generation commit
+`1bfb344c23acba2dba5c5e62187e30092e181c22` reproduced the historical candidate Parquet and FASTA
+byte for byte. After maintainer review, the freeze gate selected 442 proteins across EC level-2
+classes `2.7`, `3.1`, `1.1`, `2.1`, and `4.1`. The rule requires at least 40 sequences and 10
+observed 30%-identity components per class. It selects exactly five classes and never uses model
+performance. The frozen files are local, ignored artifacts. They have not been published as a
+benchmark or attached to a GitHub Release.
+
+Formal 70%, 50%, and 30% cohort groupings, random and cluster-aware train/validation/test splits,
+and train-test similarity audits are not implemented. This branch contains no features, models,
+training results, or benchmark claims.
 
 Raw downloads and processed files containing UniProt sequences remain local and untracked. The
 current development branch contains changes made after the v0.1.1 corrective tag.
@@ -97,14 +100,13 @@ deterministic normalized pair and component artifacts with content and run prove
 does not freeze the pilot cohort or produce release-eligible grouping artifacts.
 
 `cohort select` applies the fixed `40 sequences / 5 classes / 10 cluster30 groups` protocol and
-runs a deterministic grouped-split feasibility preflight. It fails if fewer than five classes are
-eligible; there is no automatic four-class fallback. `cohort validate` reloads the parent inputs
-and recomputes the selection before accepting the provisional artifacts. Freezing `pilot-v1`
-remains blocked until the candidate pipeline is regenerated from a fixed clean commit and its
-deterministic difference report receives an external maintainer attestation.
-After that review is signed, the tracked `configs/cohort/pilot-freeze.yaml` configuration binds
-the reviewed clean lineage and publishes `pilot-v1`; it fails before publication if any bound
-commit, lock, source, build, discovery, report, or attestation hash has changed.
+runs a deterministic grouped-split feasibility check. It fails if fewer than five classes qualify;
+it does not fall back to four. `cohort validate` reloads the parent inputs and recomputes the
+selection before accepting an artifact bundle.
+
+The maintainer-only `configs/cohort/pilot-freeze.yaml` path also checks the clean generation
+commit, `uv.lock`, source and build manifests, discovery manifest, difference report, and signed
+review. A stale or missing hash stops the freeze before any output is published.
 
 ## Check the repository
 

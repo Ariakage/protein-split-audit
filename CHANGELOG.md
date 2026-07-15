@@ -9,28 +9,22 @@ semantic versioning where it applies.
 
 ### Added
 
-- Added validated v0.2.0 configuration models and CLI namespaces for cohort, similarity, and split
-  workflows. Commands outside the implemented development slice still fail explicitly.
-- Added deterministic aggregate profiling for the complete candidate pool, with joint validation
-  of the candidate Parquet, build manifest, and FASTA inputs.
-- Added local MMseqs2 discovery, version reporting, deterministic command construction, controlled
-  execution through an injectable runner, strict output parsing, and sanitized run provenance.
-- Added deterministic observed fixed-parameter similarity-component construction and a
-  development-only 30% identity candidate-discovery workflow that publishes normalized pair and
-  component Parquet artifacts, hashes, a content manifest, and run provenance without overwriting
-  existing outputs.
-- Added deterministic provisional cohort selection using the approved 40-sequence, five-class,
-  and 10-cluster30-group eligibility rules, including hard failure when fewer than five classes
-  qualify and no model-performance input or automatic four-class fallback.
-- Added exact grouped-split feasibility preflight, deterministic provisional Parquet and FASTA
-  artifacts, aggregate cohort manifests, and a validator that recomputes the selection from its
-  parent artifacts.
-- Added clean-regeneration lineage reconciliation and deterministic historical-difference
-  reporting. Formal `pilot-v1` freezing remains fail-closed until a fixed clean generation commit
-  and external maintainer review attestation are available.
-- Added an operational, fail-closed `pilot-v1` freeze path that verifies the canonical difference
-  report, clean regenerated lineage, release-eligible discovery manifest, lock hash, generation
-  commit, and external review attestation before publishing frozen cohort artifacts.
+- Validated configuration models and CLI namespaces for cohort, similarity, and split workflows.
+  Commands outside the implemented development slice fail with an explicit error.
+- Aggregate candidate-pool profiling with joint checks for the candidate Parquet, build manifest,
+  and FASTA.
+- A controlled MMseqs2 runner with version detection, fixed command construction, strict output
+  parsing, and sanitized run provenance.
+- Deterministic 30% identity candidate discovery. The workflow writes normalized pair and
+  component Parquet files, content hashes, and separate run provenance without overwriting an
+  existing result.
+- The approved cohort selector: at least 40 sequences and 10 cluster30 components per class,
+  exactly five classes, and no model-performance input or four-class fallback.
+- A grouped-split feasibility check and deterministic provisional cohort Parquet, FASTA, and
+  aggregate manifests. Validation recomputes the cohort from its parents.
+- Clean-regeneration comparison and a reviewed `pilot-v1` freeze gate. The gate binds the clean
+  source and build chain, discovery manifest, difference report, generation commit, lock hash,
+  and maintainer attestation before writing frozen artifacts.
 
 ### Changed
 
@@ -39,12 +33,13 @@ semantic versioning where it applies.
 - Documented that the pilot manifests record a dirty working tree and require clean regeneration
   before a formal research-data freeze.
 - Moved the historical v0.1 accession-level deduplication map out of the active manifest path and
-  preserved its exact bytes under `results/released/v0.1.0/legacy/` with a machine-readable legacy
-  marker. The archived map is not an original GitHub Release asset and is not a v0.2 cohort input.
+  preserved the same bytes under `results/released/v0.1.0/legacy/` with a machine-readable marker.
+  The archived map was not part of the original GitHub Release and is not a v0.2 cohort input.
 
 ### Fixed
 
 - Made CLI help tests robust to ANSI-styled output on GitHub Actions.
+- Report the frozen `pilot-v1` state correctly after cohort validation.
 
 ## 0.1.1 - 2026-07-14
 
