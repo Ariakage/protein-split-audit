@@ -75,5 +75,3 @@ jobs:
           uv run --isolated --no-project --with "$WHEEL" psaudit cohort --help
           uv run --isolated --no-project --with "$WHEEL" psaudit similarity --help
           uv run --isolated --no-project --with "$WHEEL" psaudit split --help
-        env:
-          UV_OFFLINE: "true"
