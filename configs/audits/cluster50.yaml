@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+operation: audit
+name: cluster50
+strategy: similarity_component
+run_mode: freeze
+violation_identity_threshold: 0.50
+runtime: {executable: mmseqs, cache_root: ../../cache/mmseqs, timeout_seconds: 3600, threads: 8}
+search:
+  sensitivity: 7.5
+  evalue: 0.001
+  search_type: 1
+  sequence_identity_mode: 0
+  min_sequence_identity: 0.0
+  minimum_coverage: 0.80
+  coverage_mode: 0
+  alignment_mode: 3
+  format_mode: 4
+input:
+  split_manifest: ../../data/manifests/splits/cluster50.parquet
+  split_content_manifest: ../../data/manifests/splits/cluster50.json
+  cohort_manifest: ../../data/manifests/cohorts/pilot-v1.parquet
+  cohort_content_manifest: ../../data/manifests/cohorts/pilot-v1.json
+  cohort_fasta: ../../data/processed/cohorts/pilot-v1.fasta
+output:
+  train_fasta: ../../data/processed/audits/cluster50-train.fasta
+  test_fasta: ../../data/processed/audits/cluster50-test.fasta
+  audit_manifest: ../../data/manifests/audits/cluster50.parquet
+  content_manifest: ../../data/manifests/audits/cluster50.json
+  summary: ../../results/runs/audit-cluster50/summary.json
+  run_dir: ../../results/runs/audit-cluster50
+  overwrite: false
