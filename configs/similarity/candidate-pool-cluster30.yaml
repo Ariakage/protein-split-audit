@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+operation: candidate_discovery
+name: candidate-pool-cluster30
+run_mode: development
+
+runtime:
+  executable: mmseqs
+  cache_root: ../../cache/mmseqs
+  timeout_seconds: 3600
+  threads: 8
+
+self_search:
+  sensitivity: 7.5
+  evalue: 0.001
+  search_type: 1
+  sequence_identity_mode: 0
+  min_sequence_identity: 0.30
+  minimum_coverage: 0.80
+  coverage_mode: 0
+  alignment_mode: 3
+  format_mode: 4
+
+input:
+  candidate_dataset: ../../data/processed/pilot.parquet
+  build_manifest: ../../data/manifests/pilot.build.json
+  fasta: ../../data/processed/pilot.fasta
+
+output:
+  component_manifest: ../../data/manifests/similarity/candidate-pool-cluster30.parquet
+  content_manifest: ../../data/manifests/similarity/candidate-pool-cluster30.json
+  pair_table: ../../data/processed/similarity/candidate-pool-pairs30.parquet
+  run_dir: ../../results/runs/similarity-candidate-pool-cluster30
+  overwrite: false

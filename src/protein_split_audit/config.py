@@ -4,7 +4,12 @@
 
 from __future__ import annotations
 
+import os
+from collections.abc import Mapping
+from copy import deepcopy
+from dataclasses import dataclass
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any, Literal
 
 import yaml
@@ -13,9 +18,112 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
+    TypeAdapter,
     field_validator,
     model_validator,
 )
+
+from protein_split_audit.cohort.schemas import (
+    CohortConfig,
+    DevelopmentCohortConfig,
+    FreezeCohortConfig,
+)
+from protein_split_audit.provenance import serialize_canonical_json, sha256_bytes
+from protein_split_audit.similarity.schemas import (
+    AuditConfig,
+    CandidateDiscoveryConfig,
+    CohortClusterBaseConfig,
+    CohortClusterDerivedConfig,
+    SimilarityConfig,
+)
+from protein_split_audit.splits.schemas import SplitConfig
+
+_SIMILARITY_CONFIG_ADAPTER: TypeAdapter[SimilarityConfig] = TypeAdapter(SimilarityConfig)
+_COHORT_CONFIG_ADAPTER: TypeAdapter[CohortConfig] = TypeAdapter(CohortConfig)
+_SPLIT_CONFIG_ADAPTER: TypeAdapter[SplitConfig] = TypeAdapter(SplitConfig)
+_COHORT_PATH_FIELDS = (
+    (
+        "input",
+        (
+            "candidate_dataset",
+            "candidate_fasta",
+            "raw_download",
+            "build_manifest",
+            "download_manifest",
+            "discovery_components",
+            "discovery_content_manifest",
+            "difference_report",
+            "review_attestation",
+        ),
+    ),
+    ("output", ("cohort_manifest", "content_manifest", "fasta", "run_dir")),
+)
+_SIMILARITY_PATH_FIELDS = (
+    ("runtime", ("cache_root",)),
+    (
+        "input",
+        (
+            "candidate_dataset",
+            "build_manifest",
+            "fasta",
+            "cohort_manifest",
+            "cohort_content_manifest",
+            "base_pair_table",
+            "base_pair_content_manifest",
+            "split_manifest",
+            "split_content_manifest",
+            "cohort_fasta",
+        ),
+    ),
+    (
+        "output",
+        (
+            "component_manifest",
+            "cluster_manifest",
+            "content_manifest",
+            "pair_table",
+            "train_fasta",
+            "test_fasta",
+            "audit_manifest",
+            "summary",
+            "run_dir",
+        ),
+    ),
+)
+
+
+@dataclass(frozen=True, slots=True)
+class SimilarityConfigDocument:
+    """Exact, logical, and resolved views of one similarity configuration."""
+
+    source_path: Path
+    source_bytes: bytes
+    source_sha256: str
+    logical_mapping: Mapping[str, object]
+    effective_sha256: str
+    config: SimilarityConfig
+
+    def __post_init__(self) -> None:
+        """Detach and deeply freeze the public logical snapshot."""
+
+        object.__setattr__(self, "logical_mapping", _freeze_logical_mapping(self.logical_mapping))
+
+
+@dataclass(frozen=True, slots=True)
+class CohortConfigDocument:
+    """Exact, logical, and resolved views of one cohort configuration."""
+
+    source_path: Path
+    source_bytes: bytes
+    source_sha256: str
+    logical_mapping: Mapping[str, object]
+    effective_sha256: str
+    config: DevelopmentCohortConfig | FreezeCohortConfig
+
+    def __post_init__(self) -> None:
+        """Detach and deeply freeze the public logical snapshot."""
+
+        object.__setattr__(self, "logical_mapping", _freeze_logical_mapping(self.logical_mapping))
 
 
 class ProjectPaths(BaseModel):
@@ -248,24 +356,142 @@ class BuildConfig(DownloadConfig):
 
 
 def _resolve_path(value: object, base_dir: Path) -> Path:
-    path = Path(str(value)).expanduser()
+    if isinstance(value, Path):
+        path = value
+    elif isinstance(value, str):
+        if not value.strip():
+            raise ValueError("path value must not be blank")
+        path = Path(value)
+    else:
+        raise ValueError("path value must be a string or pathlib.Path")
+    path = path.expanduser()
     if not path.is_absolute():
         path = base_dir / path
     return path.resolve()
 
 
-def _load_yaml_mapping(path: Path) -> tuple[Path, dict[str, Any]]:
+def _load_yaml_mapping(path: Path) -> tuple[Path, bytes, dict[str, Any]]:
     config_path = path.expanduser().resolve()
-    loaded: Any = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    source_bytes = config_path.read_bytes()
+    try:
+        source_text = source_bytes.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise ValueError("configuration must be valid UTF-8") from error
+    try:
+        loaded: Any = yaml.safe_load(source_text)
+    except yaml.YAMLError as error:
+        raise ValueError(f"invalid YAML configuration: {error}") from error
     if not isinstance(loaded, dict):
         raise ValueError("configuration root must be a mapping")
-    return config_path, loaded
+    return config_path, source_bytes, loaded
+
+
+def _resolve_section_paths(
+    loaded: dict[str, Any],
+    section: str,
+    path_fields: tuple[str, ...],
+    base_dir: Path,
+) -> None:
+    """Resolve declared path fields in one nested configuration mapping."""
+
+    raw_section = loaded.get(section)
+    if not isinstance(raw_section, dict):
+        return
+    for field in path_fields:
+        if field in raw_section:
+            raw_section[field] = _resolve_path(raw_section[field], base_dir)
+
+
+def _resolve_runtime_executable(loaded: dict[str, Any], base_dir: Path) -> None:
+    """Resolve explicit executable paths while preserving PATH-discovered names."""
+
+    raw_runtime = loaded.get("runtime")
+    if not isinstance(raw_runtime, dict):
+        return
+    raw_executable = raw_runtime.get("executable")
+    if not isinstance(raw_executable, str) or not raw_executable.strip():
+        return
+    requested = raw_executable.strip()
+    candidate = Path(requested).expanduser()
+    is_explicit_path = (
+        candidate.is_absolute() or candidate.name != requested or requested in {".", ".."}
+    )
+    raw_runtime["executable"] = (
+        str(_resolve_path(requested, base_dir)) if is_explicit_path else requested
+    )
+
+
+def _config_relative_posix(path: Path, base_dir: Path) -> str:
+    return Path(os.path.relpath(path, start=base_dir)).as_posix()
+
+
+def _logical_effective_similarity_mapping(
+    config: SimilarityConfig,
+    source_mapping: Mapping[str, object],
+    base_dir: Path,
+) -> dict[str, object]:
+    effective: dict[str, Any] = config.model_dump(mode="python")
+    for section, fields in _SIMILARITY_PATH_FIELDS:
+        raw_section = effective.get(section)
+        if not isinstance(raw_section, dict):
+            continue
+        for field in fields:
+            value = raw_section.get(field)
+            if isinstance(value, Path):
+                raw_section[field] = _config_relative_posix(value, base_dir)
+
+    runtime = effective["runtime"]
+    if not isinstance(runtime, dict):
+        raise AssertionError("validated similarity runtime must be a mapping")
+    executable = config.runtime.executable
+    if Path(executable).is_absolute():
+        source_runtime = source_mapping.get("runtime")
+        source_executable = (
+            source_runtime.get("executable") if isinstance(source_runtime, Mapping) else None
+        )
+        requested = source_executable.strip() if isinstance(source_executable, str) else ""
+        if requested and not Path(requested).expanduser().is_absolute():
+            runtime["executable"] = requested
+        else:
+            runtime["executable"] = _config_relative_posix(Path(executable), base_dir)
+    return effective
+
+
+def _logical_effective_cohort_mapping(
+    config: DevelopmentCohortConfig | FreezeCohortConfig,
+    base_dir: Path,
+) -> dict[str, object]:
+    effective: dict[str, Any] = config.model_dump(mode="python")
+    for section, fields in _COHORT_PATH_FIELDS:
+        raw_section = effective.get(section)
+        if not isinstance(raw_section, dict):
+            continue
+        for field in fields:
+            value = raw_section.get(field)
+            if isinstance(value, Path):
+                raw_section[field] = _config_relative_posix(value, base_dir)
+    return effective
+
+
+def _freeze_logical_value(value: object) -> object:
+    if isinstance(value, Mapping):
+        return MappingProxyType({key: _freeze_logical_value(item) for key, item in value.items()})
+    if isinstance(value, (list, tuple)):
+        return tuple(_freeze_logical_value(item) for item in value)
+    return value
+
+
+def _freeze_logical_mapping(mapping: Mapping[str, object]) -> Mapping[str, object]:
+    frozen = _freeze_logical_value(mapping)
+    if not isinstance(frozen, Mapping):
+        raise AssertionError("logical similarity configuration must be a mapping")
+    return frozen
 
 
 def load_config(path: Path) -> ProjectConfig:
     """Load YAML configuration with paths relative to the config file."""
 
-    config_path, loaded = _load_yaml_mapping(path)
+    config_path, _source_bytes, loaded = _load_yaml_mapping(path)
 
     raw_paths = loaded.get("paths")
     if isinstance(raw_paths, dict):
@@ -278,7 +504,7 @@ def load_config(path: Path) -> ProjectConfig:
 def load_download_config(path: Path) -> DownloadConfig:
     """Load a UniProt download config with config-relative output paths."""
 
-    config_path, loaded = _load_yaml_mapping(path)
+    config_path, _source_bytes, loaded = _load_yaml_mapping(path)
     raw_output = loaded.get("output")
     if isinstance(raw_output, dict):
         for key in ("raw_dir", "manifest_dir"):
@@ -292,7 +518,7 @@ def load_download_config(path: Path) -> DownloadConfig:
 def load_build_config(path: Path) -> BuildConfig:
     """Load candidate-build configuration with config-relative artifact paths."""
 
-    config_path, loaded = _load_yaml_mapping(path)
+    config_path, _source_bytes, loaded = _load_yaml_mapping(path)
     raw_download_output = loaded.get("output")
     if isinstance(raw_download_output, dict):
         for key in ("raw_dir", "manifest_dir"):
@@ -307,3 +533,83 @@ def load_build_config(path: Path) -> BuildConfig:
             if key in raw_build_output:
                 raw_build_output[key] = _resolve_path(raw_build_output[key], config_path.parent)
     return BuildConfig.model_validate(loaded)
+
+
+def load_cohort_config_document(path: Path) -> CohortConfigDocument:
+    """Load exact, logical, and resolved views of one cohort configuration."""
+
+    config_path, source_bytes, loaded = _load_yaml_mapping(path)
+    for section, fields in _COHORT_PATH_FIELDS:
+        _resolve_section_paths(loaded, section, fields, config_path.parent)
+    config = _COHORT_CONFIG_ADAPTER.validate_python(loaded)
+    logical_mapping = _freeze_logical_mapping(
+        _logical_effective_cohort_mapping(config, config_path.parent)
+    )
+    return CohortConfigDocument(
+        source_path=config_path,
+        source_bytes=source_bytes,
+        source_sha256=sha256_bytes(source_bytes),
+        logical_mapping=logical_mapping,
+        effective_sha256=sha256_bytes(serialize_canonical_json(logical_mapping)),
+        config=config,
+    )
+
+
+def load_cohort_config(path: Path) -> DevelopmentCohortConfig | FreezeCohortConfig:
+    """Load a cohort config with all artifact paths relative to its YAML file."""
+
+    return load_cohort_config_document(path).config
+
+
+def load_similarity_config_document(path: Path) -> SimilarityConfigDocument:
+    """Load exact, logical, and resolved views of one similarity operation."""
+
+    config_path, source_bytes, loaded = _load_yaml_mapping(path)
+    source_mapping = deepcopy(loaded)
+    for section, fields in _SIMILARITY_PATH_FIELDS:
+        _resolve_section_paths(loaded, section, fields, config_path.parent)
+    _resolve_runtime_executable(loaded, config_path.parent)
+    config = _SIMILARITY_CONFIG_ADAPTER.validate_python(loaded)
+    logical_mapping = _freeze_logical_mapping(
+        _logical_effective_similarity_mapping(config, source_mapping, config_path.parent)
+    )
+    return SimilarityConfigDocument(
+        source_path=config_path,
+        source_bytes=source_bytes,
+        source_sha256=sha256_bytes(source_bytes),
+        logical_mapping=logical_mapping,
+        effective_sha256=sha256_bytes(serialize_canonical_json(logical_mapping)),
+        config=config,
+    )
+
+
+def load_similarity_config(
+    path: Path,
+) -> CandidateDiscoveryConfig | CohortClusterBaseConfig | CohortClusterDerivedConfig | AuditConfig:
+    """Load and discriminate one config-relative similarity operation."""
+
+    return load_similarity_config_document(path).config
+
+
+def load_split_config(path: Path) -> SplitConfig:
+    """Load and discriminate one config-relative split strategy."""
+
+    config_path, _source_bytes, loaded = _load_yaml_mapping(path)
+    _resolve_section_paths(
+        loaded,
+        "input",
+        (
+            "cohort_manifest",
+            "cohort_content_manifest",
+            "component_manifest",
+            "component_content_manifest",
+        ),
+        config_path.parent,
+    )
+    _resolve_section_paths(
+        loaded,
+        "output",
+        ("manifest", "content_manifest", "run_dir"),
+        config_path.parent,
+    )
+    return _SPLIT_CONFIG_ADAPTER.validate_python(loaded)

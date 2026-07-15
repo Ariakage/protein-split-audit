@@ -22,6 +22,12 @@ dist/
 /data/raw/
 /data/interim/
 /data/processed/
+/data/manifests/pilot.deduplication.json
+/data/manifests/cohorts/
+/data/manifests/similarity/
+/data/manifests/splits/
+/data/manifests/audits/
+/data/manifests/v0.2.0/
 /cache/*
 !/cache/.gitkeep
 

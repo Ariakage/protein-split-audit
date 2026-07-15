@@ -1,0 +1,45 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+cohort_version: pilot-v1-candidate
+run_mode: development
+
+input:
+  candidate_dataset: ../../data/processed/pilot.parquet
+  candidate_fasta: ../../data/processed/pilot.fasta
+  raw_download: ../../data/raw/swissprot-ecoli-k12-enzyme-pilot.tsv.gz
+  build_manifest: ../../data/manifests/pilot.build.json
+  download_manifest: ../../data/manifests/swissprot-ecoli-k12-enzyme-pilot.download.json
+  discovery_components: ../../data/manifests/similarity/candidate-pool-cluster30.parquet
+  discovery_content_manifest: ../../data/manifests/similarity/candidate-pool-cluster30.json
+
+selection:
+  selection_rule_version: pilot-ec2-5class-min40-c30g10-cap250-seed42-v1
+  label_field: ec_level_2
+  min_sequences_per_class: 40
+  min_groups_per_class_at_cluster30: 10
+  max_sequences_per_class: 250
+  number_of_classes: 5
+  seed: 42
+  class_ranking: capped_count_desc_group_count_desc_label_asc_v1
+  member_ranking: component_round_robin_sha256_v1
+
+feasibility:
+  ratios:
+    train: 0.70
+    validation: 0.15
+    test: 0.15
+  ratio_tolerance: 0.05
+  allocator:
+    version: greedy_component_loss_v1
+    size_weight: 1.0
+    class_balance_weight: 3.0
+    group_count_weight: 0.5
+    missing_class_weight: 10.0
+
+output:
+  cohort_manifest: ../../data/manifests/cohorts/pilot-v1-candidate.parquet
+  content_manifest: ../../data/manifests/cohorts/pilot-v1-candidate.json
+  fasta: ../../data/processed/cohorts/pilot-v1-candidate.fasta
+  run_dir: ../../results/runs/cohort-pilot-v1-candidate
+  overwrite: false

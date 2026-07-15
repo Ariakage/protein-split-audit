@@ -7,8 +7,10 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import datetime
+from decimal import Decimal
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -178,4 +180,38 @@ def serialize_json_mapping(mapping: dict[str, object]) -> bytes:
     """Serialize a sequence-free audit mapping deterministically."""
 
     payload = json.dumps(mapping, ensure_ascii=False, indent=2, sort_keys=True)
+    return f"{payload}\n".encode()
+
+
+def _canonical_json_value(value: object) -> object:
+    if isinstance(value, Mapping):
+        if any(not isinstance(key, str) for key in value):
+            raise TypeError("canonical JSON mapping keys must be strings")
+        return {key: _canonical_json_value(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_canonical_json_value(item) for item in value]
+    if isinstance(value, Decimal):
+        if not value.is_finite():
+            raise ValueError("canonical JSON decimals must be finite")
+        return format(value, "f")
+    if isinstance(value, float):
+        decimal_value = Decimal(str(value))
+        if not decimal_value.is_finite():
+            raise ValueError("canonical JSON floats must be finite")
+        return format(decimal_value, "f")
+    if value is None or isinstance(value, (bool, int, str)):
+        return value
+    raise TypeError(f"unsupported canonical JSON value type: {type(value).__name__}")
+
+
+def serialize_canonical_json(mapping: Mapping[str, object]) -> bytes:
+    """Serialize a mapping as compact canonical UTF-8 JSON with one final LF."""
+
+    payload = json.dumps(
+        _canonical_json_value(mapping),
+        ensure_ascii=False,
+        allow_nan=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    )
     return f"{payload}\n".encode()

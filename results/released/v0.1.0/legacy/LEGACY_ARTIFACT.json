@@ -1,0 +1,17 @@
+{
+  "artifact_file": "pilot.deduplication.json",
+  "artifact_sha256": "7dcdca22b828dcec764e52b14552cb04b775f81242b778aa84737d70a31fffcd",
+  "contains_accession_level_rows": true,
+  "contains_raw_sequences": false,
+  "github_release_asset": false,
+  "introduced_by_commit": "92f47d2ad0927288aae099f1cdd880989f6be889",
+  "legacy": true,
+  "legacy_schema_version": 1,
+  "original_git_path": "data/manifests/pilot.deduplication.json",
+  "purpose": "historical-v0.1-exact-sequence-alias-audit",
+  "retained_tags": [
+    "v0.1.0",
+    "v0.1.1"
+  ],
+  "use_as_v0_2_input": false
+}
