@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+name: cluster30
+strategy: similarity_component
+run_mode: freeze
+input:
+  cohort_manifest: ../../data/manifests/cohorts/pilot-v1.parquet
+  cohort_content_manifest: ../../data/manifests/cohorts/pilot-v1.json
+  component_manifest: ../../data/manifests/similarity/pilot-v1-cluster30.parquet
+  component_content_manifest: ../../data/manifests/similarity/pilot-v1-cluster30.json
+ratios: {train: 0.70, validation: 0.15, test: 0.15}
+seed: 42
+stratify_by: ec_level_2
+ratio_tolerance: 0.05
+allocator:
+  version: greedy_component_loss_v1
+  size_weight: 1.0
+  class_balance_weight: 3.0
+  group_count_weight: 0.5
+  missing_class_weight: 10.0
+output:
+  manifest: ../../data/manifests/splits/cluster30.parquet
+  content_manifest: ../../data/manifests/splits/cluster30.json
+  run_dir: ../../results/runs/split-cluster30
+  overwrite: false
