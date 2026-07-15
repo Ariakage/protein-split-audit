@@ -38,12 +38,22 @@ from protein_split_audit.data.download_uniprot import DownloadError, download_un
 from protein_split_audit.data.profile import ProfileError, profile_candidate_dataset
 from protein_split_audit.paths import find_project_root, is_writable_directory
 from protein_split_audit.provenance import git_metadata
+from protein_split_audit.similarity.audit_train_test import (
+    SimilarityAuditError,
+    audit_train_test,
+)
 from protein_split_audit.similarity.discovery import (
     DiscoveryError,
     create_discovery_run_context,
     discover_candidate_pool,
 )
+from protein_split_audit.similarity.formal import (
+    FormalSimilarityError,
+    build_base_similarity,
+    derive_similarity,
+)
 from protein_split_audit.similarity.mmseqs import MmseqsProbeError, probe_mmseqs
+from protein_split_audit.splits.artifacts import SplitArtifactError, run_split
 
 app = typer.Typer(
     add_completion=False,
@@ -405,7 +415,7 @@ def similarity_cluster(
         ),
     ],
 ) -> None:
-    """Run candidate-pool discovery or reject later clustering operations."""
+    """Run candidate discovery or formal frozen-cohort grouping."""
 
     try:
         document = load_similarity_config_document(config)
@@ -413,16 +423,34 @@ def similarity_cluster(
         typer.echo(f"Error: invalid similarity configuration: {error}", err=True)
         raise typer.Exit(code=2) from error
 
-    if document.config.operation != "candidate_discovery":
-        _not_implemented(f"similarity cluster operation {document.config.operation}")
-        return
-
     try:
-        artifacts = discover_candidate_pool(
-            document,
-            run_context_factory=create_discovery_run_context,
-        )
-    except DiscoveryError as error:
+        if document.config.operation == "candidate_discovery":
+            artifacts = discover_candidate_pool(
+                document,
+                run_context_factory=create_discovery_run_context,
+            )
+            typer.echo(
+                f"Discovered {artifacts.sequence_count} sequences with "
+                f"{artifacts.edge_count} normalized pair edge(s) in "
+                f"{artifacts.component_count} component(s) "
+                f"({artifacts.singleton_count} singletons; largest "
+                f"{artifacts.largest_component_size})"
+            )
+            typer.echo("Published pair table, component manifest, and content manifest")
+            typer.echo("Published local run provenance")
+            return
+        project_root = find_project_root(config)
+        if project_root is None:
+            typer.echo("Error: project root not found from similarity configuration", err=True)
+            raise typer.Exit(code=1)
+        if document.config.operation == "cohort_cluster_base":
+            formal = build_base_similarity(document, project_root=project_root)
+        elif document.config.operation == "cohort_cluster_derived":
+            formal = derive_similarity(document, project_root=project_root)
+        else:
+            typer.echo("Error: audit configs must use similarity audit", err=True)
+            raise typer.Exit(code=2)
+    except (DiscoveryError, FormalSimilarityError) as error:
         typer.echo(f"Error: {error}", err=True)
         raise typer.Exit(code=1) from error
     except (OSError, ValueError) as error:
@@ -430,14 +458,11 @@ def similarity_cluster(
         raise typer.Exit(code=1) from error
 
     typer.echo(
-        f"Discovered {artifacts.sequence_count} sequences with "
-        f"{artifacts.edge_count} normalized pair edge(s) in "
-        f"{artifacts.component_count} component(s) "
-        f"({artifacts.singleton_count} singletons; largest "
-        f"{artifacts.largest_component_size})"
+        f"Generated {document.config.name}: {len(formal.partition.rows)} sequences, "
+        f"{len(set(formal.partition.node_to_component.values()))} strict components"
     )
-    typer.echo("Published pair table, component manifest, and content manifest")
-    typer.echo("Published local run provenance")
+    typer.echo(f"Cluster manifest: {formal.cluster_manifest_path}")
+    typer.echo(f"Content manifest: {formal.content_manifest_path}")
 
 
 @similarity_app.command("validate")
@@ -458,18 +483,33 @@ def similarity_validate(
 
 @similarity_app.command("audit")
 def similarity_audit(
-    split_manifest: Annotated[
-        Path,
-        typer.Option("--split-manifest", help="Split Parquet manifest to audit."),
-    ],
     config: Annotated[
         Path,
-        typer.Option("--config", help="Validated train-test audit YAML configuration."),
+        typer.Option(
+            "--config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Validated train-test audit YAML configuration.",
+        ),
     ],
 ) -> None:
-    """Audit train-test similarity in a later task."""
+    """Run an independent test-to-train similarity audit."""
 
-    _not_implemented("similarity audit")
+    project_root = find_project_root(config)
+    if project_root is None:
+        typer.echo("Error: project root not found from audit configuration", err=True)
+        raise typer.Exit(code=1)
+    try:
+        document = load_similarity_config_document(config)
+        artifacts = audit_train_test(document, project_root=project_root)
+    except (OSError, ValueError, SimilarityAuditError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Audit manifest: {artifacts.audit_manifest_path}")
+    typer.echo(f"Summary: {artifacts.summary_path}")
+    typer.echo(f"Release eligible: {'yes' if artifacts.release_eligible else 'no'}")
 
 
 @split_app.command("create")
@@ -479,9 +519,21 @@ def split_create(
         typer.Option("--config", help="Validated dataset split YAML configuration."),
     ],
 ) -> None:
-    """Create a configured split in a later task."""
+    """Create a deterministic random or whole-component split."""
 
-    _not_implemented("split create")
+    project_root = find_project_root(config)
+    if project_root is None:
+        typer.echo("Error: project root not found from split configuration", err=True)
+        raise typer.Exit(code=1)
+    try:
+        artifacts = run_split(config, project_root=project_root)
+    except (OSError, ValueError, SplitArtifactError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Created {artifacts.assignment.name} split")
+    typer.echo(f"Manifest: {artifacts.manifest_path}")
+    typer.echo(f"Content manifest: {artifacts.content_manifest_path}")
+    typer.echo(f"Release eligible: {'yes' if artifacts.release_eligible else 'no'}")
 
 
 @split_app.command("validate")

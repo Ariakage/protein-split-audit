@@ -264,7 +264,7 @@ def test_v020_subapp_help_lists_planned_commands(
         ),
         (
             ["similarity", "audit", "--help"],
-            ("--split-manifest", "--config"),
+            ("--config",),
         ),
         (["split", "create", "--help"], ("--config",)),
         (["split", "validate", "--help"], ("--manifest", "--config")),
@@ -300,15 +300,6 @@ def test_v020_command_help_is_registered_and_colored(
             "unused.json",
         ],
         [
-            "similarity",
-            "audit",
-            "--split-manifest",
-            "unused.parquet",
-            "--config",
-            "unused.yaml",
-        ],
-        ["split", "create", "--config", "unused.yaml"],
-        [
             "split",
             "validate",
             "--manifest",
@@ -318,7 +309,9 @@ def test_v020_command_help_is_registered_and_colored(
         ],
     ],
 )
-def test_v020_commands_are_non_operational_placeholders(arguments: list[str]) -> None:
+def test_remaining_validation_commands_are_non_operational_placeholders(
+    arguments: list[str],
+) -> None:
     result = runner.invoke(app, arguments)
 
     assert result.exit_code == 1
@@ -541,14 +534,33 @@ def test_similarity_cluster_runtime_failure_is_exit_one_and_path_safe(
     assert str(tmp_path) not in result.output
 
 
-def test_similarity_cluster_non_candidate_operation_remains_placeholder(tmp_path: Path) -> None:
+def test_similarity_cluster_dispatches_formal_base_operation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import protein_split_audit.cli as cli_module
+
     config_path = _cohort_cluster_base_config(tmp_path)
+    project_root = PROJECT_ROOT
+    monkeypatch.setattr(cli_module, "find_project_root", lambda _path: project_root)
+    result_object = SimpleNamespace(
+        partition=SimpleNamespace(
+            rows=(1, 2),
+            node_to_component={"one": "component", "two": "component"},
+        ),
+        cluster_manifest_path=project_root / "data/manifests/similarity/cluster30.parquet",
+        content_manifest_path=project_root / "data/manifests/similarity/cluster30.json",
+    )
+    monkeypatch.setattr(
+        cli_module,
+        "build_base_similarity",
+        lambda *_args, **_kwargs: result_object,
+    )
 
     result = runner.invoke(app, ["similarity", "cluster", "--config", str(config_path)])
 
-    assert result.exit_code == 1
-    assert "cohort_cluster_base" in result.output
-    assert "not implemented in this task" in result.output
+    assert result.exit_code == 0
+    assert "Generated cluster30: 2 sequences, 1 strict components" in result.output
 
 
 def test_cohort_profile_writes_three_aggregate_outputs(tmp_path: Path) -> None:
