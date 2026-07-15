@@ -42,6 +42,44 @@ def _write_tsv(path: Path, rows: list[str], *, header: str = HEADER) -> Path:
     return path
 
 
+def test_parse_native_cluster_tsv_requires_exact_complete_membership(tmp_path: Path) -> None:
+    from protein_split_audit.similarity.parse_clusters import parse_native_cluster_tsv
+
+    path = tmp_path / "clusters.tsv"
+    path.write_text("A00001\tA00001\nA00001\tB00002\n", encoding="utf-8", newline="\n")
+
+    membership = parse_native_cluster_tsv(path, _index())
+
+    assert [(row.representative.accession, row.member.accession) for row in membership] == [
+        ("A00001", "A00001"),
+        ("A00001", "B00002"),
+    ]
+
+
+@pytest.mark.parametrize(
+    ("content", "message"),
+    [
+        ("A00001\tA00001\n", "missing"),
+        ("A00001\tA00001\nA00001\tA00001\n", "duplicate"),
+        ("A00001\tA00001\nA00001\tUNKNOWN\n", "unknown"),
+        ("A00001\tA00001\textra\n", "two fields"),
+        ("representative\tmember\nA00001\tB00002\n", "unknown"),
+    ],
+)
+def test_parse_native_cluster_tsv_rejects_invalid_membership(
+    tmp_path: Path,
+    content: str,
+    message: str,
+) -> None:
+    from protein_split_audit.similarity.parse_clusters import parse_native_cluster_tsv
+
+    path = tmp_path / "clusters.tsv"
+    path.write_text(content, encoding="utf-8", newline="\n")
+
+    with pytest.raises(RuntimeError, match=message):
+        parse_native_cluster_tsv(path, _index())
+
+
 def test_parse_pair_tsv_normalizes_reciprocals_and_keeps_best_row(tmp_path: Path) -> None:
     from protein_split_audit.similarity.parse_clusters import (
         CandidateIndex,

@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+operation: cohort_cluster_derived
+name: cluster50
+run_mode: freeze
+runtime:
+  executable: mmseqs
+  cache_root: ../../cache/mmseqs
+  timeout_seconds: 3600
+  threads: 8
+cluster:
+  sensitivity: 7.5
+  evalue: 0.001
+  sequence_identity_mode: 0
+  min_sequence_identity: 0.50
+  minimum_coverage: 0.80
+  coverage_mode: 0
+  alignment_mode: 3
+  cluster_mode: 0
+  cluster_reassign: true
+input:
+  cohort_manifest: ../../data/manifests/cohorts/pilot-v1.parquet
+  cohort_content_manifest: ../../data/manifests/cohorts/pilot-v1.json
+  fasta: ../../data/processed/cohorts/pilot-v1.fasta
+  base_pair_table: ../../data/processed/similarity/pilot-v1-pairs30.parquet
+  base_pair_content_manifest: ../../data/manifests/similarity/pilot-v1-cluster30.json
+  base_pair_sha256: "4203976f035b5702c2338263dd22258830f05f8126ce09994cdf10f3878d5904"
+output:
+  cluster_manifest: ../../data/manifests/similarity/pilot-v1-cluster50.parquet
+  content_manifest: ../../data/manifests/similarity/pilot-v1-cluster50.json
+  run_dir: ../../results/runs/similarity-pilot-v1-cluster50
+  overwrite: false

@@ -22,6 +22,10 @@ class PairTsvError(RuntimeError):
     """Raised when an MMseqs2 pair table violates the parser contract."""
 
 
+class NativeClusterTsvError(RuntimeError):
+    """Raised when a headerless MMseqs2 cluster table is incomplete or ambiguous."""
+
+
 def _is_finite_decimal(value: object) -> bool:
     return isinstance(value, Decimal) and value.is_finite()
 
@@ -117,6 +121,14 @@ class SimilarityEdge:
             raise ValueError("similarity edge e-value violates the fixed predicate")
         if self.bits < _ZERO:
             raise ValueError("similarity edge bitscore must be non-negative")
+
+
+@dataclass(frozen=True, slots=True)
+class NativeClusterMembership:
+    """One descriptive MMseqs2 representative/member relationship."""
+
+    representative: SequenceNode
+    member: SequenceNode
 
 
 @dataclass(frozen=True, slots=True)
@@ -258,10 +270,66 @@ def parse_pair_tsv(path: Path, expected: CandidateIndex) -> tuple[SimilarityEdge
     return tuple(edges)
 
 
+def parse_native_cluster_tsv(
+    path: Path,
+    expected: CandidateIndex,
+) -> tuple[NativeClusterMembership, ...]:
+    """Parse a headerless two-column cluster table with exact cohort coverage."""
+
+    try:
+        content = path.read_bytes()
+    except FileNotFoundError as error:
+        raise NativeClusterTsvError(f"native cluster table not found: {path}") from error
+    except OSError as error:
+        raise NativeClusterTsvError(f"native cluster table could not be read: {path}") from error
+    if not content:
+        raise NativeClusterTsvError("native cluster table is empty")
+    try:
+        text = content.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise NativeClusterTsvError("native cluster table must be valid UTF-8") from error
+    if "\r" in text or not text.endswith("\n"):
+        raise NativeClusterTsvError("native cluster table must use LF and end with LF")
+
+    rows: list[NativeClusterMembership] = []
+    seen_members: set[SequenceNode] = set()
+    for line_number, line in enumerate(text[:-1].split("\n"), start=1):
+        fields = line.split("\t")
+        if len(fields) != 2:
+            msg = f"native cluster line {line_number} must contain exactly two fields"
+            raise NativeClusterTsvError(msg)
+        try:
+            representative = expected.resolve(fields[0])
+            member = expected.resolve(fields[1])
+        except PairTsvError as error:
+            raise NativeClusterTsvError(
+                str(error).replace("pair table", "native cluster table")
+            ) from error
+        if member in seen_members:
+            msg = f"native cluster table contains duplicate member {member.accession!r}"
+            raise NativeClusterTsvError(msg)
+        seen_members.add(member)
+        rows.append(NativeClusterMembership(representative=representative, member=member))
+
+    expected_members = set(expected.nodes)
+    if seen_members != expected_members:
+        missing = len(expected_members - seen_members)
+        unknown = len(seen_members - expected_members)
+        msg = (
+            f"native cluster table is missing {missing} member(s) "
+            f"and has {unknown} unknown member(s)"
+        )
+        raise NativeClusterTsvError(msg)
+    return tuple(sorted(rows, key=lambda row: (row.representative.accession, row.member.accession)))
+
+
 __all__ = [
     "CandidateIndex",
+    "NativeClusterMembership",
+    "NativeClusterTsvError",
     "PairTsvError",
     "SequenceNode",
     "SimilarityEdge",
+    "parse_native_cluster_tsv",
     "parse_pair_tsv",
 ]
