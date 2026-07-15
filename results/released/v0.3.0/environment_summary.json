@@ -1,0 +1,28 @@
+{
+  "cell_count": 20,
+  "environment_count": 1,
+  "environments": [
+    {
+      "architecture": "arm64",
+      "dependencies": {
+        "joblib": "1.5.3",
+        "numpy": "2.5.1",
+        "psutil": "7.2.2",
+        "pyarrow": "25.0.0",
+        "scikit-learn": "1.9.0",
+        "scipy": "1.18.0"
+      },
+      "git_commit": "aa6305784706c36bfd1a198ad7d7c3b374d31807",
+      "git_dirty": false,
+      "operating_system": "Darwin",
+      "python_version": "3.12.11",
+      "software_version": "0.3.0",
+      "uv_lock_sha256": "99dc065b3279746c80d30fecc672694d970715417365d1bc31471e61e190e815",
+      "version_info": [
+        3,
+        12,
+        11
+      ]
+    }
+  ]
+}
