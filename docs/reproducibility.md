@@ -1,8 +1,58 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Reproducing ProteinSplitAudit v0.2.0
+# Reproducing ProteinSplitAudit v0.3.0
 
-## Two-commit release model
+## v0.3 generation and publication commits
+
+The formal classical Validation matrix was generated twice from clean commit
+`aa6305784706c36bfd1a198ad7d7c3b374d31807`. Its `uv.lock` SHA-256 is
+`99dc065b3279746c80d30fecc672694d970715417365d1bc31471e61e190e815`. Every formal cell records
+that commit with `git_dirty: false`, Python 3.12.11, package version 0.3.0, and MMseqs2 18-8cc5c.
+
+The publication commit adds the reviewed aggregate copies, protocol attestation, release notes,
+and citation metadata. It does not regenerate, rewrite, or track feature caches, models,
+predictions, or sequence-bearing inputs.
+
+The v0.3 protocol remains Validation-only. Do not run `configs/experiment/v030-test.yaml`; its
+`real_test_access_authorized` field is false, and the application gate must fail before opening any
+real Test input.
+
+## Replaying the classical Validation matrix
+
+Start from a detached clean checkout of Generation Commit A with the frozen v0.2 local inputs
+listed in `docs/attestations/v0.3.0-protocol-freeze.yaml`, then run:
+
+```bash
+uv lock --check
+uv sync --locked --group dev
+uv run --locked psaudit doctor
+uv run --locked psaudit experiment matrix \
+  --config configs/experiment/v030-validation.yaml
+```
+
+For an independent replay, preserve the first result directory, remove or relocate the local
+feature and MMseqs2 caches, and run the same matrix command again. Compare the two directories and
+create a sequence-free review aggregate with:
+
+```bash
+uv run --locked psaudit experiment replay-compare \
+  --first <first-matrix-dir> \
+  --second <second-matrix-dir> \
+  --output <replay-report.json>
+uv run --locked psaudit experiment summarize \
+  --matrix-dir <second-matrix-dir> \
+  --output-dir <aggregate-review-dir>
+```
+
+The approved run compared 169 deterministic files, found zero mismatches, and published only the
+four aggregate files listed in `results/released/v0.3.0/README.md` plus the protocol attestation.
+
+## Frozen v0.2 input lineage
+
+The v0.3 experiment consumes the following v0.2 lineage without changing its cohort or split
+identities.
+
+### v0.2 generation and publication commits
 
 Formal data was generated from clean commit
 `47ba9cd7a79b7fda191e779be2f98cd2a33cefa3`, called generation commit A. Its `uv.lock` SHA-256 is
@@ -14,7 +64,7 @@ metadata, and version `0.2.0`. It does not regenerate sequence-bearing artifacts
 avoids a circular requirement in which release files would have to be present before the data
 generation commit could be fixed.
 
-## Environment
+### v0.2 environment
 
 Use Python 3.12, the checked-in lockfile, and MMseqs2 `18-8cc5c` for formal similarity replay:
 
@@ -28,7 +78,7 @@ uv run --locked psaudit doctor
 Only `psaudit data download` uses the network. Tests block real socket connections and use mocked
 HTTP transport. Default CI does not install or run MMseqs2.
 
-## Clean candidate regeneration
+### Clean candidate regeneration
 
 Create an isolated checkout at generation commit A, confirm `git status --porcelain` is empty, and
 run:
@@ -47,7 +97,7 @@ candidates. The deterministic difference report against v0.1 is `byte_identical`
 attestation binds the new source, build, discovery, difference, commit, and lock hashes before the
 cohort freeze can run.
 
-## Cohort, similarity, and splits
+### Cohort, similarity, and splits
 
 After the approved attestation is present:
 
@@ -70,7 +120,7 @@ Cluster30 creates the normalized base pair table. Cluster50 and Cluster70 verify
 hash and derive strict components from those same edges. A matrix-wide check must confirm exact
 cohort coverage and Cluster70 → Cluster50 → Cluster30 nesting.
 
-## Train-to-test audits
+### Train-to-test audits
 
 ```bash
 for name in random cluster70 cluster50 cluster30; do
@@ -82,7 +132,7 @@ Every Test sequence must receive a nearest observed Train neighbor or an explici
 Random exceedances are descriptive. Any hit at or above 70%, 50%, or 30% in the corresponding
 cluster-aware audit makes that artifact ineligible for release.
 
-## Deterministic and run-specific artifacts
+### Deterministic and run-specific artifacts
 
 Content manifests are canonical, timestamp-free JSON. They use project-relative logical paths and
 bind configuration, parents, commands, tool versions, row artifacts, Git, Python, and lockfile
@@ -106,16 +156,20 @@ uv build
 Smoke-test the built wheel outside the project environment:
 
 ```bash
-WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.2.0-*.whl' -print -quit)
+WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.3.0-*.whl' -print -quit)
 uv run --isolated --no-project --with "$WHEEL" psaudit --version
 uv run --isolated --no-project --with "$WHEEL" psaudit doctor
 uv run --isolated --no-project --with "$WHEEL" psaudit cohort --help
 uv run --isolated --no-project --with "$WHEEL" psaudit similarity --help
 uv run --isolated --no-project --with "$WHEEL" psaudit split --help
+uv run --isolated --no-project --with "$WHEEL" psaudit feature --help
+uv run --isolated --no-project --with "$WHEEL" psaudit model --help
+uv run --isolated --no-project --with "$WHEEL" psaudit experiment --help
 ```
 
 ## Artifact boundary
 
 Do not track raw data, processed sequences, pair tables, record-level cohort or split Parquet,
-detailed audit rows, MMseqs2 databases, caches, or run directories. Only reviewed aggregate JSON
-and release documentation belong in `results/released/v0.2.0/`.
+detailed audit rows, feature caches, models, predictions, MMseqs2 databases, or run directories.
+The v0.2 directory contains reviewed data manifests; `results/released/v0.3.0/` contains only the
+approved aggregate Validation artifacts and protocol attestation.

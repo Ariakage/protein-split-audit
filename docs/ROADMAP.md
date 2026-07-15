@@ -42,20 +42,28 @@ or support a research claim.
   three cluster-aware strategies.
 - Published only reviewed aggregate manifests; sequence and protein-level artifacts remain local.
 
-## Gate 3: baseline features and models
+## Gate 3: v0.3.0 classical features and Validation models (complete)
 
-- Add classical sequence features and prespecified baseline classifiers.
-- Add frozen ESM-2 representations after compute, licensing, and provenance review.
-- Keep test data out of hyperparameter selection.
+- Added deterministic Length, AAC, and fixed 3-mer representations.
+- Added Majority, fixed logistic-regression, and training-only Nearest Homolog baselines.
+- Ran the prespecified 5 × 4 Validation matrix twice and verified byte-identical deterministic
+  outputs.
+- Published aggregate Validation summaries only and kept real Test access denied.
 
-## Gate 4: evaluation and reporting
+## Gate 4: representation models on Validation
 
-- Run the approved experiments and uncertainty analyses.
-- Validate results independently before publishing metrics, limitations, or leakage findings.
-- Build reports or dashboards only from verified artifacts.
+- Review compute, licensing, and provenance before adding frozen ESM-2 representations.
+- Prespecify all pooling, classifier, and evaluation choices before running Validation.
+- Keep the real Test split closed and avoid tuning against Test behavior.
+
+## Gate 5: separately approved Test freeze
+
+- Freeze the complete planned method set before first Test access.
+- Require a new permanent maintainer approval and machine-readable Test attestation.
+- Publish aggregate Test results only after independent validation.
 
 ## Decisions left for later gates
 
-Later protocol decisions must set model families, features, metrics, and statistical tests.
-v0.2.0's pilot classes and split identities are frozen inputs, not values to retune after seeing
-future test performance.
+Later protocol decisions must set representation models, multi-seed analyses, and statistical
+tests. The v0.2.0 cohort and split identities and the v0.3.0 classical protocol are frozen inputs,
+not values to retune after seeing future Test performance.

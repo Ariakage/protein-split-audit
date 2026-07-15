@@ -28,6 +28,9 @@ from protein_split_audit.cohort.schemas import (
     DevelopmentCohortConfig,
     FreezeCohortConfig,
 )
+from protein_split_audit.experiments.schemas import ExperimentConfig
+from protein_split_audit.features.schemas import FeatureConfig
+from protein_split_audit.models.schemas import ModelConfig
 from protein_split_audit.provenance import serialize_canonical_json, sha256_bytes
 from protein_split_audit.similarity.schemas import (
     AuditConfig,
@@ -41,6 +44,7 @@ from protein_split_audit.splits.schemas import SplitConfig
 _SIMILARITY_CONFIG_ADAPTER: TypeAdapter[SimilarityConfig] = TypeAdapter(SimilarityConfig)
 _COHORT_CONFIG_ADAPTER: TypeAdapter[CohortConfig] = TypeAdapter(CohortConfig)
 _SPLIT_CONFIG_ADAPTER: TypeAdapter[SplitConfig] = TypeAdapter(SplitConfig)
+_MODEL_CONFIG_ADAPTER: TypeAdapter[ModelConfig] = TypeAdapter(ModelConfig)
 _COHORT_PATH_FIELDS = (
     (
         "input",
@@ -613,3 +617,46 @@ def load_split_config(path: Path) -> SplitConfig:
         config_path.parent,
     )
     return _SPLIT_CONFIG_ADAPTER.validate_python(loaded)
+
+
+def load_feature_config(path: Path) -> FeatureConfig:
+    """Load one frozen classical feature definition."""
+
+    _config_path, _source_bytes, loaded = _load_yaml_mapping(path)
+    return FeatureConfig.model_validate(loaded)
+
+
+def load_model_config(path: Path) -> ModelConfig:
+    """Load and discriminate one frozen classical model definition."""
+
+    config_path, _source_bytes, loaded = _load_yaml_mapping(path)
+    if loaded.get("type") == "nearest_homolog":
+        _resolve_section_paths(loaded, "runtime", ("cache_root",), config_path.parent)
+        _resolve_runtime_executable(loaded, config_path.parent)
+    return _MODEL_CONFIG_ADAPTER.validate_python(loaded)
+
+
+def load_experiment_config(path: Path) -> ExperimentConfig:
+    """Load a config-relative validation matrix or denied Test request."""
+
+    config_path, _source_bytes, loaded = _load_yaml_mapping(path)
+    base = config_path.parent
+    _resolve_section_paths(loaded, "cohort", ("manifest", "content_manifest", "fasta"), base)
+    raw_splits = loaded.get("splits")
+    if isinstance(raw_splits, list):
+        for item in raw_splits:
+            if isinstance(item, dict):
+                for field in ("manifest", "content_manifest"):
+                    if field in item:
+                        item[field] = _resolve_path(item[field], base)
+    raw_baselines = loaded.get("baselines")
+    if isinstance(raw_baselines, list):
+        for item in raw_baselines:
+            if isinstance(item, dict):
+                for field in ("feature_config", "model_config"):
+                    if item.get(field) is not None:
+                        item[field] = _resolve_path(item[field], base)
+    _resolve_section_paths(loaded, "outputs", ("root",), base)
+    if loaded.get("attestation") is not None:
+        loaded["attestation"] = _resolve_path(loaded["attestation"], base)
+    return ExperimentConfig.model_validate(loaded)

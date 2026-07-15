@@ -7,6 +7,32 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+## 0.3.0 - 2026-07-15
+
+### Added
+
+- Deterministic sequence-length, amino-acid-composition, and fixed 8,000-dimensional 3-mer
+  feature extraction with immutable, content-addressed caches.
+- Prespecified Majority, logistic-regression, and training-only Nearest Homolog baselines.
+- Train-only preprocessing, fixed class ordering, deterministic predictions, per-class metrics,
+  confusion matrices, timing, memory, and no-hit reporting.
+- A fixed 5-baseline × 4-split Validation matrix covering Random, Cluster70, Cluster50, and
+  Cluster30.
+- Validation experiment provenance, run-completion markers, deterministic replay comparison, and
+  sequence-free aggregate publication.
+- A machine-readable protocol-freeze attestation tied to the clean generation commit, lockfile,
+  frozen v0.2 inputs, reviewed Validation artifacts, and permanent maintainer approval.
+- An application-level denial gate that prevents v0.3.0 from opening the real Test inputs.
+
+### Scope
+
+- Publishes aggregate Validation summaries only. Feature caches, fitted models, predictions,
+  nearest-neighbor rows, run logs, and sequence-bearing inputs remain untracked.
+- Uses one fixed seed and one prespecified parameter set as a pipeline validation exercise, not a
+  final benchmark or scientific comparison of split strategies.
+- Does not run or publish real Test results, ESM-2 features, deep-learning models, hyperparameter
+  searches, or final research conclusions.
+
 ## 0.2.0 - 2026-07-15
 
 ### Added

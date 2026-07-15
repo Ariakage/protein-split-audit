@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+name: kmer3
+kind: kmer3
+implementation_version: kmer3-fixed8000-relative-v1
+alphabet: ACDEFGHIKLMNPQRSTVWY
+feature_count: 8000
+dtype: float64
+normalization: relative_frequency
+k: 3
+vocabulary: fixed_complete
+sparse_format: csr
+preprocessing:
+  scaler: none

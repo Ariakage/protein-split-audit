@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+type: nearest_homolog
+engine: mmseqs2
+runtime:
+  executable: mmseqs
+  cache_root: ../../cache/mmseqs
+  timeout_seconds: 3600
+  threads: 8
+search:
+  search_type: 1
+  minimum_coverage: 0.80
+  coverage_mode: 0
+  evalue_threshold: 0.001
+  sensitivity: 7.5
+  alignment_mode: 3
+  sequence_identity_mode: 0
+  minimum_identity: 0.0
+target_database: train_only
+hit_order:
+  - bitscore_desc
+  - evalue_asc
+  - percent_identity_desc
+  - query_coverage_desc
+  - target_coverage_desc
+  - target_accession_asc
+no_hit:
+  policy: training_majority_class
+  record_explicitly: true

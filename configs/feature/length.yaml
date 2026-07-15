@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+name: length
+kind: length
+implementation_version: length-v1
+alphabet: ACDEFGHIKLMNPQRSTVWY
+feature_count: 1
+dtype: float64
+normalization: none
+preprocessing:
+  scaler: standard_train_only

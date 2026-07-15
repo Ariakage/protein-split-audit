@@ -1,0 +1,53 @@
+{
+  "features": [
+    {
+      "alphabet": "ACDEFGHIKLMNPQRSTVWY",
+      "dtype": "float64",
+      "feature_count": 20,
+      "implementation_version": "aac20-v1",
+      "k": null,
+      "kind": "aac",
+      "name": "aac",
+      "normalization": "sequence_length",
+      "preprocessing": {
+        "scaler": "standard_train_only"
+      },
+      "schema_version": 1,
+      "sparse_format": null,
+      "vocabulary": null
+    },
+    {
+      "alphabet": "ACDEFGHIKLMNPQRSTVWY",
+      "dtype": "float64",
+      "feature_count": 8000,
+      "implementation_version": "kmer3-fixed8000-relative-v1",
+      "k": 3,
+      "kind": "kmer3",
+      "name": "kmer3",
+      "normalization": "relative_frequency",
+      "preprocessing": {
+        "scaler": "none"
+      },
+      "schema_version": 1,
+      "sparse_format": "csr",
+      "vocabulary": "fixed_complete"
+    },
+    {
+      "alphabet": "ACDEFGHIKLMNPQRSTVWY",
+      "dtype": "float64",
+      "feature_count": 1,
+      "implementation_version": "length-v1",
+      "k": null,
+      "kind": "length",
+      "name": "length",
+      "normalization": "none",
+      "preprocessing": {
+        "scaler": "standard_train_only"
+      },
+      "schema_version": 1,
+      "sparse_format": null,
+      "vocabulary": null
+    }
+  ],
+  "kmer3_vocabulary_sha256": "17265501e166b1a3be3fccb8ee0ca648fd133300514db256e32cddd7d41c9e38"
+}

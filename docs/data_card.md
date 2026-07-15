@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Pilot-v1 data card
+# Pilot-v1 data card and v0.3 Validation use
 
 ## What is released
 
@@ -10,6 +10,10 @@ test-to-train similarity audits. It does not redistribute protein sequences or p
 
 The release is not a performance benchmark. It provides fixed data identities that a later,
 separately approved modeling protocol may use.
+
+ProteinSplitAudit v0.3.0 uses those unchanged identities for a prespecified classical-baseline
+Validation matrix. It does not rebuild the cohort or splits, access the real Test partition, or
+publish protein-level predictions.
 
 ## Source and candidate pool
 
@@ -57,6 +61,11 @@ provenance, and preparing a later prespecified modeling study. They should not b
 beyond the E. coli K-12 pilot or used to claim that one split produces better models before that
 study is designed and run.
 
+The v0.3.0 aggregate Validation files are suitable for checking that five simple baselines can be
+run reproducibly across all four frozen split strategies. They are Pilot-level engineering
+outputs. They should not be treated as a final ranking of feature families or evidence that one
+split strategy gives a universally better estimate of generalization.
+
 ## Limitations
 
 Swiss-Prot curation does not eliminate annotation uncertainty, taxonomic bias, research-attention
@@ -70,8 +79,9 @@ tool version, and generation commit.
 
 ## Access and licensing
 
-Reviewed aggregate JSON is in `results/released/v0.2.0/`. Raw downloads, sequence-bearing Parquet
-and FASTA, normalized pair tables, protein-level manifests, detailed audits, run directories, and
+Reviewed v0.2 data manifests are in `results/released/v0.2.0/`; reviewed v0.3 Validation summaries
+are in `results/released/v0.3.0/`. Raw downloads, sequence-bearing Parquet and FASTA, normalized
+pair tables, protein-level manifests, predictions, models, detailed audits, run directories, and
 caches remain ignored.
 
 UniProt-derived content retains its upstream terms. ProteinSplitAudit does not relicense it. Read

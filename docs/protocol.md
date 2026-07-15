@@ -1,6 +1,10 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# ProteinSplitAudit v0.2 protocol
+# ProteinSplitAudit data protocol
+
+This document defines the frozen v0.2 cohort and split foundation. The Validation-only classical
+feature and model protocol is frozen separately in
+`docs/protocols/v0.3.0-classical-baselines.md` and its approved machine-readable attestation.
 
 ## Purpose and boundary
 

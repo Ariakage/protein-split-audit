@@ -3,13 +3,28 @@
 # ProteinSplitAudit
 
 ProteinSplitAudit builds auditable protein-enzyme datasets and checks whether similar sequences
-leak across Train, Validation, and Test boundaries. Version 0.2.0 adds a frozen E. coli K-12 pilot
-cohort, MMseqs2 similarity groups, one random split, three cluster-aware splits, and independent
-test-to-train similarity audits.
+leak across Train, Validation, and Test boundaries. Version 0.3.0 adds deterministic classical
+sequence features, five prespecified baselines, and one reproducible Validation matrix over the
+four splits frozen in v0.2.0.
 
-This release answers an engineering question: can the same candidate proteins be partitioned in a
-deterministic, traceable way while keeping each strict similarity component intact? It does not
-train a model or report benchmark performance.
+This release checks that the feature, training, evaluation, and provenance machinery behaves
+consistently on fixed inputs. It does not open the real Test split or claim final benchmark
+performance.
+
+## v0.3.0 classical Validation matrix
+
+The matrix combines five baselines—Majority, Sequence Length with logistic regression, amino-acid
+composition with logistic regression, fixed 3-mer frequencies with logistic regression, and a
+training-only MMseqs2 Nearest Homolog—with Random, Cluster70, Cluster50, and Cluster30. Parameters,
+class order, seed 42, and MMseqs2 thread count are fixed before evaluation.
+
+Two clean executions produced 169 byte-identical deterministic artifacts. Only four reviewed,
+sequence-free aggregate files are published under `results/released/v0.3.0/`. Models, feature
+caches, predictions, neighbor rows, confusion matrices, logs, and complete run directories remain
+local and ignored.
+
+The protocol attestation keeps `real_test_access_authorized: false`. Test evaluation is deferred
+until a later, separately approved freeze after the planned representation work is complete.
 
 ## v0.2.0 pilot
 
@@ -66,11 +81,19 @@ psaudit cohort validate --manifest <parquet> --content-manifest <json>
 psaudit similarity cluster --config <yaml>
 psaudit split create --config <yaml>
 psaudit similarity audit --config <yaml>
+psaudit feature extract --help
+psaudit model train --help
+psaudit evaluate --help
+psaudit experiment run --help
+psaudit experiment matrix --config configs/experiment/v030-validation.yaml
+psaudit experiment replay-compare --help
+psaudit experiment summarize --help
+psaudit experiment finalize-test --config configs/experiment/v030-test.yaml
 ```
 
 Only `data download` contacts UniProt. Tests use synthetic fixtures, mocked HTTP transport, and an
-application-level network guard. MMseqs2 is required for real similarity operations but is not
-run in default CI.
+application-level network guard. MMseqs2 is required for real similarity operations and the
+Nearest Homolog baseline but is not run in default CI.
 
 Formal v0.2 configurations live in `configs/similarity/`, `configs/splits/`, and
 `configs/audits/`. They use fixed thresholds, seed 42, 70/15/15 target ratios, explicit output
@@ -88,10 +111,10 @@ uv run --locked pytest -v
 uv build
 ```
 
-The research rules are in `docs/protocol.md`. `docs/reproducibility.md` explains the clean
-generation and publication commits, and `docs/data_card.md` describes the pilot's scope and
-limitations. Release-specific hashes and audit counts are summarized in
-`docs/releases/v0.2.0.md`.
+The data rules are in `docs/protocol.md`, and the frozen classical-baseline protocol is in
+`docs/protocols/v0.3.0-classical-baselines.md`. `docs/reproducibility.md` explains the clean
+generation and replay workflow, while `docs/data_card.md` describes the pilot's scope and
+limitations. Release-specific identities are summarized in `docs/releases/v0.3.0.md`.
 
 ## Data, licenses, and citation
 

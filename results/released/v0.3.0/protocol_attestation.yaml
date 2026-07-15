@@ -1,0 +1,101 @@
+# SPDX-License-Identifier: CC-BY-4.0
+
+schema_version: 1
+project: ProteinSplitAudit
+release_target: v0.3.0
+attestation_type: protocol_freeze
+
+protocol:
+  path: docs/protocols/v0.3.0-classical-baselines.md
+  sha256: 9be55bf958fade7f2f88c501429521693c9f2be32aab68cede257216ca7fe27a
+
+code:
+  git_commit: aa6305784706c36bfd1a198ad7d7c3b374d31807
+  git_dirty: false
+  software_version: 0.3.0
+  uv_lock_sha256: 99dc065b3279746c80d30fecc672694d970715417365d1bc31471e61e190e815
+  python_version: 3.12.11
+  mmseqs2_version: 18-8cc5c
+
+upstream:
+  generation_git_commit: 47ba9cd7a79b7fda191e779be2f98cd2a33cefa3
+  generation_git_dirty: false
+
+inputs:
+  cohort_manifest:
+    path: data/manifests/cohorts/pilot-v1.parquet
+    sha256: c8066a1851e83c95a3063f896236603cb41df085308e795fb42499ec7a0002da
+  cohort_content_manifest:
+    path: data/manifests/cohorts/pilot-v1.json
+    sha256: 304d126e603a6361684dc76320f8c8e508ad5d9c7917a33052cd52fd5263ead1
+  cohort_fasta:
+    path: data/processed/cohorts/pilot-v1.fasta
+    sha256: 748cf1746d34daa17be2513744cc194e5aa2867edb0469388d68152080ddf9b9
+  split_manifests:
+    random:
+      path: data/manifests/splits/random.parquet
+      sha256: ff572a4eb81f5f377acc348a7fda9786ad773eea6131b54bad88a2b167e5e859
+      content_manifest_path: data/manifests/splits/random.json
+      content_manifest_sha256: 80ed5a977b3111833f2f87a26bc11fa423a31e1976ea67f6b97e65414c7e898b
+    cluster70:
+      path: data/manifests/splits/cluster70.parquet
+      sha256: 898bd302cc77d157f0f4bd398ddc7ec40f9ef5eae43bbb3705963c7ba10ae74e
+      content_manifest_path: data/manifests/splits/cluster70.json
+      content_manifest_sha256: bb2744886a6631f888eaa79028403b0ce6a41621235c68d16946e367bea837ab
+    cluster50:
+      path: data/manifests/splits/cluster50.parquet
+      sha256: 4c105e4b5c007830cf6916e566cebffa8ba1cb54572d59496def086b76eef0b2
+      content_manifest_path: data/manifests/splits/cluster50.json
+      content_manifest_sha256: 640e8d84fa84081d124cd6a37171351913f34b6a85a388af0b88f8d105b39023
+    cluster30:
+      path: data/manifests/splits/cluster30.parquet
+      sha256: 7d951338073d8958a0852c33c8910c14f8d7ae55e0892ee4ab5f4f1e4c347bee
+      content_manifest_path: data/manifests/splits/cluster30.json
+      content_manifest_sha256: c0a40a89888f813bfa1173dfb9e66089ed4d8489c55bab6a7aaff1645132535c
+
+experiment:
+  name: v030-classical-validation
+  configuration_path: configs/experiment/v030-validation.yaml
+  configuration_sha256: 0191ddd65fb5827e473f5048328438fab5c7a0c054f188543d46a6495a90ffd4
+  matrix_cells: 20
+  baselines: 5
+  splits: 4
+  seed: 42
+  evaluation_split: validation
+  real_test_access_authorized: false
+  mmseqs2_threads: 8
+
+review:
+  matrix_summary:
+    path: results/runs/v030-validation/matrix_summary.json
+    sha256: 71ab3ac19ca449da08c0d29fea30d7c61fc048415101dd107bd9dfdd57b78cd2
+  replay_report:
+    path: results/runs/v030-validation-replay-report.json
+    sha256: db64d71f19abccab69893a028a4c7d31f6aaf59edfb85a66b8b6b58ed80e5926
+    compared_file_count: 169
+    mismatch_count: 0
+    byte_identical: true
+  released_aggregates:
+    validation_summary:
+      path: results/released/v0.3.0/validation_summary.csv
+      sha256: 73ee1c4f8c454a8570058224c9257d4f924eac8c8681fcb78991d99fa6612dc2
+    validation_per_class:
+      path: results/released/v0.3.0/validation_per_class.csv
+      sha256: a70dbfa155d8589530697c30b0a33da1a205e2ffc2fd083e72ffb1b5fa2ad667
+    feature_schema:
+      path: results/released/v0.3.0/feature_schema.json
+      sha256: f2fabd4f5d8642c17df8d8385773c9b47931535da800cac27252245789912390
+    environment_summary:
+      path: results/released/v0.3.0/environment_summary.json
+      sha256: 5499b69b6ee401032e696c19102eba63dd869cee08738c44cbfd99757343081b
+
+approval:
+  approved_by: Ariakage
+  approved_at_utc: "2026-07-15T14:39:20Z"
+  approval_reference: https://github.com/Ariakage/protein-split-audit/pull/1#issuecomment-4981819750
+  author_association: OWNER
+
+notes:
+  - The v0.3.0 release is Validation-only and does not access the real Test split.
+  - Any protocol, parameter, or frozen-input change requires a new attestation and approval.
+  - Sequence-bearing, per-record, model, cache, and run artifacts remain untracked.
