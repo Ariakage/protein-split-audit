@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+name: random
+strategy: sequence_stratified
+run_mode: freeze
+input:
+  cohort_manifest: ../../data/manifests/cohorts/pilot-v1.parquet
+  cohort_content_manifest: ../../data/manifests/cohorts/pilot-v1.json
+ratios: {train: 0.70, validation: 0.15, test: 0.15}
+seed: 42
+stratify_by: ec_level_2
+ratio_tolerance: 0.05
+output:
+  manifest: ../../data/manifests/splits/random.parquet
+  content_manifest: ../../data/manifests/splits/random.json
+  run_dir: ../../results/runs/split-random
+  overwrite: false
