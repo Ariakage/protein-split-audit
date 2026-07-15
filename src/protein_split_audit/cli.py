@@ -386,7 +386,8 @@ def cohort_validate(
     except (OSError, RuntimeError, ValueError) as error:
         typer.echo(f"Error: {error}", err=True)
         raise typer.Exit(code=1) from error
-    typer.echo(f"Validated provisional cohort: {report.selected_count} candidates")
+    cohort_label = "provisional cohort" if report.provisional else f"frozen {report.cohort_version}"
+    typer.echo(f"Validated {cohort_label}: {report.selected_count} candidates")
     typer.echo(f"Selected EC-level-2 classes: {', '.join(report.selected_labels)}")
 
 

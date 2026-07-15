@@ -191,6 +191,8 @@ class CohortBuildResult:
 class CohortValidationReport:
     """Aggregate facts returned after deterministic cohort recomputation."""
 
+    cohort_version: Literal["pilot-v1-candidate", "pilot-v1"]
+    provisional: bool
     selected_count: int
     selected_labels: tuple[str, ...]
     cohort_manifest_sha256: str
@@ -1017,6 +1019,8 @@ def validate_cohort_artifacts(
     if content != expected_content:
         raise CohortArtifactError("cohort content manifest disagrees with recomputation")
     return CohortValidationReport(
+        cohort_version=content.cohort_version,
+        provisional=content.provisional,
         selected_count=len(selected.members),
         selected_labels=selected.selected_labels,
         cohort_manifest_sha256=serialized.parquet_sha256,

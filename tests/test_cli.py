@@ -397,6 +397,8 @@ def test_cohort_validate_reports_recomputed_provisional_artifact(
     report = SimpleNamespace(
         selected_count=200,
         selected_labels=("1.1", "2.1", "3.1", "4.1", "5.1"),
+        cohort_version="pilot-v1-candidate",
+        provisional=True,
     )
     monkeypatch.setattr(cli_module, "find_project_root", lambda _path: tmp_path)
     monkeypatch.setattr(
@@ -420,6 +422,46 @@ def test_cohort_validate_reports_recomputed_provisional_artifact(
     assert result.exit_code == 0
     assert "Validated provisional cohort: 200 candidates" in result.output
     assert "1.1, 2.1, 3.1, 4.1, 5.1" in result.output
+
+
+def test_cohort_validate_reports_recomputed_frozen_artifact(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import protein_split_audit.cli as cli_module
+
+    manifest = tmp_path / "pilot-v1.parquet"
+    content = tmp_path / "pilot-v1.json"
+    manifest.write_bytes(b"fixture")
+    content.write_bytes(b"fixture")
+    report = SimpleNamespace(
+        selected_count=442,
+        selected_labels=("2.7", "3.1", "1.1", "2.1", "4.1"),
+        cohort_version="pilot-v1",
+        provisional=False,
+    )
+    monkeypatch.setattr(cli_module, "find_project_root", lambda _path: tmp_path)
+    monkeypatch.setattr(
+        cli_module,
+        "validate_cohort_artifacts",
+        lambda *_args, **_kwargs: report,
+    )
+
+    result = runner.invoke(
+        app,
+        [
+            "cohort",
+            "validate",
+            "--manifest",
+            str(manifest),
+            "--content-manifest",
+            str(content),
+        ],
+    )
+
+    assert result.exit_code == 0
+    assert "Validated frozen pilot-v1: 442 candidates" in result.output
+    assert "2.7, 3.1, 1.1, 2.1, 4.1" in result.output
 
 
 def test_similarity_cluster_missing_config_is_usage_error(tmp_path: Path) -> None:
