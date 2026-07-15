@@ -5,8 +5,8 @@ title: "ProteinSplitAudit: Auditing Sequence-Similarity Leakage in Protein Enzym
 
 type: software
 
-version: 0.1.0
-date-released: 2026-07-14
+version: 0.2.0
+date-released: 2026-07-15
 
 authors:
   - family-names: "Chen"

@@ -1,100 +1,79 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Candidate dataset card
+# Pilot-v1 data card
 
-## Status
+## What is released
 
-The v0.1.0 repository records one local E. coli K-12 candidate build. Its download manifest starts
-with 2,632 UniProtKB/Swiss-Prot entries, and its build manifest retains 1,182 candidate proteins.
-The sequence-bearing Parquet and FASTA files remain local and untracked; no candidate or benchmark
-dataset has been released.
+ProteinSplitAudit v0.2.0 publishes reviewed aggregate manifests for an *E. coli* K-12 enzyme pilot.
+The release records a frozen cohort, three similarity partitions, four split strategies, and four
+test-to-train similarity audits. It does not redistribute protein sequences or protein-level rows.
 
-Release preparation found no reviewed profile artifacts in `results/runs/`, so nothing was copied
-to `results/released/v0.1.0/`.
+The release is not a performance benchmark. It provides fixed data identities that a later,
+separately approved modeling protocol may use.
 
-## Source
+## Source and candidate pool
 
-The recorded pilot queries reviewed, non-fragment, EC-annotated E. coli K-12 entries from
-UniProtKB/Swiss-Prot using taxonomy ID 83333. It is a single-organism pilot, not a collection of
-all reviewed bacterial enzymes. A future broader run must supply its exact query, source response
-and release metadata, retrieval time, page hashes, and record counts. Estimated values are not
-acceptable.
+The source is UniProtKB/Swiss-Prot release `2026_02`, queried for reviewed, non-fragment,
+EC-annotated entries from taxonomy ID 83333. This is a single-organism pilot, not a sample of all
+reviewed bacterial enzymes.
 
-## Records and labels
+The clean run downloaded 2,632 records and retained 1,182 candidates after EC, sequence, length,
+conflict, and exact-duplicate processing. Its normalized source, candidate Parquet, and candidate
+FASTA match the historical v0.1 artifacts byte for byte. Unlike the historical run, the v0.2
+lineage records a fixed commit and `git_dirty: false`.
 
-Candidate records contain the accession, entry and organism metadata, normalized sequence and
-length, sequence SHA-256, one complete EC annotation, its EC-level-2 target, source row
-coordinates, and same-label duplicate metadata.
+## Frozen cohort
 
-Files containing sequences stay local and untracked. Maintainers may review sequence-free build
-provenance, alias maps, conflict annotations, and aggregate rejection counts for tracking under
-the repository's artifact policy.
+The predeclared selection rule requires at least 40 candidates and 10 cluster30 groups per class,
+selects exactly five classes, caps each class at 250, and uses seed 42. It does not use model
+performance and does not fall back to four classes.
 
-## Filtering rules
+`pilot-v1` contains 442 proteins:
 
-- Sequence length must be 50 to 1000 residues, inclusive.
-- Sequences may contain only the standard 20-amino-acid alphabet.
-- Each record must have exactly one complete, four-level EC annotation.
-- If identical sequences have conflicting EC-level-2 labels, the whole group is rejected.
+- EC 2.7: 192
+- EC 3.1: 85
+- EC 1.1: 59
+- EC 2.1: 57
+- EC 4.1: 49
 
-Every source record must end in one of four places: the candidate dataset, a validation rejection,
-a same-label duplicate audit row, or a conflicting-label duplicate audit row.
+## Similarity and splits
+
+The frozen cohort has 437 strict Cluster70 components, 427 Cluster50 components, and 398 Cluster30
+components. Each stricter partition refines the next coarser partition.
+
+Random, Cluster70, Cluster50, and Cluster30 each contain 308 Train, 68 Validation, and 66 Test
+proteins. Every class appears in every partition. Exact sequence hashes do not duplicate or cross
+a split, and no named component crosses its cluster-aware split.
+
+Independent audits found zero named-threshold violations in all three cluster-aware strategies.
+The Random control reported four observed hits at or above 30% identity, two at or above 50%, and
+none at or above 70%. These counts describe the fixed search output; they do not measure model
+quality or biological novelty.
 
 ## Intended use
 
-The candidate data can support a later benchmark for sequence-similarity leakage audits after a
-separate review. Before that point, it may be used to inspect aggregate composition, check data
-quality, and reproduce selection behavior from source and configuration hashes.
-
-## Aggregate profile files
-
-`psaudit data profile` reads candidate labels, sequence lengths, and organism identifiers or names
-from a processed Parquet file. It checks that file against the build manifest, then writes the
-following aggregate files to an explicit directory such as `results/runs/profile-pilot/`:
-
-- `profile_summary.json` reports retained candidates, observed EC-level-2 classes, and distinct
-  organisms. It also states that the profile is candidate-only and is not a benchmark.
-- `ec_level_2_class_counts.csv` has one row per observed label. Rows are ordered by decreasing
-  candidate count, then by label.
-- `sequence_length_summary.json` reports count, minimum, maximum, mean, median, and the 0.05, 0.25,
-  0.50, 0.75, and 0.95 quantiles.
-- `organism_summary_top100.csv` contains at most 100 aggregate organism rows. Rows are ordered by
-  decreasing candidate count, then by taxonomy ID and name.
-- `filtering_flow.csv` gives the ordered record counts and removals at each build filter boundary.
-- `deduplication_summary.json` gives the same-label duplicate and conflicting-label group and
-  record totals.
-
-Each output names the input Parquet file and build manifest and includes their SHA-256 hashes. The
-JSON files also record the upstream configuration, source manifest, input file, and lockfile
-hashes.
-
-These summaries contain no sequences, protein-level rows, full organism listings, timestamps,
-absolute local paths, secrets, class-selection decisions, split metrics, model results, or
-benchmark claims. Development copies remain ignored in `results/runs/`. A maintainer may later
-approve copies for `results/released/v0.1.0/`.
-
-## Uses outside the contract
-
-Do not treat the candidate data as a final or class-balanced benchmark. Do not use it to make
-claims about leakage or model performance before the planned splits and experiments. The project's
-code and documentation licenses do not cover redistribution of UniProt-derived content.
+The cohort and splits are suitable for reproducing v0.2 data-separation behavior, checking
+provenance, and preparing a later prespecified modeling study. They should not be generalized
+beyond the E. coli K-12 pilot or used to claim that one split produces better models before that
+study is designed and run.
 
 ## Limitations
 
-Swiss-Prot curation does not remove annotation uncertainty, taxonomic bias, research-attention
-bias, multifunction proteins, or differences between releases. Requiring one complete EC
-annotation narrows the source population and may change its composition. Exact deduplication also
-leaves non-identical homologs in place; a later gate will address them through clustering.
+Swiss-Prot curation does not eliminate annotation uncertainty, taxonomic bias, research-attention
+bias, multifunction proteins, or release-to-release changes. Requiring one complete EC annotation
+narrows the population. MMseqs2's fixed high-sensitivity search is heuristic, and an absence of a
+reported hit is not proof of biological independence.
 
-The recorded download and build manifests identify commit
-`9a08febd5515f674e378ccead7df7c3a4dfe3525` and set `git_dirty: true`. The hashes describe the
-files that were used and produced, but the run cannot be attributed solely to that commit because
-uncommitted changes were present. Treat these artifacts as a development pilot. Before freezing
-or publishing research data, regenerate the complete workflow from a clean checkout and require
-`git_dirty: false` in every run manifest.
+The cohort is small and class composition is uneven. Cluster-aware allocation is constrained by
+indivisible components. The released counts describe one fixed source release, configuration,
+tool version, and generation commit.
 
-## Licensing and access
+## Access and licensing
 
-UniProt-derived sequences and metadata retain their upstream terms. Raw and processed files that
-contain sequences remain untracked. Read `DATA_LICENSE.md`, `THIRD_PARTY_NOTICES.md`, and
-`docs/LICENSE_POLICY.md` before producing or sharing a data artifact.
+Reviewed aggregate JSON is in `results/released/v0.2.0/`. Raw downloads, sequence-bearing Parquet
+and FASTA, normalized pair tables, protein-level manifests, detailed audits, run directories, and
+caches remain ignored.
+
+UniProt-derived content retains its upstream terms. ProteinSplitAudit does not relicense it. Read
+`DATA_LICENSE.md`, `THIRD_PARTY_NOTICES.md`, and `docs/LICENSE_POLICY.md` before sharing any local
+data artifact.

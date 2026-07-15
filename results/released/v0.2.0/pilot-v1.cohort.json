@@ -1,0 +1,189 @@
+{
+  "artifacts": {
+    "cohort_manifest": {
+      "file_sha256": "c8066a1851e83c95a3063f896236603cb41df085308e795fb42499ec7a0002da",
+      "logical_path": "data/manifests/cohorts/pilot-v1.parquet",
+      "row_count": 442,
+      "semantic_sha256": "8de56565f7e37daadfa83fe91ecb1f39f4946796b4413de75d6ec080f8ba2d83"
+    },
+    "fasta": {
+      "file_sha256": "748cf1746d34daa17be2513744cc194e5aa2867edb0469388d68152080ddf9b9",
+      "logical_path": "data/processed/cohorts/pilot-v1.fasta",
+      "row_count": 442,
+      "semantic_sha256": "748cf1746d34daa17be2513744cc194e5aa2867edb0469388d68152080ddf9b9"
+    }
+  },
+  "build_manifest_sha256": "02a8f1be2788e41a655a60a07817f158eb69667e697a1c806b8bb85a23f67acb",
+  "candidate_dataset_sha256": "158548284f65b2c85204f776987abea4ff5d852e5c303eb66a463357648befb0",
+  "candidate_fasta_sha256": "f06817f295015d345ea7e8ebb073a1151a9855129bd1e3c7783316b712e1ef11",
+  "class_summaries": [
+    {
+      "candidate_count": 192,
+      "discovery_component_count": 173,
+      "ec_level_2": "2.7",
+      "eligible_rank": 1,
+      "selected": true,
+      "selected_component_count": 173,
+      "selected_count": 192
+    },
+    {
+      "candidate_count": 85,
+      "discovery_component_count": 78,
+      "ec_level_2": "3.1",
+      "eligible_rank": 2,
+      "selected": true,
+      "selected_component_count": 78,
+      "selected_count": 85
+    },
+    {
+      "candidate_count": 59,
+      "discovery_component_count": 50,
+      "ec_level_2": "1.1",
+      "eligible_rank": 3,
+      "selected": true,
+      "selected_component_count": 50,
+      "selected_count": 59
+    },
+    {
+      "candidate_count": 57,
+      "discovery_component_count": 56,
+      "ec_level_2": "2.1",
+      "eligible_rank": 4,
+      "selected": true,
+      "selected_component_count": 56,
+      "selected_count": 57
+    },
+    {
+      "candidate_count": 49,
+      "discovery_component_count": 41,
+      "ec_level_2": "4.1",
+      "eligible_rank": 5,
+      "selected": true,
+      "selected_component_count": 41,
+      "selected_count": 49
+    },
+    {
+      "candidate_count": 45,
+      "discovery_component_count": 38,
+      "ec_level_2": "4.2",
+      "eligible_rank": 6,
+      "selected": false,
+      "selected_component_count": 0,
+      "selected_count": 0
+    },
+    {
+      "candidate_count": 43,
+      "discovery_component_count": 42,
+      "ec_level_2": "3.5",
+      "eligible_rank": 7,
+      "selected": false,
+      "selected_component_count": 0,
+      "selected_count": 0
+    },
+    {
+      "candidate_count": 43,
+      "discovery_component_count": 35,
+      "ec_level_2": "2.3",
+      "eligible_rank": 8,
+      "selected": false,
+      "selected_component_count": 0,
+      "selected_count": 0
+    },
+    {
+      "candidate_count": 41,
+      "discovery_component_count": 38,
+      "ec_level_2": "2.4",
+      "eligible_rank": 9,
+      "selected": false,
+      "selected_component_count": 0,
+      "selected_count": 0
+    }
+  ],
+  "cohort_artifact_schema_version": 1,
+  "cohort_version": "pilot-v1",
+  "configuration_file": "configs/cohort/pilot-freeze.yaml",
+  "discovery_component_manifest_sha256": "8a8f243952494284aaf29bca1f75be394a2dbe46584947f39b68d42d14c37477",
+  "discovery_content_manifest_sha256": "ad1f5acf4043ecf8241acb052538a7480a45d33d0c38c8880b56d05702e893a3",
+  "effective_config_sha256": "393d573cae5e4f036c1e9a21671b21180a52aed102747f5cba48b81714b7ba97",
+  "exclusion_reason_counts": {
+    "insufficient_candidates": 50,
+    "insufficient_cluster30_components": 32
+  },
+  "feasibility_rules": {
+    "allocator_version": "greedy_component_loss_v1",
+    "class_balance_weight": "3.0",
+    "group_count_weight": "0.5",
+    "missing_class_weight": "10.0",
+    "ratio_test": "0.15",
+    "ratio_tolerance": "0.05",
+    "ratio_train": "0.7",
+    "ratio_validation": "0.15",
+    "size_weight": "1.0"
+  },
+  "generation_git_commit": "47ba9cd7a79b7fda191e779be2f98cd2a33cefa3",
+  "generation_git_dirty": false,
+  "ineligibility_reasons": [],
+  "manifest_schema_version": 1,
+  "model_performance_used": false,
+  "parent_lineage": [
+    {
+      "artifact_kind": "download",
+      "generation_git_commit": "47ba9cd7a79b7fda191e779be2f98cd2a33cefa3",
+      "generation_git_dirty": false,
+      "manifest_sha256": "a78d3f6bf57315ab3faa9b935f978194cb8bb274caf1859e35b3217515acafc8"
+    },
+    {
+      "artifact_kind": "build",
+      "generation_git_commit": "47ba9cd7a79b7fda191e779be2f98cd2a33cefa3",
+      "generation_git_dirty": false,
+      "manifest_sha256": "02a8f1be2788e41a655a60a07817f158eb69667e697a1c806b8bb85a23f67acb"
+    },
+    {
+      "artifact_kind": "discovery30",
+      "generation_git_commit": "47ba9cd7a79b7fda191e779be2f98cd2a33cefa3",
+      "generation_git_dirty": false,
+      "manifest_sha256": "ad1f5acf4043ecf8241acb052538a7480a45d33d0c38c8880b56d05702e893a3"
+    },
+    {
+      "artifact_kind": "difference",
+      "generation_git_commit": "47ba9cd7a79b7fda191e779be2f98cd2a33cefa3",
+      "generation_git_dirty": false,
+      "manifest_sha256": "9f4e3e538935c37ac2ecb3eee7dc9fd6c89691794e3d639f9f4a2ab4e92ea9cb"
+    },
+    {
+      "artifact_kind": "review",
+      "generation_git_commit": "47ba9cd7a79b7fda191e779be2f98cd2a33cefa3",
+      "generation_git_dirty": false,
+      "manifest_sha256": "d3821fefeaec53ad79b50d4baa3094789a804e1c4f22575e0d497d7a7f662579"
+    }
+  ],
+  "provisional": false,
+  "python_version": "3.12.11",
+  "release_eligible": true,
+  "run_mode": "freeze",
+  "selected_labels": [
+    "2.7",
+    "3.1",
+    "1.1",
+    "2.1",
+    "4.1"
+  ],
+  "selection_evidence": [
+    "candidate_count",
+    "discovery_component_count"
+  ],
+  "selection_rule_version": "pilot-ec2-5class-min40-c30g10-cap250-seed42-v1",
+  "selection_rules": {
+    "class_ranking": "capped_count_desc_group_count_desc_label_asc_v1",
+    "label_field": "ec_level_2",
+    "max_sequences_per_class": 250,
+    "member_ranking": "component_round_robin_sha256_v1",
+    "min_groups_per_class_at_cluster30": 10,
+    "min_sequences_per_class": 40,
+    "number_of_classes": 5,
+    "seed": 42
+  },
+  "software_version": "0.2.0.dev0",
+  "source_config_sha256": "14c9e52af1bdfd575e0c61deddd383b5203e6975f4b1c44ff288daca67c353cf",
+  "uv_lock_sha256": "326cd0e038ab9deabd8d82a8138dbbf848d5239b55b09d814a3d7c01ff542fde"
+}

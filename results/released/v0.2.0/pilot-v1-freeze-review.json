@@ -1,0 +1,15 @@
+{
+  "approval_reference": "maintainer-v0.2.0-freeze-2026-07-15",
+  "decision": "approved-for-pilot-v1-freeze",
+  "difference_report_sha256": "9f4e3e538935c37ac2ecb3eee7dc9fd6c89691794e3d639f9f4a2ab4e92ea9cb",
+  "discovery_content_manifest_sha256": "ad1f5acf4043ecf8241acb052538a7480a45d33d0c38c8880b56d05702e893a3",
+  "generation_git_commit": "47ba9cd7a79b7fda191e779be2f98cd2a33cefa3",
+  "historical_build_manifest_sha256": "6b4fdc5064d5b413160462fdcd3f93e4f179dcf63969b2c1e23bf371205bcd22",
+  "historical_download_manifest_sha256": "bc4a42eb38057a261a436e0ba13e3479582bcedcfef4b47b5d671cfab135a0b4",
+  "regenerated_build_manifest_sha256": "02a8f1be2788e41a655a60a07817f158eb69667e697a1c806b8bb85a23f67acb",
+  "regenerated_download_manifest_sha256": "a78d3f6bf57315ab3faa9b935f978194cb8bb274caf1859e35b3217515acafc8",
+  "review_rule_version": "clean-regeneration-review-v1",
+  "review_schema_version": 1,
+  "selection_rule_version": "pilot-ec2-5class-min40-c30g10-cap250-seed42-v1",
+  "uv_lock_sha256": "326cd0e038ab9deabd8d82a8138dbbf848d5239b55b09d814a3d7c01ff542fde"
+}

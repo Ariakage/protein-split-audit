@@ -7,6 +7,8 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+## 0.2.0 - 2026-07-15
+
 ### Added
 
 - Validated configuration models and CLI namespaces for cohort, similarity, and split workflows.
@@ -25,6 +27,13 @@ semantic versioning where it applies.
 - Clean-regeneration comparison and a reviewed `pilot-v1` freeze gate. The gate binds the clean
   source and build chain, discovery manifest, difference report, generation commit, lock hash,
   and maintainer attestation before writing frozen artifacts.
+- Formal MMseqs2 cluster manifests at 70%, 50%, and 30% identity, with descriptive native clusters
+  kept separate from strict pair-edge connected components.
+- Deterministic Random, Cluster70, Cluster50, and Cluster30 splits with fixed seed 42, complete
+  class coverage, ratio validation, exact-sequence isolation, and whole-component allocation.
+- Independent test-to-train similarity audits with explicit no-match rows, deterministic nearest
+  neighbors, descriptive Random Split counts, and hard threshold gates for cluster-aware splits.
+- A timestamp-free top-level provenance manifest and reviewed aggregate release summaries.
 
 ### Changed
 
@@ -40,6 +49,13 @@ semantic versioning where it applies.
 
 - Made CLI help tests robust to ANSI-styled output on GitHub Actions.
 - Report the frozen `pilot-v1` state correctly after cohort validation.
+
+### Scope
+
+- Freezes the five-class E. coli K-12 `pilot-v1` cohort and its split/audit identities.
+- Publishes aggregate manifests only. Raw sequences, processed sequence files, normalized pair
+  tables, record-level split rows, and detailed audit rows remain untracked.
+- Adds no features, model training, benchmark metrics, or scientific performance claims.
 
 ## 0.1.1 - 2026-07-14
 

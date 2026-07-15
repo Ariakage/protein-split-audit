@@ -14,7 +14,7 @@ helpers, hashing, read-only Git metadata, and the first two commands: `psaudit -
 
 This gate deliberately contained no network downloader or dataset-processing code.
 
-## Gate 1: v0.1.0 candidate dataset pipeline (in progress)
+## Gate 1: v0.1.0 candidate dataset pipeline (released with documented debt)
 
 The repository now has:
 
@@ -25,19 +25,22 @@ The repository now has:
   FASTA output, sequence-free audits, and build provenance;
 - aggregate candidate profiles tied to dataset and build hashes.
 
-The gate is still open. It requires `psaudit config validate`, `psaudit data run`, separate
-release-level content manifests and run provenance, packaging completion, and the remaining
-acceptance fixes.
+The v0.1 series shipped the candidate pipeline. Its remaining acceptance debt is documented rather
+than silently closed: `psaudit config validate` and `psaudit data run` are still absent, and the
+historical release data recorded a dirty working tree. v0.2.0 therefore regenerated the candidate
+chain from a clean fixed commit before freezing any research artifact.
 
 Gate 1 ends when every v0.1.0 acceptance criterion passes. It does not publish a benchmark dataset
 or support a research claim.
 
-## Gate 2: benchmark protocol and leakage-aware splits
+## Gate 2: v0.2.0 cohort and leakage-aware splits (complete)
 
-- Freeze a reviewed candidate dataset only after data and licensing review.
-- Approve the final EC-level-2 class rules without tuning on test data.
-- Add MMseqs2 clustering and deterministic random and cluster-aware splits.
-- Measure train/test sequence-similarity leakage and verify partition invariants.
+- Frozen five-class `pilot-v1` cohort selected without model-performance input.
+- Recorded MMseqs2 native clusters and strict 70/50/30 connected components separately.
+- Produced deterministic Random and Cluster70/50/30 splits with whole-component isolation.
+- Audited every Test sequence against Train and enforced zero named-threshold violations for the
+  three cluster-aware strategies.
+- Published only reviewed aggregate manifests; sequence and protein-level artifacts remain local.
 
 ## Gate 3: baseline features and models
 
@@ -53,6 +56,6 @@ or support a research claim.
 
 ## Decisions left for later gates
 
-Later protocol decisions must set the final EC classes, cluster thresholds, split proportions,
-model families, metrics, and statistical tests. Pipeline work must not infer any of them from the
-test set.
+Later protocol decisions must set model families, features, metrics, and statistical tests.
+v0.2.0's pilot classes and split identities are frozen inputs, not values to retune after seeing
+future test performance.

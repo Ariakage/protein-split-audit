@@ -52,9 +52,28 @@ jobs:
         env:
           UV_OFFLINE: "true"
 
-      - name: Verify foundation CLI
+      - name: Reject tracked record and sequence artifacts
         run: |
-          uv run --locked psaudit --version
-          uv run --locked psaudit doctor
+          forbidden=$(git ls-files | grep -E '\.(parquet|fasta|fa|tsv\.gz|pt|pth|ckpt)$|^(data/(raw|processed|interim)/|results/runs/|cache/)' | grep -v '^cache/\.gitkeep$' || true)
+          if [ -n "$forbidden" ]; then
+            echo "Tracked generated artifact policy violation:"
+            echo "$forbidden"
+            exit 1
+          fi
+
+      - name: Build package artifacts
+        run: uv build
+        env:
+          UV_OFFLINE: "true"
+
+      - name: Smoke-test wheel in an isolated environment
+        run: |
+          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-*.whl' -print -quit)
+          test -n "$WHEEL"
+          uv run --isolated --no-project --with "$WHEEL" psaudit --version
+          uv run --isolated --no-project --with "$WHEEL" psaudit doctor
+          uv run --isolated --no-project --with "$WHEEL" psaudit cohort --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit similarity --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit split --help
         env:
           UV_OFFLINE: "true"

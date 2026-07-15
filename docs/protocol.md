@@ -1,61 +1,84 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Prospective research protocol
+# ProteinSplitAudit v0.2 protocol
 
-## Current status
+## Purpose and boundary
 
-The candidate-construction software exists, but no candidate dataset or scientific result has
-been produced or released. This protocol also predates any split, model, or metric selection.
+This protocol defines how ProteinSplitAudit v0.2.0 turns one reviewed candidate pool into a fixed
+pilot cohort, three nested similarity partitions, and four Train/Validation/Test splits. It tests
+data separation and provenance. It does not specify features, train a classifier, or support a
+claim about predictive performance.
 
-## Research question
+## Source and candidate rules
 
-For bacterial enzyme classification at EC level 2, does a random sequence-level split report
-higher performance than a split that keeps closely related sequence groups in separate
-partitions?
+The pilot source is reviewed, non-fragment, EC-annotated *E. coli* K-12 entries from
+UniProtKB/Swiss-Prot. A candidate must have one complete four-level EC annotation, a sequence of 50
+to 1000 residues, and only the standard amino-acid alphabet `ACDEFGHIKLMNPQRSTVWY`. The target is
+EC level 2.
 
-## Source population
+Same-sequence, same-label duplicates retain the lexicographically smallest accession as canonical.
+Aliases stay in a local audit. If an exact sequence has different EC-level-2 labels, the complete
+group is rejected. Every source record has an explicit retained, rejected, duplicate, or conflict
+outcome.
 
-The planned source population consists of reviewed bacterial enzyme entries from
-UniProtKB/Swiss-Prot with `fragment:false`. During an authorized download, the software records the
-source query, response metadata, page hashes, retrieval events, and software environment.
+## Frozen pilot cohort
 
-## Candidate eligibility
+The selection rule is `pilot-ec2-5class-min40-c30g10-cap250-seed42-v1`:
 
-A record enters the candidate dataset only if:
+- at least 40 candidate sequences per class;
+- at least 10 observed cluster30 components per class;
+- exactly five classes, ranked deterministically;
+- at most 250 selected sequences per class;
+- seed 42;
+- no use of model or test performance;
+- hard failure if fewer than five classes qualify.
 
-- its normalized sequence is between 50 and 1000 residues, inclusive;
-- every residue is one of `ACDEFGHIKLMNPQRSTVWY`;
-- it has exactly one EC annotation;
-- that annotation has four numeric levels.
+The 50-sequence/four-class alternative is not a fallback. It would require a separate protocol
+revision and maintainer approval.
 
-The target is the first two levels of the accepted EC annotation. Candidate construction does not
-choose which level-2 classes will appear in a later benchmark.
+## Similarity groups
 
-Each rejected record needs a reason in the detailed local audit. The software must never discard
-a record silently.
+MMseqs2 runs with fixed sensitivity, e-value, coverage, identity-mode, alignment-mode, and thread
+settings recorded in each manifest. The Cluster30 operation performs one all-vs-all self-search.
+Its normalized pair table is the sole edge source for strict 70%, 50%, and 30% connected
+components. This guarantees that Cluster70 refines Cluster50, which refines Cluster30.
 
-## Exact duplicate sequences
+MMseqs2 `easy-cluster` also runs at each threshold. Those native clusters are descriptive and are
+stored separately from the strict components used for splitting. The search is a fixed,
+high-sensitivity heuristic, not a mathematical proof that every possible homologous pair was
+found. Independent test-to-train audits remain necessary.
 
-When accessions share both an exact sequence and an EC-level-2 label, the build keeps the
-deterministic canonical accession and records the remaining accessions as aliases.
+## Splits
 
-If one exact sequence has different level-2 labels, the build rejects every record in that group.
-The configured sequence-free conflict summary records all accessions, complete EC annotations,
-level-2 labels, and disagreement metadata.
+All four strategies target 70% Train, 15% Validation, and 15% Test with seed 42 and an absolute
+five-percentage-point tolerance.
 
-## Rules for later splitting and modeling
+The Random Split ranks each accession within its class by
+`SHA-256(seed + "\n" + accession + "\n" + sequence_sha256)` and applies largest-remainder counts.
+The Cluster70, Cluster50, and Cluster30 strategies allocate strict components as indivisible
+groups. They fail rather than split a component, omit a class from a partition, leave a partition
+empty, or exceed the ratio tolerance.
 
-- Approve class eligibility, similarity thresholds, split proportions, and seeds before looking
-  at test performance.
-- Give every random operation an explicit seed.
-- Do not use test data to choose features, hyperparameters, early stopping, thresholds, or
-  included classes.
-- Compare random and cluster-aware partitions on the same frozen candidate population, with every
-  exclusion reported.
-- Choose primary metrics and uncertainty estimates before running model comparisons.
+Every cohort record appears exactly once. An exact sequence hash may not duplicate or cross a
+split. For cluster-aware strategies, the named component may not cross Train, Validation, and
+Test.
 
-## Reporting limits
+## Leakage audit
 
-Candidate profiles describe data quality and composition. They are not benchmark results.
-Scientific claims require completed experiments, hashes for the relevant artifacts, code and
-environment provenance, and an independent check against this protocol.
+Each strategy runs a fresh MMseqs2 Test-to-Train search. Every Test record receives either its
+deterministically chosen nearest observed Train neighbor or an explicit no-match row. Threshold
+checks scan all observed hits, not only the selected neighbor.
+
+Random Split exceedances are control statistics and are not repaired. A Cluster70, Cluster50, or
+Cluster30 hit at or above its named threshold is a hard failure and blocks release eligibility.
+
+## Provenance and reporting
+
+Deterministic manifests contain configuration, command, tool, input, output, Git, Python, and
+lockfile hashes but no timestamps. Run timestamps and machine-specific staging paths stay in
+ignored provenance. Formal artifacts require a fixed clean generation commit and clean parent
+lineage.
+
+Public release artifacts are aggregate and sequence-free. Raw source data, processed Parquet and
+FASTA, pair tables, protein-level split rows, detailed audits, caches, and MMseqs2 databases remain
+untracked. No artifact in this release is a model benchmark result.
