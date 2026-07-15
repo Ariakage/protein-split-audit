@@ -7,7 +7,16 @@ semantic versioning where it applies.
 
 ## Unreleased
 
-No changes recorded.
+### Changed
+
+- Clarified that the recorded v0.1.0 candidate build is an E. coli K-12 pilot with 2,632 input
+  entries and 1,182 retained candidates, not an all-bacteria dataset.
+- Documented that the pilot manifests record a dirty working tree and require clean regeneration
+  before a formal research-data freeze.
+
+### Fixed
+
+- Made CLI help tests robust to ANSI-styled output on GitHub Actions.
 
 ## 0.1.1 - 2026-07-14
 

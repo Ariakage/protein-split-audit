@@ -4,18 +4,21 @@
 
 ## Status
 
-No ProteinSplitAudit candidate or benchmark dataset has been produced or released. This card
-describes the v0.1.0 candidate-data contract so that a later authorized build can be checked
-against it.
+The v0.1.0 repository records one local E. coli K-12 candidate build. Its download manifest starts
+with 2,632 UniProtKB/Swiss-Prot entries, and its build manifest retains 1,182 candidate proteins.
+The sequence-bearing Parquet and FASTA files remain local and untracked; no candidate or benchmark
+dataset has been released.
 
 Release preparation found no reviewed profile artifacts in `results/runs/`, so nothing was copied
 to `results/released/v0.1.0/`.
 
 ## Source
 
-The intended source is reviewed, non-fragment bacterial enzyme entries from
-UniProtKB/Swiss-Prot. An authorized run must supply the exact query, source response and release
-metadata, retrieval time, page hashes, and record counts. Estimated values are not acceptable.
+The recorded pilot queries reviewed, non-fragment, EC-annotated E. coli K-12 entries from
+UniProtKB/Swiss-Prot using taxonomy ID 83333. It is a single-organism pilot, not a collection of
+all reviewed bacterial enzymes. A future broader run must supply its exact query, source response
+and release metadata, retrieval time, page hashes, and record counts. Estimated values are not
+acceptable.
 
 ## Records and labels
 
@@ -82,6 +85,13 @@ Swiss-Prot curation does not remove annotation uncertainty, taxonomic bias, rese
 bias, multifunction proteins, or differences between releases. Requiring one complete EC
 annotation narrows the source population and may change its composition. Exact deduplication also
 leaves non-identical homologs in place; a later gate will address them through clustering.
+
+The recorded download and build manifests identify commit
+`9a08febd5515f674e378ccead7df7c3a4dfe3525` and set `git_dirty: true`. The hashes describe the
+files that were used and produced, but the run cannot be attributed solely to that commit because
+uncommitted changes were present. Treat these artifacts as a development pilot. Before freezing
+or publishing research data, regenerate the complete workflow from a clean checkout and require
+`git_dirty: false` in every run manifest.
 
 ## Licensing and access
 

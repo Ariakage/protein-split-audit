@@ -4,9 +4,9 @@
 
 ProteinSplitAudit builds a candidate protein enzyme dataset with enough provenance to audit each
 source and transformation step. Version 0.1.1 is a documentation and release-metadata correction
-to the reviewed UniProtKB/Swiss-Prot pilot workflow published in v0.1.0. It does not change the
-pipeline, choose final EC classes, create train/validation/test splits, train models, or report
-benchmark results.
+to the reviewed UniProtKB/Swiss-Prot E. coli K-12 enzyme pilot workflow published in v0.1.0. It
+does not change the pipeline, choose final EC classes, create train/validation/test splits, train
+models, or report benchmark results.
 
 ## Project status
 
@@ -18,6 +18,12 @@ sequence leakage or predictive performance.
 
 Raw downloads and processed files containing UniProt sequences remain local and untracked. The
 current development branch may contain changes made after the v0.1.0 tag.
+
+The tracked pilot manifests record 2,632 downloaded E. coli K-12 entries and 1,182 retained
+candidate proteins. Both the download and build were produced from commit `9a08feb` while the
+working tree was dirty. Their hashes remain useful for auditing the local files, but this run is a
+development pilot, not a clean research-data freeze. Any formally frozen dataset must be
+regenerated from a clean working tree and record `git_dirty: false`.
 
 See `docs/releases/v0.1.0.md` for the published pipeline scope and `docs/releases/v0.1.1.md` for
 the corrective tag. The earlier readiness review is preserved in
