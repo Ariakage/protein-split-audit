@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import subprocess
 from pathlib import Path
 
 import yaml
@@ -25,9 +24,29 @@ EXPECTED_UPSTREAM = {
     "7d951338073d8958a0852c33c8910c14f8d7ae55e0892ee4ab5f4f1e4c347bee",
     "c0a40a89888f813bfa1173dfb9e66089ed4d8489c55bab6a7aaff1645132535c",
 }
+EXPECTED_RELEASE_HASHES = {
+    "classical_vs_esm_summary.csv": (
+        "d73af232cf5dedb675fff931391c35aa326d0e526a42a0bbb83d1d7e45fa894c"
+    ),
+    "embedding_feature_schema.json": (
+        "10d3cff11abdb3af5d4c7abf9818f7eaba37c7c0b2920176187b446c5afffdf1"
+    ),
+    "environment_summary.json": (
+        "1ab0412f055c5b375bd4c5931e5b2276fcd859c3cc31b4cfcf227935cf4bee15"
+    ),
+    "esm_validation_per_class.csv": (
+        "8af608fd622acc2634b82c677f1f51c9aff63c5ae7977b4ab738d0ba14faa7f9"
+    ),
+    "esm_validation_summary.csv": (
+        "2e96c04dc18695649ad51cf1fe9ee5b7a9c41fe4974a71d6e652b7d3ef4f5b6f"
+    ),
+    "model_snapshot_hashes.json": (
+        "8d9afaf801eaf2c0db114e3786363dceef3273497ad77311673c064c7c0efcda"
+    ),
+}
 
 
-def test_attestation_b_binds_generation_a_without_release_metadata() -> None:
+def test_release_c_binds_attestation_and_reviewed_aggregates() -> None:
     assert __version__ == "0.4.0"
     attestation_path = PROJECT_ROOT / "docs/attestations/v0.4.0-protocol-freeze.yaml"
     attestation = yaml.safe_load(attestation_path.read_text(encoding="utf-8"))
@@ -51,19 +70,41 @@ def test_attestation_b_binds_generation_a_without_release_metadata() -> None:
         ),
         "author_association": "OWNER",
     }
-    assert not (PROJECT_ROOT / "results/released/v0.4.0").exists()
-    assert not (PROJECT_ROOT / "docs/releases/v0.4.0.md").exists()
+    release_root = PROJECT_ROOT / "results/released/v0.4.0"
+    assert {path.name for path in release_root.iterdir()} == {
+        "README.md",
+        "protocol_attestation.yaml",
+        *EXPECTED_RELEASE_HASHES,
+    }
+    for name, expected_hash in EXPECTED_RELEASE_HASHES.items():
+        assert sha256_file(release_root / name) == expected_hash
+    attestation_sha256 = "ddeed606f308363a457e3edf0646275f788eae657778de03c86c3eed9bb214f7"
+    assert sha256_file(attestation_path) == attestation_sha256
+    assert sha256_file(release_root / "protocol_attestation.yaml") == attestation_sha256
+
+    release_notes = (PROJECT_ROOT / "docs/releases/v0.4.0.md").read_text(encoding="utf-8")
+    assert "Validation-only" in release_notes
+    assert "real_test_access_authorized: false" in release_notes
+    assert "issuecomment-4988328840" in release_notes
+    assert "issuecomment-4988568957" in release_notes
     citation = (PROJECT_ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert "version: 0.3.0" in citation
-    assert "version: 0.4.0" not in citation
-    tag = subprocess.run(
-        ["git", "rev-parse", "--verify", "refs/tags/v0.4.0"],
-        cwd=PROJECT_ROOT,
-        check=False,
-        capture_output=True,
-        text=True,
+    assert "version: 0.4.0" in citation
+    assert "date-released: 2026-07-16" in citation
+
+
+def test_release_c_directory_has_no_private_paths_or_sensitive_headers() -> None:
+    release_root = PROJECT_ROOT / "results/released/v0.4.0"
+    forbidden_text = (
+        "/Users/",
+        "file://",
+        "Authorization:",
+        "Bearer ",
+        "api_key",
+        "set-cookie",
     )
-    assert tag.returncode != 0
+    for path in release_root.iterdir():
+        content = path.read_text(encoding="utf-8")
+        assert all(value not in content for value in forbidden_text)
 
 
 def test_attestation_b_recomputes_all_tracked_frozen_hashes() -> None:

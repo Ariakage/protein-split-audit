@@ -1,0 +1,16 @@
+{
+  "models": [
+    {
+      "dtype": "float32",
+      "hidden_size": 640,
+      "model_id": "esm2_150m",
+      "pooling": "residue_mean"
+    },
+    {
+      "dtype": "float32",
+      "hidden_size": 480,
+      "model_id": "esm2_35m",
+      "pooling": "residue_mean"
+    }
+  ]
+}

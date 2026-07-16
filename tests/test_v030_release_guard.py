@@ -49,9 +49,8 @@ def test_v030_release_is_bound_to_the_approved_validation_freeze() -> None:
     assert (release_dir / "protocol_attestation.yaml").read_bytes() == attestation_path.read_bytes()
     assert not any(path.name.casefold().startswith("test_") for path in release_dir.iterdir())
 
-    citation = (PROJECT_ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert "version: 0.3.0" in citation
-    assert "date-released: 2026-07-15" in citation
+    release_notes = (PROJECT_ROOT / "docs/releases/v0.3.0.md").read_text(encoding="utf-8")
+    assert "# ProteinSplitAudit v0.3.0" in release_notes
 
 
 def test_v030_test_configuration_keeps_real_test_access_false() -> None:

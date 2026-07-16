@@ -1,6 +1,100 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Reproducing ProteinSplitAudit v0.3.0
+# Reproducing ProteinSplitAudit v0.4.0
+
+## v0.4 generation, attestation, and formal replay
+
+Generation Commit A is `d764c30c0945231113f2f51cdb9761ab62815c73`. It fixes the code,
+configuration, protocol, model acquisition manifests, and `uv.lock` before formal results exist.
+The lockfile SHA-256 is
+`f924d6965ea4272e6f9faa378b19e57502a9a4feeab6918122a873588919d346`.
+
+Attestation Commit B is `31d2ff208f344e823ce04801596664f14679a2e5`. Its protocol attestation
+SHA-256 is `ddeed606f308363a457e3edf0646275f788eae657778de03c86c3eed9bb214f7`.
+The attestation binds Generation A, the frozen v0.2 and v0.3 inputs, both model snapshots, the
+eight-cell matrix, the canonical runtime, and `real_test_access_authorized: false`.
+
+Formal execution used Darwin arm64, Python 3.12.11, CPU float32, eight PyTorch intraop threads,
+one interop thread, and deterministic algorithms. Both runs recorded `git_dirty: false`.
+
+## Model acquisition and offline verification
+
+Model acquisition is the only networked part of the v0.4 workflow. It must use the explicit fetch
+command with the approved full revision already present in each configuration:
+
+```bash
+uv sync --locked --extra esm --group dev
+uv run --locked psaudit embedding fetch \
+  --config configs/embedding/esm2_35m.yaml
+uv run --locked psaudit embedding fetch \
+  --config configs/embedding/esm2_150m.yaml
+```
+
+Do not run those commands during a release replay if the approved snapshots are already present.
+Verification, extraction, experiments, and replay run offline:
+
+```bash
+uv run --locked psaudit embedding verify-model \
+  --config configs/embedding/esm2_35m.yaml
+uv run --locked psaudit embedding verify-model \
+  --config configs/embedding/esm2_150m.yaml
+```
+
+Verification requires the exact five-file allowlist, rejects symlinks and extra files, and hashes
+the local bytes. It does not accept a mutable branch, tag, abbreviated revision, or alternative
+snapshot.
+
+## Replaying the ESM-2 Validation matrix
+
+Start from a detached clean checkout of Attestation Commit B. Restore the eleven frozen inputs
+listed in `docs/attestations/v0.4.0-protocol-freeze.yaml`, restore the two approved snapshots, and
+recompute their hashes before model loading. Then run:
+
+```bash
+uv lock --check
+uv sync --locked --extra esm --group dev
+uv run --locked psaudit experiment matrix \
+  --config configs/experiment/v040-validation.yaml
+```
+
+Preserve the first matrix and its entire embedding cache outside the configured output paths.
+Start the second run with an empty embedding cache and run the same command again. Compare the two
+matrix directories and generate the aggregate preview:
+
+```bash
+uv run --locked psaudit experiment replay-compare \
+  --kind esm \
+  --first <first-matrix-dir> \
+  --second <second-matrix-dir> \
+  --output <replay-report.json>
+
+uv run --locked psaudit experiment summarize \
+  --kind esm \
+  --matrix-dir <second-matrix-dir> \
+  --output-dir <aggregate-review-dir> \
+  --classical-summary results/released/v0.3.0/validation_summary.csv \
+  --classical-sha256 73ee1c4f8c454a8570058224c9257d4f924eac8c8681fcb78991d99fa6612dc2
+```
+
+The approved replay compared 97 deterministic artifacts. Every artifact was byte-identical and
+`replay_difference` was zero. A direct comparison of the separately generated embedding caches
+found all 24 files byte-identical. Both matrix summaries have SHA-256
+`3a0c5e33f07e4dbbec4ecc6b89e1be5a11c895ea91cae69fc552516de8ef6682`.
+The replay report SHA-256 is
+`0fad7c3a4c6862ccce4e1a1fc318fed47113ed505d73be1a172d86a1c18e8c69`.
+
+The six approved aggregate files are copied to `results/released/v0.4.0/` without rewriting
+their bytes. Model files, embedding caches, fitted estimators, predictions, per-record outputs,
+logs, resource traces, and complete matrix directories stay local and ignored.
+
+The real Test command remains denied:
+
+```bash
+uv run --locked psaudit experiment finalize-test \
+  --config configs/experiment/v040-test-gated.yaml
+```
+
+It must fail before opening a real Test input.
 
 ## v0.3 generation and publication commits
 
@@ -156,7 +250,7 @@ uv build
 Smoke-test the built wheel outside the project environment:
 
 ```bash
-WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.3.0-*.whl' -print -quit)
+WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.4.0-*.whl' -print -quit)
 uv run --isolated --no-project --with "$WHEEL" psaudit --version
 uv run --isolated --no-project --with "$WHEEL" psaudit doctor
 uv run --isolated --no-project --with "$WHEEL" psaudit cohort --help
@@ -171,5 +265,6 @@ uv run --isolated --no-project --with "$WHEEL" psaudit experiment --help
 
 Do not track raw data, processed sequences, pair tables, record-level cohort or split Parquet,
 detailed audit rows, feature caches, models, predictions, MMseqs2 databases, or run directories.
-The v0.2 directory contains reviewed data manifests; `results/released/v0.3.0/` contains only the
-approved aggregate Validation artifacts and protocol attestation.
+The v0.2 directory contains reviewed data manifests. `results/released/v0.3.0/` contains the
+approved classical aggregate Validation artifacts, while `results/released/v0.4.0/` contains the
+approved ESM-2 aggregate Validation artifacts and protocol attestation.

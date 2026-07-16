@@ -50,11 +50,15 @@ or support a research claim.
   outputs.
 - Published aggregate Validation summaries only and kept real Test access denied.
 
-## Gate 4: representation models on Validation
+## Gate 4: v0.4.0 frozen ESM-2 models on Validation (complete)
 
-- Review compute, licensing, and provenance before adding frozen ESM-2 representations.
-- Prespecify all pooling, classifier, and evaluation choices before running Validation.
-- Keep the real Test split closed and avoid tuning against Test behavior.
+- Pinned two ESM-2 repositories to full revisions, verified their local file sets and hashes, and
+  recorded model acquisition manifests without tracking the model files.
+- Prespecified residue-only mean pooling, deterministic batching, CPU float32 execution,
+  Train-only scaling, and the fixed logistic-regression protocol before formal Validation.
+- Ran the two-model by four-split Validation matrix twice from empty embedding caches and verified
+  byte-identical deterministic artifacts.
+- Published six reviewed aggregate files and kept the real Test split closed.
 
 ## Gate 5: separately approved Test freeze
 
@@ -64,6 +68,6 @@ or support a research claim.
 
 ## Decisions left for later gates
 
-Later protocol decisions must set representation models, multi-seed analyses, and statistical
-tests. The v0.2.0 cohort and split identities and the v0.3.0 classical protocol are frozen inputs,
-not values to retune after seeing future Test performance.
+Later protocol decisions must set multi-seed analyses, statistical tests, and the conditions for
+first Test access. The v0.2.0 cohort and split identities, the v0.3.0 classical protocol, and the
+v0.4.0 ESM-2 protocol are frozen inputs, not values to retune after seeing future Test performance.
