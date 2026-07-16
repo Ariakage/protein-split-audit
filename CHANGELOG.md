@@ -7,6 +7,17 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+### Added
+
+- Preparation for pinned ESM-2 embedding extraction and Validation-only linear-probe baselines.
+
+### Scope
+
+- v0.4 development remains limited to the frozen v0.2/v0.3 cohort and splits, two approved ESM-2
+  snapshots, Train/Validation evaluation, deterministic replay, and aggregate-only reporting.
+- Real Test access, model fine-tuning, hyperparameter search, and benchmark conclusions remain out
+  of scope.
+
 ## 0.3.0 - 2026-07-15
 
 ### Added
