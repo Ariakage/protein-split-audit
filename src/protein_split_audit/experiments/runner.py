@@ -34,7 +34,11 @@ from protein_split_audit.evaluation.resources import (
     measure_call,
 )
 from protein_split_audit.experiments.provenance import environment_mapping
-from protein_split_audit.experiments.schemas import BaselineDefinition, SplitInput
+from protein_split_audit.experiments.schemas import (
+    BaselineDefinition,
+    ExperimentConfig,
+    SplitInput,
+)
 from protein_split_audit.features.amino_acid_composition import extract_aac
 from protein_split_audit.features.cache import FeatureMatrix, get_or_create_feature_cache
 from protein_split_audit.features.kmer import extract_kmer3
@@ -96,6 +100,8 @@ def _run_identity(config_path: Path, split_name: str, baseline_name: str) -> str
 
 def _run_id(config_path: Path, split_name: str, baseline_name: str) -> str:
     config = load_experiment_config(config_path)
+    if not isinstance(config, ExperimentConfig):
+        raise ValueError("v0.3 runner requires a classical experiment configuration")
     identity = _run_identity(config_path, split_name, baseline_name)
     return f"{config.name}__{split_name}__{baseline_name}__seed42__{identity[:12]}"
 
@@ -144,6 +150,8 @@ def load_completed_cell(
     """Verify every completed artifact and load one reusable Validation cell."""
 
     config = load_experiment_config(config_path)
+    if not isinstance(config, ExperimentConfig):
+        raise ValueError("v0.3 runner requires a classical experiment configuration")
     _select(config_path, split_name, baseline_name)
     identity = _run_identity(config_path, split_name, baseline_name)
     run_dir = config.outputs.root / _run_id(config_path, split_name, baseline_name)
@@ -280,6 +288,8 @@ def _select(
     config_path: Path, split_name: str, baseline_name: str
 ) -> tuple[SplitInput, BaselineDefinition]:
     config = load_experiment_config(config_path)
+    if not isinstance(config, ExperimentConfig):
+        raise ValueError("v0.3 runner requires a classical experiment configuration")
     if config.evaluation.split != "validation":
         raise ValueError("v0.3 experiment runner is Validation-only")
     split = next((item for item in config.splits if item.name == split_name), None)
@@ -300,6 +310,8 @@ def run_experiment_cell(
     """Run one frozen Validation cell and atomically publish its local artifacts."""
 
     config = load_experiment_config(config_path)
+    if not isinstance(config, ExperimentConfig):
+        raise ValueError("v0.3 runner requires a classical experiment configuration")
     split, baseline = _select(config_path, split_name, baseline_name)
     run_identity = _run_identity(config_path, split_name, baseline_name)
     run_id = _run_id(config_path, split_name, baseline_name)

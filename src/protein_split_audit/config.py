@@ -28,7 +28,8 @@ from protein_split_audit.cohort.schemas import (
     DevelopmentCohortConfig,
     FreezeCohortConfig,
 )
-from protein_split_audit.experiments.schemas import ExperimentConfig
+from protein_split_audit.embeddings.schemas import EmbeddingConfig
+from protein_split_audit.experiments.schemas import EsmExperimentConfig, ExperimentConfig
 from protein_split_audit.features.schemas import FeatureConfig
 from protein_split_audit.models.schemas import ModelConfig
 from protein_split_audit.provenance import serialize_canonical_json, sha256_bytes
@@ -626,6 +627,15 @@ def load_feature_config(path: Path) -> FeatureConfig:
     return FeatureConfig.model_validate(loaded)
 
 
+def load_embedding_config(path: Path) -> EmbeddingConfig:
+    """Load one frozen ESM-2 definition with config-relative local paths."""
+
+    config_path, _source_bytes, loaded = _load_yaml_mapping(path)
+    _resolve_section_paths(loaded, "model", ("snapshot_root",), config_path.parent)
+    _resolve_section_paths(loaded, "cache", ("root",), config_path.parent)
+    return EmbeddingConfig.model_validate(loaded)
+
+
 def load_model_config(path: Path) -> ModelConfig:
     """Load and discriminate one frozen classical model definition."""
 
@@ -636,7 +646,7 @@ def load_model_config(path: Path) -> ModelConfig:
     return _MODEL_CONFIG_ADAPTER.validate_python(loaded)
 
 
-def load_experiment_config(path: Path) -> ExperimentConfig:
+def load_experiment_config(path: Path) -> ExperimentConfig | EsmExperimentConfig:
     """Load a config-relative validation matrix or denied Test request."""
 
     config_path, _source_bytes, loaded = _load_yaml_mapping(path)
@@ -656,7 +666,16 @@ def load_experiment_config(path: Path) -> ExperimentConfig:
                 for field in ("feature_config", "model_config"):
                     if item.get(field) is not None:
                         item[field] = _resolve_path(item[field], base)
+    raw_models = loaded.get("models")
+    if isinstance(raw_models, list):
+        for item in raw_models:
+            if isinstance(item, dict) and item.get("embedding_config") is not None:
+                item["embedding_config"] = _resolve_path(item["embedding_config"], base)
+    if loaded.get("linear_probe_config") is not None:
+        loaded["linear_probe_config"] = _resolve_path(loaded["linear_probe_config"], base)
     _resolve_section_paths(loaded, "outputs", ("root",), base)
     if loaded.get("attestation") is not None:
         loaded["attestation"] = _resolve_path(loaded["attestation"], base)
+    if loaded.get("experiment_type") == "esm2_validation":
+        return EsmExperimentConfig.model_validate(loaded)
     return ExperimentConfig.model_validate(loaded)

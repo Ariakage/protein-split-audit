@@ -1,0 +1,46 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+experiment_type: esm2_validation
+name: v040-esm2-test-gated
+cohort:
+  manifest: ../../data/manifests/cohorts/pilot-v1.parquet
+  content_manifest: ../../data/manifests/cohorts/pilot-v1.json
+  fasta: ../../data/processed/cohorts/pilot-v1.fasta
+splits:
+  - name: random
+    manifest: ../../data/manifests/splits/random.parquet
+    content_manifest: ../../data/manifests/splits/random.json
+  - name: cluster70
+    manifest: ../../data/manifests/splits/cluster70.parquet
+    content_manifest: ../../data/manifests/splits/cluster70.json
+  - name: cluster50
+    manifest: ../../data/manifests/splits/cluster50.parquet
+    content_manifest: ../../data/manifests/splits/cluster50.json
+  - name: cluster30
+    manifest: ../../data/manifests/splits/cluster30.parquet
+    content_manifest: ../../data/manifests/splits/cluster30.json
+models:
+  - name: esm2_35m
+    embedding_config: ../embedding/esm2_35m.yaml
+  - name: esm2_150m
+    embedding_config: ../embedding/esm2_150m.yaml
+linear_probe_config: ../model/esm_linear_probe.yaml
+evaluation:
+  split: test
+  label_order_from_cohort: true
+  zero_division: 0
+  real_test_access_authorized: false
+runtime:
+  seed: 42
+  operating_system: Darwin
+  architecture: arm64
+  device: cpu
+  dtype: float32
+  torch_intraop_threads: 8
+  torch_interop_threads: 1
+  deterministic_algorithms: true
+outputs:
+  root: ../../results/runs/v040-test
+  refuse_overwrite: true
+attestation: ../../docs/attestations/v0.4.0-protocol-freeze.yaml

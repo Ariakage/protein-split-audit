@@ -22,11 +22,14 @@ def test_feature_loading_does_not_project_target_labels(
     inputs = write_tiny_inputs(tmp_path)
     original = validation.pq.read_table
     projected: list[tuple[str, ...]] = []
+    split_filters: list[object] = []
 
     def recording_read_table(*args: object, **kwargs: object) -> object:
         columns = kwargs.get("columns")
         if isinstance(columns, list):
             projected.append(tuple(str(value) for value in columns))
+            if columns == ["accession", "sequence_sha256", "split"]:
+                split_filters.append(kwargs.get("filters"))
         return original(*args, **kwargs)
 
     monkeypatch.setattr(validation.pq, "read_table", recording_read_table)
@@ -40,6 +43,7 @@ def test_feature_loading_does_not_project_target_labels(
 
     assert projected
     assert all("ec_level_2" not in columns for columns in projected)
+    assert split_filters == [[("split", "in", ["train", "validation"])]]
 
 
 def test_feature_loading_accepts_frozen_cohort_fasta_headers(tmp_path: Path) -> None:

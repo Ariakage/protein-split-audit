@@ -1,0 +1,34 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+model_id: esm2_35m
+model:
+  repository: facebook/esm2_t12_35M_UR50D
+  revision: 6fbf070e65b0b7291e7bbcd451118c216cff79d8
+  tokenizer_revision: 6fbf070e65b0b7291e7bbcd451118c216cff79d8
+  expected_weight_sha256: e35647818e0e064351d4531ed480d225a002567b4b2b93ad3a9246d753150fc0
+  snapshot_root: ../../cache/models/huggingface/esm2_35m/6fbf070e65b0b7291e7bbcd451118c216cff79d8
+representation:
+  layer: last
+  pooling: residue_mean
+  exclude_special_tokens: true
+sequence:
+  minimum_length: 50
+  maximum_length: 1000
+  truncation: false
+batching:
+  max_padded_tokens: 4096
+  ordering: encoded_length_then_sequence_sha256
+runtime:
+  formal: true
+  operating_system: Darwin
+  architecture: arm64
+  device: cpu
+  dtype: float32
+  torch_intraop_threads: 8
+  torch_interop_threads: 1
+  deterministic_algorithms: true
+  local_files_only: true
+cache:
+  root: ../../cache/embeddings
+  refuse_overwrite: true

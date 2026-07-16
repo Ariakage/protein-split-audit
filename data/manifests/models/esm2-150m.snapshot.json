@@ -1,0 +1,52 @@
+{
+  "config_sha256": "e512f68ec444d99477703a9806639ca83da3dbc19f6c5fe428d6e5b7460972dc",
+  "files": [
+    {
+      "byte_size": 779,
+      "downloaded_at_utc": "2026-07-16T03:11:56.526307Z",
+      "relative_path": "config.json",
+      "repository": "facebook/esm2_t30_150M_UR50D",
+      "revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+      "sha256": "e512f68ec444d99477703a9806639ca83da3dbc19f6c5fe428d6e5b7460972dc"
+    },
+    {
+      "byte_size": 595257706,
+      "downloaded_at_utc": "2026-07-16T03:11:56.526307Z",
+      "relative_path": "model.safetensors",
+      "repository": "facebook/esm2_t30_150M_UR50D",
+      "revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+      "sha256": "c3f1da8aea53bddd32c246c86168c23b9fd72341fb9db9a94436f855f5053566"
+    },
+    {
+      "byte_size": 125,
+      "downloaded_at_utc": "2026-07-16T03:11:56.526307Z",
+      "relative_path": "special_tokens_map.json",
+      "repository": "facebook/esm2_t30_150M_UR50D",
+      "revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+      "sha256": "3aedcd4211c0d43aec4e607ff60a63255f3174ead795e997350f09a5f8cd9ee1"
+    },
+    {
+      "byte_size": 95,
+      "downloaded_at_utc": "2026-07-16T03:11:56.526307Z",
+      "relative_path": "tokenizer_config.json",
+      "repository": "facebook/esm2_t30_150M_UR50D",
+      "revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+      "sha256": "7e9161ecdb548ec45a41cbc6b24aa4476fdd418461f491c4207baa99419a29ad"
+    },
+    {
+      "byte_size": 93,
+      "downloaded_at_utc": "2026-07-16T03:11:56.526307Z",
+      "relative_path": "vocab.txt",
+      "repository": "facebook/esm2_t30_150M_UR50D",
+      "revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+      "sha256": "0b82cc0a7c7cf9e567b1e5892d793285b9fbae822c964ca48696f7db44598e03"
+    }
+  ],
+  "manifest_schema_version": 1,
+  "model_id": "esm2_150m",
+  "model_weight_sha256": "c3f1da8aea53bddd32c246c86168c23b9fd72341fb9db9a94436f855f5053566",
+  "repository": "facebook/esm2_t30_150M_UR50D",
+  "revision": "a695f6045e2e32885fa60af20c13cb35398ce30c",
+  "snapshot_sha256": "1610dd5b314f25980eb9259e394da96c649e23782d2d9fb218fa857e08221dd6",
+  "tokenizer_sha256": "606c3409efa7633234dfd17f247c0468c7094fc224df1a705c4f97fdc83791c6"
+}

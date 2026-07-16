@@ -61,6 +61,23 @@ def _take_rows(matrix: FeatureMatrix, indices: list[int]) -> FeatureMatrix:
     return np.asarray(selected, dtype=np.float64)
 
 
+def build_frozen_logistic_classifier(
+    model_config: LogisticRegressionModelConfig,
+) -> LogisticRegression:
+    """Construct the shared frozen v0.3 Logistic Regression estimator."""
+
+    return LogisticRegression(
+        solver=model_config.solver,
+        penalty=model_config.penalty,
+        C=model_config.c,
+        class_weight=model_config.class_weight,
+        max_iter=model_config.max_iter,
+        tol=model_config.tol,
+        fit_intercept=model_config.fit_intercept,
+        random_state=model_config.random_state,
+    )
+
+
 def train_logistic(
     matrix: FeatureMatrix,
     records: Sequence[SequenceRecord],
@@ -80,16 +97,7 @@ def train_logistic(
     if set(train_labels) != set(label_order):
         raise LogisticTrainingError("Train labels disagree with frozen label order")
 
-    classifier = LogisticRegression(
-        solver=model_config.solver,
-        penalty=model_config.penalty,
-        C=model_config.c,
-        class_weight=model_config.class_weight,
-        max_iter=model_config.max_iter,
-        tol=model_config.tol,
-        fit_intercept=model_config.fit_intercept,
-        random_state=model_config.random_state,
-    )
+    classifier = build_frozen_logistic_classifier(model_config)
     steps: list[tuple[str, object]] = []
     if feature_config.preprocessing.scaler == "standard_train_only":
         steps.append(("scaler", StandardScaler()))
@@ -107,4 +115,9 @@ def train_logistic(
     )
 
 
-__all__ = ["LogisticTrainingError", "TrainedLogistic", "train_logistic"]
+__all__ = [
+    "LogisticTrainingError",
+    "TrainedLogistic",
+    "build_frozen_logistic_classifier",
+    "train_logistic",
+]
