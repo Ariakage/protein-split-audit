@@ -133,11 +133,13 @@ def _load_inputs(
 
     try:
         assignments = pq.read_table(
-            split_manifest, columns=["accession", "sequence_sha256", "split"]
+            split_manifest,
+            columns=["accession", "sequence_sha256", "split"],
+            filters=[("split", "in", ["train", "validation"])],
         ).to_pylist()
     except (OSError, KeyError) as error:
         raise ValueError("unable to read split assignment projection") from error
-    selected_rows = [row for row in assignments if row["split"] in {"train", "validation"}]
+    selected_rows = assignments
     selected_accessions = [str(row["accession"]) for row in selected_rows]
     if len(selected_accessions) != len(set(selected_accessions)):
         raise ValueError("selected split contains duplicate accessions")

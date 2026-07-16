@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Pilot-v1 data card and v0.3 Validation use
+# Pilot-v1 data card and v0.4 Validation use
 
 ## What is released
 
@@ -14,6 +14,10 @@ separately approved modeling protocol may use.
 ProteinSplitAudit v0.3.0 uses those unchanged identities for a prespecified classical-baseline
 Validation matrix. It does not rebuild the cohort or splits, access the real Test partition, or
 publish protein-level predictions.
+
+ProteinSplitAudit v0.4.0 uses the same cohort and splits for two frozen ESM-2 baselines. The release
+adds no cohort records, labels, or split changes. It publishes six aggregate Validation files and
+the approved protocol attestation. Embeddings and per-record outputs remain local.
 
 ## Source and candidate pool
 
@@ -66,6 +70,11 @@ run reproducibly across all four frozen split strategies. They are Pilot-level e
 outputs. They should not be treated as a final ranking of feature families or evidence that one
 split strategy gives a universally better estimate of generalization.
 
+The v0.4.0 aggregate files serve the same engineering purpose for two frozen ESM-2 representations
+and one fixed linear probe. They can be used to reproduce the eight Validation cells and inspect
+the gap between classical and pretrained representations on this pilot. They are not Test results
+and should not be used as a general ranking of protein language models.
+
 ## Limitations
 
 Swiss-Prot curation does not eliminate annotation uncertainty, taxonomic bias, research-attention
@@ -77,12 +86,19 @@ The cohort is small and class composition is uneven. Cluster-aware allocation is
 indivisible components. The released counts describe one fixed source release, configuration,
 tool version, and generation commit.
 
+ESM-2 was pretrained outside this project. ProteinSplitAudit has not audited whether any pilot
+sequence, close homolog, or related annotation appeared in its pretraining corpus. A cluster-aware
+split controls relationships inside the pilot but does not establish novelty relative to
+pretraining data or proteins outside the cohort. This release also covers only two checkpoints,
+one pooling rule, one classifier, and one fixed seed.
+
 ## Access and licensing
 
-Reviewed v0.2 data manifests are in `results/released/v0.2.0/`; reviewed v0.3 Validation summaries
-are in `results/released/v0.3.0/`. Raw downloads, sequence-bearing Parquet and FASTA, normalized
-pair tables, protein-level manifests, predictions, models, detailed audits, run directories, and
-caches remain ignored.
+Reviewed v0.2 data manifests are in `results/released/v0.2.0/`; reviewed v0.3 classical summaries
+are in `results/released/v0.3.0/`; reviewed v0.4 ESM-2 summaries are in
+`results/released/v0.4.0/`. Raw downloads, sequence-bearing Parquet and FASTA, normalized pair
+tables, protein-level manifests, embeddings, predictions, models, detailed audits, run
+directories, and caches remain ignored.
 
 UniProt-derived content retains its upstream terms. ProteinSplitAudit does not relicense it. Read
 `DATA_LICENSE.md`, `THIRD_PARTY_NOTICES.md`, and `docs/LICENSE_POLICY.md` before sharing any local

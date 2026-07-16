@@ -7,6 +7,30 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+## 0.4.0 - 2026-07-16
+
+### Added
+
+- Two frozen ESM-2 snapshots pinned to full Hugging Face revisions, expected weight hashes, and an
+  exact five-file allowlist.
+- Explicit snapshot fetching, offline verification, deterministic batching, residue-only mean
+  pooling, and immutable Train/Validation embedding caches.
+- Train-only scaling and the fixed v0.3 logistic-regression protocol over frozen ESM-2 embeddings.
+- A fixed two-model by four-split Validation matrix covering Random, Cluster70, Cluster50, and
+  Cluster30.
+- Same-platform replay checks for embeddings, predictions, metrics, and deterministic manifests.
+- Six reviewed aggregate Validation files and a machine-readable protocol attestation.
+- Release guards for frozen inputs, model identities, aggregate hashes, privacy, and real Test
+  denial.
+
+### Scope
+
+- Uses the unchanged v0.2 cohort and split identities and does not rerun the v0.3 classical cells.
+- Publishes aggregate Validation outputs only. Model snapshots, embeddings, fitted estimators,
+  predictions, sequences, accessions, logs, caches, and complete run directories remain local.
+- Real Test access, model fine-tuning, hyperparameter search, and benchmark conclusions remain out
+  of scope.
+
 ## 0.3.0 - 2026-07-15
 
 ### Added

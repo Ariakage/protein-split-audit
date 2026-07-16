@@ -110,4 +110,73 @@ class ExperimentConfig(BaseModel):
         return self
 
 
-__all__ = ["ExperimentConfig"]
+class EsmModelDefinition(BaseModel):
+    """One frozen ESM embedding configuration in the v0.4 matrix."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    name: Literal["esm2_35m", "esm2_150m"]
+    embedding_config: Path
+
+
+class EsmExperimentRuntimeConfig(BaseModel):
+    """Canonical formal v0.4 runtime values."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    seed: Literal[42]
+    operating_system: Literal["Darwin"]
+    architecture: Literal["arm64"]
+    device: Literal["cpu"]
+    dtype: Literal["float32"]
+    torch_intraop_threads: Literal[8]
+    torch_interop_threads: Literal[1]
+    deterministic_algorithms: Literal[True]
+
+
+class EsmExperimentConfig(BaseModel):
+    """Exact two-model by four-split Validation matrix or denied Test request."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    schema_version: Literal[1]
+    experiment_type: Literal["esm2_validation"]
+    name: str = Field(pattern=r"^[a-z0-9][a-z0-9-]*$")
+    cohort: CohortInput
+    splits: tuple[SplitInput, ...]
+    models: tuple[EsmModelDefinition, ...]
+    linear_probe_config: Path
+    evaluation: EvaluationConfig
+    runtime: EsmExperimentRuntimeConfig
+    outputs: ExperimentOutputConfig
+    attestation: Path | None = None
+
+    @property
+    def cell_count(self) -> int:
+        """Return the frozen matrix size."""
+
+        return len(self.models) * len(self.splits)
+
+    @model_validator(mode="after")
+    def require_fixed_matrix(self) -> EsmExperimentConfig:
+        """Reject changes to the frozen v0.4 matrix or Test gate."""
+
+        if tuple(item.name for item in self.splits) != (
+            "random",
+            "cluster70",
+            "cluster50",
+            "cluster30",
+        ):
+            raise ValueError("experiment must declare the four frozen splits in order")
+        if tuple(item.name for item in self.models) != ("esm2_35m", "esm2_150m"):
+            raise ValueError("experiment must declare the two frozen ESM models in order")
+        if self.cell_count != 8:
+            raise ValueError("v0.4 experiment must contain exactly eight cells")
+        if self.evaluation.split == "test" and self.attestation is None:
+            raise ValueError("Test configuration requires an attestation path")
+        if self.evaluation.split == "validation" and self.attestation is not None:
+            raise ValueError("Validation configuration must not claim a freeze attestation")
+        return self
+
+
+__all__ = ["EsmExperimentConfig", "ExperimentConfig"]

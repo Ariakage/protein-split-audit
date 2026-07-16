@@ -1,0 +1,12 @@
+{
+  "models": [
+    {
+      "model_id": "esm2_150m",
+      "snapshot_sha256": "1610dd5b314f25980eb9259e394da96c649e23782d2d9fb218fa857e08221dd6"
+    },
+    {
+      "model_id": "esm2_35m",
+      "snapshot_sha256": "f0253596c0d6a7da813e85e8d1dde22490e378405028a114f7c7f8d8ec01e38a"
+    }
+  ]
+}

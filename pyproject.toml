@@ -1,6 +1,6 @@
 [project]
 name = "protein-split-audit"
-version = "0.3.0"
+version = "0.4.0"
 description = "A reproducible benchmark for auditing sequence-similarity leakage in protein enzyme classification."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
@@ -45,6 +45,7 @@ psaudit = "protein_split_audit.cli:main"
 [project.optional-dependencies]
 esm = [
     "accelerate>=1.14.0",
+    "huggingface-hub>=1.23.0",
     "safetensors>=0.8.0",
     "torch>=2.13.0",
     "transformers>=5.13.1",

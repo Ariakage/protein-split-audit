@@ -3,20 +3,40 @@
 # ProteinSplitAudit
 
 ProteinSplitAudit builds auditable protein-enzyme datasets and checks whether similar sequences
-leak across Train, Validation, and Test boundaries. Version 0.3.0 adds deterministic classical
-sequence features, five prespecified baselines, and one reproducible Validation matrix over the
-four splits frozen in v0.2.0.
+leak across Train, Validation, and Test boundaries. Version 0.4.0 adds two pinned ESM-2 embedding
+baselines to the four splits frozen in v0.2.0. The v0.3.0 classical baselines remain unchanged.
 
-This release checks that the feature, training, evaluation, and provenance machinery behaves
-consistently on fixed inputs. It does not open the real Test split or claim final benchmark
-performance.
+The v0.4 experiment covers Validation only. It checks extraction, Train-only fitting, evaluation,
+provenance, and replay on fixed inputs. It does not open the real Test split or claim final
+benchmark performance.
+
+## v0.4.0 frozen ESM-2 Validation matrix
+
+The release uses immutable snapshots of `facebook/esm2_t12_35M_UR50D` and
+`facebook/esm2_t30_150M_UR50D`. Representations come from the final encoder layer and are averaged
+over residue tokens only. The models are frozen, truncation is disabled, and each split gets its
+own Train and Validation embedding cache. StandardScaler and logistic regression fit on Train
+rows only.
+
+The fixed matrix has eight cells: two ESM-2 models across Random, Cluster70, Cluster50, and
+Cluster30. Two clean CPU executions started from empty embedding caches. The replay compared 97
+deterministic artifacts and found them byte-identical. A separate comparison found all 24 cache
+files byte-identical.
+
+The reviewed files under `results/released/v0.4.0/` contain aggregate tables, schema and
+environment summaries, model snapshot hashes, and the protocol attestation. Model files,
+embeddings, fitted estimators, predictions, accessions, sequences, logs, and complete run
+directories remain local and ignored.
+
+The protocol keeps `real_test_access_authorized: false`. It also records an unresolved limitation:
+the project has not audited whether the pilot sequences appeared in ESM-2 pretraining data.
 
 ## v0.3.0 classical Validation matrix
 
-The matrix combines five baselines—Majority, Sequence Length with logistic regression, amino-acid
-composition with logistic regression, fixed 3-mer frequencies with logistic regression, and a
-training-only MMseqs2 Nearest Homolog—with Random, Cluster70, Cluster50, and Cluster30. Parameters,
-class order, seed 42, and MMseqs2 thread count are fixed before evaluation.
+The matrix combines five baselines, including Majority, three fixed feature baselines with
+logistic regression, and a training-only MMseqs2 Nearest Homolog, with Random, Cluster70,
+Cluster50, and Cluster30. Parameters, class order, seed 42, and MMseqs2 thread count are fixed
+before evaluation.
 
 Two clean executions produced 169 byte-identical deterministic artifacts. Only four reviewed,
 sequence-free aggregate files are published under `results/released/v0.3.0/`. Models, feature
@@ -85,15 +105,19 @@ psaudit feature extract --help
 psaudit model train --help
 psaudit evaluate --help
 psaudit experiment run --help
-psaudit experiment matrix --config configs/experiment/v030-validation.yaml
+psaudit embedding fetch --config configs/embedding/esm2_35m.yaml
+psaudit embedding verify-model --config configs/embedding/esm2_35m.yaml
+psaudit embedding extract --help
+psaudit experiment matrix --config configs/experiment/v040-validation.yaml
 psaudit experiment replay-compare --help
 psaudit experiment summarize --help
-psaudit experiment finalize-test --config configs/experiment/v030-test.yaml
+psaudit experiment finalize-test --config configs/experiment/v040-test-gated.yaml
 ```
 
-Only `data download` contacts UniProt. Tests use synthetic fixtures, mocked HTTP transport, and an
-application-level network guard. MMseqs2 is required for real similarity operations and the
-Nearest Homolog baseline but is not run in default CI.
+Only `data download` and the explicit `embedding fetch` command use the network. Snapshot
+verification, extraction, experiments, and tests run offline. Tests use synthetic fixtures,
+mocked HTTP transport, and an application-level network guard. MMseqs2 is required for real
+similarity operations and the Nearest Homolog baseline but is not run in default CI.
 
 Formal v0.2 configurations live in `configs/similarity/`, `configs/splits/`, and
 `configs/audits/`. They use fixed thresholds, seed 42, 70/15/15 target ratios, explicit output
@@ -111,10 +135,11 @@ uv run --locked pytest -v
 uv build
 ```
 
-The data rules are in `docs/protocol.md`, and the frozen classical-baseline protocol is in
-`docs/protocols/v0.3.0-classical-baselines.md`. `docs/reproducibility.md` explains the clean
-generation and replay workflow, while `docs/data_card.md` describes the pilot's scope and
-limitations. Release-specific identities are summarized in `docs/releases/v0.3.0.md`.
+The data rules are in `docs/protocol.md`. The frozen ESM-2 protocol is in
+`docs/protocols/v0.4.0-esm2-baselines.md`, and the classical protocol remains in
+`docs/protocols/v0.3.0-classical-baselines.md`. `docs/reproducibility.md` explains the clean replay
+workflow, while `docs/data_card.md` describes the pilot's scope and limitations. Release-specific
+identities are summarized in `docs/releases/v0.4.0.md`.
 
 ## Data, licenses, and citation
 

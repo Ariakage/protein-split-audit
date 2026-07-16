@@ -9,6 +9,7 @@ import os
 import platform
 import sys
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Annotated, Literal
 
@@ -30,6 +31,7 @@ from protein_split_audit.config import (
     load_build_config,
     load_cohort_config_document,
     load_download_config,
+    load_embedding_config,
     load_experiment_config,
     load_similarity_config,
     load_similarity_config_document,
@@ -37,11 +39,31 @@ from protein_split_audit.config import (
 from protein_split_audit.data.build_candidates import BuildError, build_candidate_dataset
 from protein_split_audit.data.download_uniprot import DownloadError, download_uniprot
 from protein_split_audit.data.profile import ProfileError, profile_candidate_dataset
+from protein_split_audit.embeddings.model_registry import (
+    fetch_model_snapshot,
+    verify_model_snapshot,
+)
+from protein_split_audit.embeddings.provenance import (
+    load_snapshot_manifest,
+    snapshot_manifest_path,
+    write_snapshot_manifest,
+)
 from protein_split_audit.evaluation.standalone import verify_evaluation_run
-from protein_split_audit.experiments.aggregate import write_validation_aggregates
+from protein_split_audit.experiments.aggregate import (
+    EsmValidationAggregateResult,
+    ValidationAggregateResult,
+    write_esm_validation_aggregates,
+    write_validation_aggregates,
+)
 from protein_split_audit.experiments.matrix import run_matrix
-from protein_split_audit.experiments.replay import compare_validation_replays
+from protein_split_audit.experiments.replay import (
+    EsmReplayReport,
+    ReplayReport,
+    compare_esm_replays,
+    compare_validation_replays,
+)
 from protein_split_audit.experiments.runner import run_experiment_cell
+from protein_split_audit.experiments.schemas import EsmExperimentConfig
 from protein_split_audit.experiments.test_gate import RealTestAccessDenied, enforce_test_gate
 from protein_split_audit.features.extract import extract_feature_cache
 from protein_split_audit.models.standalone import train_cached_model
@@ -78,6 +100,7 @@ feature_app = typer.Typer(help="Classical feature commands.", no_args_is_help=Tr
 model_app = typer.Typer(help="Classical baseline commands.", no_args_is_help=True)
 evaluate_app = typer.Typer(help="Validation evaluation commands.", no_args_is_help=True)
 experiment_app = typer.Typer(help="Validation experiment commands.", no_args_is_help=True)
+embedding_app = typer.Typer(help="Frozen ESM-2 embedding commands.", no_args_is_help=True)
 app.add_typer(data_app, name="data")
 app.add_typer(cohort_app, name="cohort")
 app.add_typer(similarity_app, name="similarity")
@@ -86,6 +109,7 @@ app.add_typer(feature_app, name="feature")
 app.add_typer(model_app, name="model")
 app.add_typer(evaluate_app, name="evaluate")
 app.add_typer(experiment_app, name="experiment")
+app.add_typer(embedding_app, name="embedding")
 
 
 @dataclass(frozen=True, slots=True)
@@ -274,6 +298,132 @@ def _not_implemented(command: str) -> None:
 
     typer.echo(f"Error: {command} is not implemented in this task.", err=True)
     raise typer.Exit(code=1)
+
+
+@embedding_app.command("fetch")
+def embedding_fetch(
+    config: Annotated[
+        Path,
+        typer.Option(
+            "--config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Pinned ESM-2 embedding YAML configuration.",
+        ),
+    ],
+) -> None:
+    """Fetch one approved immutable snapshot and write its sanitized manifest."""
+
+    project_root = find_project_root(config)
+    if project_root is None:
+        typer.echo("Error: project root not found from embedding configuration", err=True)
+        raise typer.Exit(code=1)
+    try:
+        embedding_config = load_embedding_config(config)
+        manifest = fetch_model_snapshot(
+            embedding_config,
+            downloaded_at_utc=datetime.now(UTC),
+        )
+        manifest_path = snapshot_manifest_path(project_root, embedding_config.model_id)
+        write_snapshot_manifest(manifest_path, manifest)
+    except (FileExistsError, OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Fetched {manifest.model_id} at {manifest.revision}")
+    typer.echo(f"Snapshot SHA-256: {manifest.snapshot_sha256}")
+    typer.echo(f"Manifest: {manifest_path.relative_to(project_root)}")
+
+
+@embedding_app.command("verify-model")
+def embedding_verify_model(
+    config: Annotated[
+        Path,
+        typer.Option(
+            "--config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Pinned ESM-2 embedding YAML configuration.",
+        ),
+    ],
+) -> None:
+    """Verify an acquired snapshot locally without network access."""
+
+    project_root = find_project_root(config)
+    if project_root is None:
+        typer.echo("Error: project root not found from embedding configuration", err=True)
+        raise typer.Exit(code=1)
+    try:
+        embedding_config = load_embedding_config(config)
+        manifest_path = snapshot_manifest_path(project_root, embedding_config.model_id)
+        manifest = load_snapshot_manifest(manifest_path)
+        verify_model_snapshot(embedding_config, manifest)
+    except (OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Verified {manifest.model_id} snapshot: {manifest.snapshot_sha256}")
+
+
+@embedding_app.command("extract")
+def embedding_extract(
+    config: Annotated[
+        Path,
+        typer.Option(
+            "--config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Pinned ESM-2 embedding YAML configuration.",
+        ),
+    ],
+    experiment_config: Annotated[
+        Path,
+        typer.Option(
+            "--experiment-config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Frozen v0.4 Validation experiment YAML.",
+        ),
+    ],
+    split: Annotated[
+        Literal["random", "cluster70", "cluster50", "cluster30"],
+        typer.Option("--split", help="Frozen split whose Train/Validation rows are extracted."),
+    ],
+    partitions: Annotated[
+        str,
+        typer.Option("--partitions", help="Must be exactly train,validation."),
+    ] = "train,validation",
+) -> None:
+    """Extract one immutable Train/Validation embedding cache from local weights."""
+
+    if partitions != "train,validation":
+        typer.echo("Error: embedding extraction requires --partitions train,validation", err=True)
+        raise typer.Exit(code=2)
+    try:
+        embedding = load_embedding_config(config)
+        experiment = load_experiment_config(experiment_config)
+        if not isinstance(experiment, EsmExperimentConfig):
+            raise ValueError("embedding extraction requires a v0.4 experiment")
+        model = next(
+            (item for item in experiment.models if item.embedding_config == config),
+            None,
+        )
+        if model is None or model.name != embedding.model_id:
+            raise ValueError("embedding config is not bound by the v0.4 experiment")
+        from protein_split_audit.experiments.esm_matrix import prepare_embeddings
+
+        prepared = prepare_embeddings(experiment_config, model.name, split)
+    except (FileExistsError, OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Embedding cache: {prepared.cache_directory}")
+    typer.echo(f"Cache key: {prepared.embedding_manifest['cache_key']}")
 
 
 @cohort_app.command("profile")
@@ -855,13 +1005,31 @@ def experiment_run(
             "aac_logistic",
             "kmer3_logistic",
             "nearest_homolog",
-        ],
+        ]
+        | None,
         typer.Option("--baseline", help="Frozen classical baseline to evaluate."),
-    ],
+    ] = None,
+    model: Annotated[
+        Literal["esm2_35m", "esm2_150m"] | None,
+        typer.Option("--model", help="Frozen ESM-2 model to evaluate."),
+    ] = None,
 ) -> None:
     """Run one Train-to-Validation experiment cell."""
 
     try:
+        experiment = load_experiment_config(config)
+        if isinstance(experiment, EsmExperimentConfig):
+            if model is None or baseline is not None:
+                raise ValueError("v0.4 experiments require --model and reject --baseline")
+            from protein_split_audit.experiments.esm_matrix import run_esm_cell
+
+            esm_result = run_esm_cell(config, model, split)
+            typer.echo(f"Completed {esm_result.split_name}/{esm_result.model_name} on Validation")
+            typer.echo(f"Run directory: {esm_result.run_dir}")
+            typer.echo(f"Manifest SHA-256: {esm_result.manifest_sha256}")
+            return
+        if baseline is None or model is not None:
+            raise ValueError("v0.3 experiments require --baseline and reject --model")
         result = run_experiment_cell(config, split, baseline)
     except (FileExistsError, OSError, RuntimeError, ValueError) as error:
         typer.echo(f"Error: {error}", err=True)
@@ -895,6 +1063,14 @@ def experiment_matrix(
     """Run the fixed five-baseline by four-split Validation matrix."""
 
     try:
+        experiment = load_experiment_config(config)
+        if isinstance(experiment, EsmExperimentConfig):
+            from protein_split_audit.experiments.esm_matrix import run_esm_matrix
+
+            esm_result = run_esm_matrix(config, resume=resume)
+            typer.echo(f"Completed {len(esm_result.cells)} Validation cells")
+            typer.echo(f"Matrix summary: {esm_result.summary_path}")
+            return
         result = run_matrix(config, resume=resume)
     except (FileExistsError, OSError, RuntimeError, ValueError) as error:
         typer.echo(f"Error: {error}", err=True)
@@ -917,11 +1093,33 @@ def experiment_replay_compare(
         Path,
         typer.Option("--output", dir_okay=False, resolve_path=True),
     ],
+    kind: Annotated[
+        Literal["classical", "esm"],
+        typer.Option("--kind", help="Artifact protocol to compare."),
+    ] = "classical",
+    cross_platform: Annotated[
+        bool,
+        typer.Option(
+            "--cross-platform",
+            help="Write non-release ESM numeric diagnostics instead of a formal replay gate.",
+        ),
+    ] = False,
 ) -> None:
     """Compare deterministic content from two Validation matrix replays."""
 
+    report: EsmReplayReport | ReplayReport
     try:
-        report = compare_validation_replays(first, second, output)
+        if kind == "esm":
+            report = compare_esm_replays(
+                first,
+                second,
+                output,
+                cross_platform=cross_platform,
+            )
+        else:
+            if cross_platform:
+                raise ValueError("--cross-platform is available only with --kind esm")
+            report = compare_validation_replays(first, second, output)
     except (FileExistsError, OSError, ValueError) as error:
         typer.echo(f"Error: {error}", err=True)
         raise typer.Exit(code=1) from error
@@ -944,11 +1142,46 @@ def experiment_summarize(
         Path,
         typer.Option("--output-dir", file_okay=False, resolve_path=True),
     ],
+    kind: Annotated[
+        Literal["classical", "esm"],
+        typer.Option("--kind", help="Aggregate protocol to verify."),
+    ] = "classical",
+    classical_summary: Annotated[
+        Path | None,
+        typer.Option(
+            "--classical-summary",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Released v0.3 Validation summary required by --kind esm.",
+        ),
+    ] = None,
+    classical_sha256: Annotated[
+        str | None,
+        typer.Option(
+            "--classical-sha256",
+            help="Expected SHA-256 of the released v0.3 Validation summary.",
+        ),
+    ] = None,
 ) -> None:
     """Create a sequence-free aggregate preview from a verified Validation matrix."""
 
+    result: EsmValidationAggregateResult | ValidationAggregateResult
     try:
-        result = write_validation_aggregates(matrix_dir, output_dir)
+        if kind == "esm":
+            if classical_summary is None or classical_sha256 is None:
+                raise ValueError("--kind esm requires --classical-summary and --classical-sha256")
+            result = write_esm_validation_aggregates(
+                matrix_dir,
+                output_dir,
+                classical_summary=classical_summary,
+                expected_classical_sha256=classical_sha256,
+            )
+        else:
+            if classical_summary is not None or classical_sha256 is not None:
+                raise ValueError("classical summary options are available only with --kind esm")
+            result = write_validation_aggregates(matrix_dir, output_dir)
     except (FileExistsError, OSError, RuntimeError, ValueError) as error:
         typer.echo(f"Error: {error}", err=True)
         raise typer.Exit(code=1) from error

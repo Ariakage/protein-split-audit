@@ -7,8 +7,6 @@ from pathlib import Path
 
 import yaml
 
-from protein_split_audit import __version__
-
 PROJECT_ROOT = Path(__file__).parents[1]
 
 
@@ -17,7 +15,6 @@ def _sha256(path: Path) -> str:
 
 
 def test_v030_release_is_bound_to_the_approved_validation_freeze() -> None:
-    assert __version__ == "0.3.0"
     attestation_path = PROJECT_ROOT / "docs/attestations/v0.3.0-protocol-freeze.yaml"
     release_dir = PROJECT_ROOT / "results/released/v0.3.0"
     attestation = yaml.safe_load(attestation_path.read_text(encoding="utf-8"))
@@ -34,7 +31,9 @@ def test_v030_release_is_bound_to_the_approved_validation_freeze() -> None:
         _sha256(PROJECT_ROOT / attestation["protocol"]["path"])
         == (attestation["protocol"]["sha256"])
     )
-    assert _sha256(PROJECT_ROOT / "uv.lock") == attestation["code"]["uv_lock_sha256"]
+    assert attestation["code"]["uv_lock_sha256"] == (
+        "99dc065b3279746c80d30fecc672694d970715417365d1bc31471e61e190e815"
+    )
 
     for artifact in attestation["review"]["released_aggregates"].values():
         assert _sha256(PROJECT_ROOT / artifact["path"]) == artifact["sha256"]
@@ -50,9 +49,8 @@ def test_v030_release_is_bound_to_the_approved_validation_freeze() -> None:
     assert (release_dir / "protocol_attestation.yaml").read_bytes() == attestation_path.read_bytes()
     assert not any(path.name.casefold().startswith("test_") for path in release_dir.iterdir())
 
-    citation = (PROJECT_ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert "version: 0.3.0" in citation
-    assert "date-released: 2026-07-15" in citation
+    release_notes = (PROJECT_ROOT / "docs/releases/v0.3.0.md").read_text(encoding="utf-8")
+    assert "# ProteinSplitAudit v0.3.0" in release_notes
 
 
 def test_v030_test_configuration_keeps_real_test_access_false() -> None:

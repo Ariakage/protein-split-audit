@@ -1,0 +1,40 @@
+{
+  "cell_count": 8,
+  "environment_count": 1,
+  "environments": [
+    {
+      "architecture": "arm64",
+      "dependencies": {
+        "huggingface-hub": "1.23.0",
+        "joblib": "1.5.3",
+        "numpy": "2.5.1",
+        "psutil": "7.2.2",
+        "pyarrow": "25.0.0",
+        "safetensors": "0.8.0",
+        "scikit-learn": "1.9.0",
+        "scipy": "1.18.0",
+        "tokenizers": "0.22.2",
+        "torch": "2.13.0",
+        "transformers": "5.13.1"
+      },
+      "device": "cpu",
+      "dtype": "float32",
+      "git_commit": "31d2ff208f344e823ce04801596664f14679a2e5",
+      "git_dirty": false,
+      "machine_model": "Mac16,12",
+      "operating_system": "Darwin",
+      "operating_system_version": "26.5.2",
+      "python_version": "3.12.11",
+      "software_version": "0.4.0",
+      "torch_deterministic_algorithms": true,
+      "torch_interop_threads": 1,
+      "torch_intraop_threads": 8,
+      "uv_lock_sha256": "f924d6965ea4272e6f9faa378b19e57502a9a4feeab6918122a873588919d346",
+      "version_info": [
+        3,
+        12,
+        11
+      ]
+    }
+  ]
+}

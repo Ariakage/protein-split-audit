@@ -45,6 +45,32 @@ class LogisticRegressionModelConfig(BaseModel):
         return self
 
 
+class EsmLinearProbeConfig(BaseModel):
+    """Train-only scaler and fixed Logistic Regression over frozen embeddings."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True, populate_by_name=True)
+
+    schema_version: Literal[1]
+    type: Literal["esm_linear_probe"]
+    preprocessing: Literal["standard_train_only"]
+    solver: Literal["lbfgs"]
+    penalty: Literal["l2"]
+    c: float = Field(alias="C")
+    class_weight: Literal["balanced"]
+    max_iter: Literal[5000]
+    tol: float
+    fit_intercept: Literal[True]
+    random_state: Literal[42]
+
+    @model_validator(mode="after")
+    def require_frozen_floats(self) -> EsmLinearProbeConfig:
+        """Reject any change from the v0.3 classifier protocol."""
+
+        if self.c != 1.0 or self.tol != 0.0001:
+            raise ValueError("ESM Linear Probe floats differ from the frozen protocol")
+        return self
+
+
 class NearestRuntimeConfig(BaseModel):
     """Frozen formal runtime for MMseqs2."""
 
@@ -120,11 +146,15 @@ class NearestHomologModelConfig(BaseModel):
 
 
 ModelConfig = Annotated[
-    MajorityModelConfig | LogisticRegressionModelConfig | NearestHomologModelConfig,
+    MajorityModelConfig
+    | LogisticRegressionModelConfig
+    | NearestHomologModelConfig
+    | EsmLinearProbeConfig,
     Field(discriminator="type"),
 ]
 
 __all__ = [
+    "EsmLinearProbeConfig",
     "LogisticRegressionModelConfig",
     "MajorityModelConfig",
     "ModelConfig",

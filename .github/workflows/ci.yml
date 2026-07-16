@@ -29,32 +29,40 @@ jobs:
       - name: Verify lockfile
         run: uv lock --check
 
-      - name: Synchronize locked environment
-        run: uv sync --locked --group dev
+      - name: Synchronize locked environment with ESM API dependencies
+        run: uv sync --locked --group dev --extra esm
 
       - name: Ruff check
-        run: uv run --locked ruff check .
+        run: uv run --locked --extra esm ruff check .
         env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
           UV_OFFLINE: "true"
 
       - name: Ruff format check
-        run: uv run --locked ruff format --check .
+        run: uv run --locked --extra esm ruff format --check .
         env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
           UV_OFFLINE: "true"
 
       - name: MyPy strict
-        run: uv run --locked mypy src
+        run: uv run --locked --extra esm mypy src
         env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
           UV_OFFLINE: "true"
 
       - name: pytest with application-level network guard
-        run: uv run --locked pytest -v
+        run: uv run --locked --extra esm pytest -v
         env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
           UV_OFFLINE: "true"
 
       - name: Reject tracked record and sequence artifacts
         run: |
-          forbidden=$(git ls-files | grep -E '\.(parquet|fasta|fa|tsv\.gz|pt|pth|ckpt)$|^(data/(raw|processed|interim)/|results/runs/|cache/)' | grep -v '^cache/\.gitkeep$' || true)
+          forbidden=$(git ls-files | grep -E '\.(parquet|fasta|fa|tsv\.gz|pt|pth|ckpt|npy|safetensors|bin|joblib)$|^(data/(raw|processed|interim)/|results/runs/|cache/(models|embeddings)/|models/|results/per-record/)' | grep -v '^cache/\.gitkeep$' || true)
           if [ -n "$forbidden" ]; then
             echo "Tracked generated artifact policy violation:"
             echo "$forbidden"
@@ -64,18 +72,33 @@ jobs:
       - name: Build package artifacts
         run: uv build
         env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
           UV_OFFLINE: "true"
 
-      - name: Smoke-test wheel in an isolated environment
+      - name: Smoke-test wheel in an offline isolated environment
         run: |
           WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-*.whl' -print -quit)
           test -n "$WHEEL"
-          uv run --isolated --no-project --with "$WHEEL" psaudit --version
-          uv run --isolated --no-project --with "$WHEEL" psaudit doctor
-          uv run --isolated --no-project --with "$WHEEL" psaudit cohort --help
-          uv run --isolated --no-project --with "$WHEEL" psaudit similarity --help
-          uv run --isolated --no-project --with "$WHEEL" psaudit split --help
-          uv run --isolated --no-project --with "$WHEEL" psaudit feature --help
-          uv run --isolated --no-project --with "$WHEEL" psaudit model --help
-          uv run --isolated --no-project --with "$WHEEL" psaudit evaluate --help
-          uv run --isolated --no-project --with "$WHEEL" psaudit experiment --help
+          SMOKE_ENV="$RUNNER_TEMP/psaudit-wheel-smoke"
+          LOCKED_SITE_PACKAGES=$(.venv/bin/python -c 'import site; print(site.getsitepackages()[0])')
+          uv venv --python 3.12 "$SMOKE_ENV"
+          uv pip install --offline --no-deps --python "$SMOKE_ENV/bin/python" "$WHEEL"
+          export PYTHONNOUSERSITE=1
+          export PYTHONPATH="$LOCKED_SITE_PACKAGES"
+          export SMOKE_ENV
+          "$SMOKE_ENV/bin/python" -c 'import os, pathlib, protein_split_audit; assert pathlib.Path(protein_split_audit.__file__).is_relative_to(pathlib.Path(os.environ["SMOKE_ENV"]))'
+          "$SMOKE_ENV/bin/psaudit" --version
+          "$SMOKE_ENV/bin/psaudit" doctor
+          "$SMOKE_ENV/bin/psaudit" cohort --help
+          "$SMOKE_ENV/bin/psaudit" similarity --help
+          "$SMOKE_ENV/bin/psaudit" split --help
+          "$SMOKE_ENV/bin/psaudit" feature --help
+          "$SMOKE_ENV/bin/psaudit" model --help
+          "$SMOKE_ENV/bin/psaudit" evaluate --help
+          "$SMOKE_ENV/bin/psaudit" embedding --help
+          "$SMOKE_ENV/bin/psaudit" experiment --help
+        env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
+          UV_OFFLINE: "true"

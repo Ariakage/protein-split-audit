@@ -24,6 +24,12 @@ MMseqs2, Python packages, and every other third-party resource retain their resp
 Project configuration, manifests, and transformations do not transfer ownership or alter those
 terms.
 
+The two ESM-2 Hugging Face repositories approved for v0.4.0 report an MIT model license. Treat that
+as upstream metadata, not as a ProteinSplitAudit warranty. Review the pinned repository revisions
+and current redistribution terms at freeze time. Model and tokenizer files remain outside Git;
+their sanitized content manifests may be tracked, but the project never applies Apache-2.0 or
+CC-BY-4.0 to the upstream bytes.
+
 Record upstream attribution and links in `THIRD_PARTY_NOTICES.md`. Put data-specific handling rules
 in `DATA_LICENSE.md` and the data card.
 

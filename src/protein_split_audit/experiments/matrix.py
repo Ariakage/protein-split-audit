@@ -10,6 +10,7 @@ from pathlib import Path
 
 from protein_split_audit.config import load_experiment_config
 from protein_split_audit.experiments.runner import CellResult, run_experiment_cell
+from protein_split_audit.experiments.schemas import ExperimentConfig
 from protein_split_audit.models.nearest_homolog import HomologHit
 
 
@@ -30,6 +31,8 @@ def run_matrix(
     """Run exactly five baselines over four frozen splits."""
 
     config = load_experiment_config(config_path)
+    if not isinstance(config, ExperimentConfig):
+        raise ValueError("v0.3 matrix requires a classical experiment configuration")
     if config.evaluation.split != "validation":
         raise ValueError("v0.3 matrix is Validation-only")
     summary_path = config.outputs.root / "matrix_summary.json"
