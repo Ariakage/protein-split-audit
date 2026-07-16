@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from click import unstyle
 from typer.testing import CliRunner
 
 from protein_split_audit.cli import app
@@ -96,8 +97,9 @@ def test_esm_aggregate_writes_exactly_six_sequence_free_files(tmp_path: Path) ->
 
 def test_aggregate_cli_requires_explicit_classical_identity_for_esm() -> None:
     result = CliRunner().invoke(app, ["experiment", "summarize", "--help"])
+    output = unstyle(result.output)
 
     assert result.exit_code == 0
-    assert "--kind" in result.output
-    assert "--classical-summary" in result.output
-    assert "--classical-sha256" in result.output
+    assert "--kind" in output
+    assert "--classical-summary" in output
+    assert "--classical-sha256" in output

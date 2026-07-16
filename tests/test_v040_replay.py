@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+from click import unstyle
 from typer.testing import CliRunner
 
 from protein_split_audit.cli import app
@@ -91,7 +92,8 @@ def test_same_platform_replay_compares_environment_identity_but_not_run_fields(
 
 def test_replay_cli_exposes_explicit_esm_protocol_options() -> None:
     result = CliRunner().invoke(app, ["experiment", "replay-compare", "--help"])
+    output = unstyle(result.output)
 
     assert result.exit_code == 0
-    assert "--kind" in result.output
-    assert "--cross-platform" in result.output
+    assert "--kind" in output
+    assert "--cross-platform" in output
