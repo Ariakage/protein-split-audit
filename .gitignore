@@ -31,6 +31,13 @@ dist/
 /cache/*
 !/cache/.gitkeep
 
+# Local model snapshots and ESM embedding caches (covered by /cache/*; explicit for policy)
+/cache/models/
+/cache/embeddings/
+*.npy
+*.safetensors
+*.joblib
+
 # Local run artifacts
 /results/runs/
 /report/_build/
