@@ -27,9 +27,30 @@ EXPECTED_UPSTREAM = {
 }
 
 
-def test_generation_a_has_no_attestation_results_tag_or_release_metadata() -> None:
+def test_attestation_b_binds_generation_a_without_release_metadata() -> None:
     assert __version__ == "0.4.0"
-    assert not (PROJECT_ROOT / "docs/attestations/v0.4.0-protocol-freeze.yaml").exists()
+    attestation_path = PROJECT_ROOT / "docs/attestations/v0.4.0-protocol-freeze.yaml"
+    attestation = yaml.safe_load(attestation_path.read_text(encoding="utf-8"))
+    assert attestation["code"] == {
+        "generation_git_commit": "d764c30c0945231113f2f51cdb9761ab62815c73",
+        "generation_git_dirty": False,
+        "software_version": "0.4.0",
+        "uv_lock_sha256": "f924d6965ea4272e6f9faa378b19e57502a9a4feeab6918122a873588919d346",
+        "python_version": "3.12.11",
+    }
+    assert attestation["protocol"] == {
+        "path": "docs/protocols/v0.4.0-esm2-baselines.md",
+        "sha256": "b23329c1d76558d30e80dba6563525624f00d14a1fe22a75baaca23ffc504694",
+    }
+    assert attestation["experiment"]["real_test_access_authorized"] is False
+    assert attestation["approval"] == {
+        "approved_by": "Ariakage",
+        "approved_at_utc": "2026-07-16T04:55:21Z",
+        "approval_reference": (
+            "https://github.com/Ariakage/protein-split-audit/pull/2#issuecomment-4988328840"
+        ),
+        "author_association": "OWNER",
+    }
     assert not (PROJECT_ROOT / "results/released/v0.4.0").exists()
     assert not (PROJECT_ROOT / "docs/releases/v0.4.0.md").exists()
     citation = (PROJECT_ROOT / "CITATION.cff").read_text(encoding="utf-8")
@@ -43,6 +64,71 @@ def test_generation_a_has_no_attestation_results_tag_or_release_metadata() -> No
         text=True,
     )
     assert tag.returncode != 0
+
+
+def test_attestation_b_recomputes_all_tracked_frozen_hashes() -> None:
+    attestation = yaml.safe_load(
+        (PROJECT_ROOT / "docs/attestations/v0.4.0-protocol-freeze.yaml").read_text(encoding="utf-8")
+    )
+    tracked_artifacts = [
+        attestation["protocol"],
+        attestation["upstream"]["protocol_attestation"],
+        attestation["upstream"]["validation_summary"],
+        attestation["models"]["esm2_35m"]["embedding_config"],
+        attestation["models"]["esm2_35m"]["snapshot_manifest"],
+        attestation["models"]["esm2_150m"]["embedding_config"],
+        attestation["models"]["esm2_150m"]["snapshot_manifest"],
+        {
+            "path": attestation["experiment"]["configuration_path"],
+            "sha256": attestation["experiment"]["configuration_sha256"],
+        },
+        {
+            "path": attestation["experiment"]["linear_probe_configuration_path"],
+            "sha256": attestation["experiment"]["linear_probe_configuration_sha256"],
+        },
+    ]
+    for artifact in tracked_artifacts:
+        assert sha256_file(PROJECT_ROOT / artifact["path"]) == artifact["sha256"]
+
+    assert sha256_file(PROJECT_ROOT / "uv.lock") == attestation["code"]["uv_lock_sha256"]
+
+    input_artifacts = [
+        attestation["inputs"]["cohort_manifest"],
+        attestation["inputs"]["cohort_content_manifest"],
+        attestation["inputs"]["cohort_fasta"],
+    ]
+    for split in attestation["inputs"]["split_manifests"].values():
+        input_artifacts.extend(
+            (
+                {"path": split["path"], "sha256": split["sha256"]},
+                {
+                    "path": split["content_manifest_path"],
+                    "sha256": split["content_manifest_sha256"],
+                },
+            )
+        )
+    assert len(input_artifacts) == 11
+    for artifact in input_artifacts:
+        path = PROJECT_ROOT / artifact["path"]
+        if path.exists():
+            assert sha256_file(path) == artifact["sha256"]
+
+    for model_name in ("esm2_35m", "esm2_150m"):
+        model = attestation["models"][model_name]
+        snapshot = json.loads((PROJECT_ROOT / model["snapshot_manifest"]["path"]).read_bytes())
+        assert snapshot["repository"] == model["repository"]
+        assert snapshot["revision"] == model["revision"] == model["tokenizer_revision"]
+        assert snapshot["snapshot_sha256"] == model["snapshot_sha256"]
+        assert snapshot["tokenizer_sha256"] == model["tokenizer_sha256"]
+        assert snapshot["model_weight_sha256"] == model["model_weight_sha256"]
+        assert [
+            {
+                "path": item["relative_path"],
+                "byte_size": item["byte_size"],
+                "sha256": item["sha256"],
+            }
+            for item in snapshot["files"]
+        ] == model["files"]
 
 
 def test_v040_test_gate_and_model_snapshot_identities_are_frozen() -> None:
