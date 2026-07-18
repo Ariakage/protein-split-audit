@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Pilot-v1 data card and v0.4 Validation use
+# Pilot-v1 data card and v0.5 Test use
 
 ## What is released
 
@@ -18,6 +18,10 @@ publish protein-level predictions.
 ProteinSplitAudit v0.4.0 uses the same cohort and splits for two frozen ESM-2 baselines. The release
 adds no cohort records, labels, or split changes. It publishes six aggregate Validation files and
 the approved protocol attestation. Embeddings and per-record outputs remain local.
+
+ProteinSplitAudit v0.5.0 evaluates all seven frozen methods on Test for the first time. The formal
+matrix has 28 cells and uses exactly two mechanical sessions. The release contains twelve
+aggregate files and no protein-level result.
 
 ## Source and candidate pool
 
@@ -75,6 +79,12 @@ and one fixed linear probe. They can be used to reproduce the eight Validation c
 the gap between classical and pretrained representations on this pilot. They are not Test results
 and should not be used as a general ranking of protein language models.
 
+The v0.5.0 aggregate files support audit of the frozen Test matrix, its group-aware uncertainty,
+and its exact replay. In this pilot, the prespecified ESM-versus-AAC and ESM-versus-3-mer directed
+differences were positive with paired intervals above zero. The ESM-2 150M-minus-35M intervals and
+the Random-minus-cluster Macro-F1 intervals included zero. These are descriptive results from one
+small cohort, not significance tests or a general ranking.
+
 ## Limitations
 
 Swiss-Prot curation does not eliminate annotation uncertainty, taxonomic bias, research-attention
@@ -90,15 +100,21 @@ ESM-2 was pretrained outside this project. ProteinSplitAudit has not audited whe
 sequence, close homolog, or related annotation appeared in its pretraining corpus. A cluster-aware
 split controls relationships inside the pilot but does not establish novelty relative to
 pretraining data or proteins outside the cohort. This release also covers only two checkpoints,
-one pooling rule, one classifier, and one fixed seed.
+one pooling rule, one classifier, one frozen cohort, and one fixed seed.
+
+The original v0.5 formal attempt was blocked because session names entered deterministic artifact
+identity. Predictions, metrics, and bootstrap results matched, but the exact replay contract did
+not. Revision r1 corrected that identity rule using synthetic fixtures before two replacement
+sessions were approved. Both attempts and their access records remain part of the audit trail.
 
 ## Access and licensing
 
 Reviewed v0.2 data manifests are in `results/released/v0.2.0/`; reviewed v0.3 classical summaries
 are in `results/released/v0.3.0/`; reviewed v0.4 ESM-2 summaries are in
-`results/released/v0.4.0/`. Raw downloads, sequence-bearing Parquet and FASTA, normalized pair
+`results/released/v0.4.0/`; reviewed v0.5 Test aggregates are in
+`results/released/v0.5.0/`. Raw downloads, sequence-bearing Parquet and FASTA, normalized pair
 tables, protein-level manifests, embeddings, predictions, models, detailed audits, run
-directories, and caches remain ignored.
+directories, access ledgers, incidents, and caches remain ignored.
 
 UniProt-derived content retains its upstream terms. ProteinSplitAudit does not relicense it. Read
 `DATA_LICENSE.md`, `THIRD_PARTY_NOTICES.md`, and `docs/LICENSE_POLICY.md` before sharing any local

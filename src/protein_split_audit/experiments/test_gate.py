@@ -28,14 +28,8 @@ def enforce_test_gate(
         raise RealTestAccessDenied(
             "Real test access is not authorized by the active attestation"
         ) from error
-    experiment = mapping.get("experiment") if isinstance(mapping, dict) else None
-    authorized = (
-        experiment.get("real_test_access_authorized") if isinstance(experiment, dict) else None
-    )
-    if authorized is not True:
-        raise RealTestAccessDenied("Real test access is not authorized by the active attestation")
-    if before_real_input is not None:
-        before_real_input()
+    del mapping, before_real_input
+    raise RealTestAccessDenied("Real test access is not authorized by the active attestation")
 
 
 __all__ = ["RealTestAccessDenied", "enforce_test_gate"]

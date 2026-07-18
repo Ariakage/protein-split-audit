@@ -1,0 +1,189 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+experiment_type: frozen_test
+name: v050-frozen-test
+protocol_revision: r1
+
+cohort:
+  manifest: ../../data/manifests/cohorts/pilot-v1.parquet
+  file_sha256: c8066a1851e83c95a3063f896236603cb41df085308e795fb42499ec7a0002da
+  semantic_sha256: 8de56565f7e37daadfa83fe91ecb1f39f4946796b4413de75d6ec080f8ba2d83
+  content_manifest: ../../data/manifests/cohorts/pilot-v1.json
+  content_manifest_sha256: 304d126e603a6361684dc76320f8c8e508ad5d9c7917a33052cd52fd5263ead1
+  fasta: ../../data/processed/cohorts/pilot-v1.fasta
+  fasta_sha256: 748cf1746d34daa17be2513744cc194e5aa2867edb0469388d68152080ddf9b9
+  row_count: 442
+  bootstrap_component_column: discovery_component_id_cluster30
+
+splits:
+  - name: random
+    manifest: ../../data/manifests/splits/random.parquet
+    file_sha256: ff572a4eb81f5f377acc348a7fda9786ad773eea6131b54bad88a2b167e5e859
+    semantic_sha256: ed9668d2aca28b727dc35c56eb486839c4dafe643ea0868738d3d4f6f81b8b99
+    content_manifest: ../../data/manifests/splits/random.json
+    content_manifest_sha256: 80ed5a977b3111833f2f87a26bc11fa423a31e1976ea67f6b97e65414c7e898b
+    train_count: 308
+    validation_count: 68
+    test_count: 66
+  - name: cluster70
+    manifest: ../../data/manifests/splits/cluster70.parquet
+    file_sha256: 898bd302cc77d157f0f4bd398ddc7ec40f9ef5eae43bbb3705963c7ba10ae74e
+    semantic_sha256: 32b7a93d1eeaf7dd3db565819f8adb7f7bdc6714277f8e22be265b606ad0f953
+    content_manifest: ../../data/manifests/splits/cluster70.json
+    content_manifest_sha256: bb2744886a6631f888eaa79028403b0ce6a41621235c68d16946e367bea837ab
+    train_count: 308
+    validation_count: 68
+    test_count: 66
+  - name: cluster50
+    manifest: ../../data/manifests/splits/cluster50.parquet
+    file_sha256: 4c105e4b5c007830cf6916e566cebffa8ba1cb54572d59496def086b76eef0b2
+    semantic_sha256: 1e1edc4f3baa3e6d41d631dd59c0dcca8b0400e247c5a27d49e389a50c2c8d51
+    content_manifest: ../../data/manifests/splits/cluster50.json
+    content_manifest_sha256: 640e8d84fa84081d124cd6a37171351913f34b6a85a388af0b88f8d105b39023
+    train_count: 308
+    validation_count: 68
+    test_count: 66
+  - name: cluster30
+    manifest: ../../data/manifests/splits/cluster30.parquet
+    file_sha256: 7d951338073d8958a0852c33c8910c14f8d7ae55e0892ee4ab5f4f1e4c347bee
+    semantic_sha256: e590fb87499260340adba595e55a247244f990357affefbc8da2df7a6cec4a55
+    content_manifest: ../../data/manifests/splits/cluster30.json
+    content_manifest_sha256: c0a40a89888f813bfa1173dfb9e66089ed4d8489c55bab6a7aaff1645132535c
+    train_count: 308
+    validation_count: 68
+    test_count: 66
+
+methods:
+  - name: majority
+    model_config: ../model/majority.yaml
+  - name: length_logistic
+    feature_config: ../feature/length.yaml
+    model_config: ../model/logistic_regression.yaml
+  - name: aac_logistic
+    feature_config: ../feature/aac.yaml
+    model_config: ../model/logistic_regression.yaml
+  - name: kmer3_logistic
+    feature_config: ../feature/kmer3.yaml
+    model_config: ../model/logistic_regression.yaml
+  - name: nearest_homolog
+    model_config: ../model/nearest_homolog.yaml
+  - name: esm2_35m
+    model_config: ../model/esm_linear_probe.yaml
+    embedding_config: ../embedding/esm2_35m.yaml
+  - name: esm2_150m
+    model_config: ../model/esm_linear_probe.yaml
+    embedding_config: ../embedding/esm2_150m.yaml
+
+model_snapshots:
+  - name: esm2_35m
+    manifest: ../../data/manifests/models/esm2-35m.snapshot.json
+    manifest_sha256: 2ffd6f502d0eab9f04a956301f55a39b0acff3857ae37ffe8cdfcef1bc06745d
+    repository: facebook/esm2_t12_35M_UR50D
+    revision: 6fbf070e65b0b7291e7bbcd451118c216cff79d8
+    canonical_snapshot_sha256: f0253596c0d6a7da813e85e8d1dde22490e378405028a114f7c7f8d8ec01e38a
+    tokenizer_sha256: c95e6a7042c30e42ddc37b720f0f1af49a1fab197d97ff7f2febfd3c5fe490b3
+    model_weight_sha256: e35647818e0e064351d4531ed480d225a002567b4b2b93ad3a9246d753150fc0
+  - name: esm2_150m
+    manifest: ../../data/manifests/models/esm2-150m.snapshot.json
+    manifest_sha256: 8b987b7f9f8cbf5acb9d2c1a8c0d956cd32951331ae047121db3c5ef63909ee1
+    repository: facebook/esm2_t30_150M_UR50D
+    revision: a695f6045e2e32885fa60af20c13cb35398ce30c
+    canonical_snapshot_sha256: 1610dd5b314f25980eb9259e394da96c649e23782d2d9fb218fa857e08221dd6
+    tokenizer_sha256: 606c3409efa7633234dfd17f247c0468c7094fc224df1a705c4f97fdc83791c6
+    model_weight_sha256: c3f1da8aea53bddd32c246c86168c23b9fd72341fb9db9a94436f855f5053566
+
+tracked_evidence:
+  - path: ../../docs/protocols/v0.3.0-classical-baselines.md
+    sha256: 9be55bf958fade7f2f88c501429521693c9f2be32aab68cede257216ca7fe27a
+  - path: ../../docs/attestations/v0.3.0-protocol-freeze.yaml
+    sha256: a1b1918a07a24d3fb7d46aa8eada9e823b25526d44997f2cc7a72526a71a55b2
+  - path: ../../docs/protocols/v0.4.0-esm2-baselines.md
+    sha256: b23329c1d76558d30e80dba6563525624f00d14a1fe22a75baaca23ffc504694
+  - path: ../../docs/attestations/v0.4.0-protocol-freeze.yaml
+    sha256: ddeed606f308363a457e3edf0646275f788eae657778de03c86c3eed9bb214f7
+  - path: ../feature/length.yaml
+    sha256: f84c0b09ac503d43df8f4a39e174fcef7c52088d639268cf47da318ed3dbd37e
+  - path: ../feature/aac.yaml
+    sha256: db09777a78b0e23421f0bfd02d21c8091e9e9690faa34975faf4615977113e8b
+  - path: ../feature/kmer3.yaml
+    sha256: 470b9158c547c6d14ad09f391ad9f059dc9ef1d34767f047a99257e394e98381
+  - path: ../model/majority.yaml
+    sha256: 26ce757fba41279d760455dde4341ba5daa15c4235a5ec90723fa980c96e245b
+  - path: ../model/logistic_regression.yaml
+    sha256: 009e3cb150c3df47b4da298609ca176bbc7bf6142574ec10f05c3aca55f8f027
+  - path: ../model/nearest_homolog.yaml
+    sha256: d3ac74c7af0df6e51d272ad50f1e8ad83731ab5ee890b73b9ff523ef53a2ddba
+  - path: ../embedding/esm2_35m.yaml
+    sha256: c0634997b3048c1474876d6a8f5db7c049746385c4a5ed3a2d84e6ae3a75449c
+  - path: ../embedding/esm2_150m.yaml
+    sha256: 4ab75418b6a6c46ca37a203c5c6475ed429eecda3fa6068406bbb432b6880d0a
+  - path: ../model/esm_linear_probe.yaml
+    sha256: 12b9aeb2732de404275bc728adb93f34daa7075c8f1e3afa1db684099ff61eb1
+  - path: v030-validation.yaml
+    sha256: 0191ddd65fb5827e473f5048328438fab5c7a0c054f188543d46a6495a90ffd4
+  - path: v040-validation.yaml
+    sha256: e0776cdad32f43e41695166dfebe5e0545ead11d4abe7ee5d4dfb13546ac1a44
+  - path: ../../results/released/v0.3.0/validation_summary.csv
+    sha256: 73ee1c4f8c454a8570058224c9257d4f924eac8c8681fcb78991d99fa6612dc2
+  - path: ../../results/released/v0.3.0/validation_per_class.csv
+    sha256: a70dbfa155d8589530697c30b0a33da1a205e2ffc2fd083e72ffb1b5fa2ad667
+  - path: ../../results/released/v0.4.0/esm_validation_summary.csv
+    sha256: 2e96c04dc18695649ad51cf1fe9ee5b7a9c41fe4974a71d6e652b7d3ef4f5b6f
+  - path: ../../results/released/v0.4.0/esm_validation_per_class.csv
+    sha256: 8af608fd622acc2634b82c677f1f51c9aff63c5ae7977b4ab738d0ba14faa7f9
+  - path: ../../results/released/v0.4.0/classical_vs_esm_summary.csv
+    sha256: d73af232cf5dedb675fff931391c35aa326d0e526a42a0bbb83d1d7e45fa894c
+  - path: ../../results/released/v0.4.0/environment_summary.json
+    sha256: 1ab0412f055c5b375bd4c5931e5b2276fcd859c3cc31b4cfcf227935cf4bee15
+
+evaluation:
+  fit_partition: train
+  evaluation_partition: test
+  validation_policy: excluded
+  label_order: ["2.7", "3.1", "1.1", "2.1", "4.1"]
+  zero_division: 0
+  real_test_access_authorized: false
+
+statistics:
+  primary_metrics: [macro_f1, balanced_accuracy]
+  bootstrap:
+    iterations: 2000
+    confidence_level: 0.95
+    lower_quantile: 0.025
+    upper_quantile: 0.975
+    seed: 2026
+    unit: cluster30_discovery_component
+    interval_method: percentile
+    quantile_method: linear
+  within_split_resampling: paired
+  method_comparisons:
+    - {method_a: esm2_35m, method_b: aac_logistic}
+    - {method_a: esm2_35m, method_b: kmer3_logistic}
+    - {method_a: esm2_150m, method_b: aac_logistic}
+    - {method_a: esm2_150m, method_b: kmer3_logistic}
+    - {method_a: esm2_150m, method_b: esm2_35m}
+  generalization_metric: macro_f1
+  generalization_reference_split: random
+  generalization_comparison_splits: [cluster70, cluster50, cluster30]
+  cross_split_resampling: independent
+
+runtime:
+  seed: 42
+  operating_system: Darwin
+  architecture: arm64
+  device: cpu
+  dtype: float32
+  torch_intraop_threads: 8
+  torch_interop_threads: 1
+  deterministic_algorithms: true
+  mmseqs_version: 18-8cc5c
+  mmseqs_threads: 8
+  local_files_only: true
+  network_access: false
+
+formal_sessions: [run-a, run-b]
+outputs:
+  root: ../../results/runs/v0.5.0-test-r1
+  refuse_overwrite: true
+attestation: ../../docs/attestations/v0.5.0-test-freeze-r1.yaml

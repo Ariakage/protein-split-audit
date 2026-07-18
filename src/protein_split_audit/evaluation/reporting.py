@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
-"""Deterministic local Validation report writers."""
+"""Deterministic local Validation/Test report writers."""
 
 from __future__ import annotations
 

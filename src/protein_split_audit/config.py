@@ -29,7 +29,11 @@ from protein_split_audit.cohort.schemas import (
     FreezeCohortConfig,
 )
 from protein_split_audit.embeddings.schemas import EmbeddingConfig
-from protein_split_audit.experiments.schemas import EsmExperimentConfig, ExperimentConfig
+from protein_split_audit.experiments.schemas import (
+    EsmExperimentConfig,
+    ExperimentConfig,
+    FrozenTestExperimentConfig,
+)
 from protein_split_audit.features.schemas import FeatureConfig
 from protein_split_audit.models.schemas import ModelConfig
 from protein_split_audit.provenance import serialize_canonical_json, sha256_bytes
@@ -646,10 +650,76 @@ def load_model_config(path: Path) -> ModelConfig:
     return _MODEL_CONFIG_ADAPTER.validate_python(loaded)
 
 
-def load_experiment_config(path: Path) -> ExperimentConfig | EsmExperimentConfig:
+def _resolve_frozen_test_path(value: object, base_dir: Path, project_root: Path) -> Path:
+    """Resolve one v0.5 path while rejecting absolute and escaping values."""
+
+    if not isinstance(value, (str, Path)):
+        raise ValueError("frozen Test path value must be a string or pathlib.Path")
+    raw = Path(value).expanduser()
+    if raw.is_absolute():
+        raise ValueError("frozen Test paths must be project-relative")
+    resolved = (base_dir / raw).resolve()
+    if not resolved.is_relative_to(project_root):
+        raise ValueError("frozen Test paths must remain inside the project root")
+    return resolved
+
+
+def _load_frozen_test_experiment(
+    loaded: dict[str, Any],
+    config_path: Path,
+) -> FrozenTestExperimentConfig:
+    """Resolve the strict v0.5 configuration without accepting path overrides."""
+
+    if config_path.parent.name != "experiment" or config_path.parent.parent.name != "configs":
+        raise ValueError("frozen Test configuration must live under configs/experiment")
+    base = config_path.parent
+    project_root = config_path.parents[2]
+
+    def resolve(value: object) -> Path:
+        return _resolve_frozen_test_path(value, base, project_root)
+
+    raw_cohort = loaded.get("cohort")
+    if isinstance(raw_cohort, dict):
+        for field in ("manifest", "content_manifest", "fasta"):
+            if field in raw_cohort:
+                raw_cohort[field] = resolve(raw_cohort[field])
+    for section, fields in (
+        ("splits", ("manifest", "content_manifest")),
+        ("methods", ("feature_config", "model_config", "embedding_config")),
+        ("model_snapshots", ("manifest",)),
+        ("tracked_evidence", ("path",)),
+    ):
+        entries = loaded.get(section)
+        if not isinstance(entries, list):
+            continue
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            for field in fields:
+                if entry.get(field) is not None:
+                    entry[field] = resolve(entry[field])
+    raw_outputs = loaded.get("outputs")
+    if isinstance(raw_outputs, dict) and raw_outputs.get("root") is not None:
+        raw_outputs["root"] = resolve(raw_outputs["root"])
+    if loaded.get("attestation") is not None:
+        loaded["attestation"] = resolve(loaded["attestation"])
+
+    config = FrozenTestExperimentConfig.model_validate(loaded)
+    if config.outputs.root != project_root / "results/runs/v0.5.0-test-r1":
+        raise ValueError("outputs.root must be the fixed v0.5 r1 Test run root")
+    if config.attestation != project_root / "docs/attestations/v0.5.0-test-freeze-r1.yaml":
+        raise ValueError("attestation must be the fixed v0.5 r1 Test-freeze path")
+    return config
+
+
+def load_experiment_config(
+    path: Path,
+) -> ExperimentConfig | EsmExperimentConfig | FrozenTestExperimentConfig:
     """Load a config-relative validation matrix or denied Test request."""
 
     config_path, _source_bytes, loaded = _load_yaml_mapping(path)
+    if loaded.get("experiment_type") == "frozen_test":
+        return _load_frozen_test_experiment(loaded, config_path)
     base = config_path.parent
     _resolve_section_paths(loaded, "cohort", ("manifest", "content_manifest", "fasta"), base)
     raw_splits = loaded.get("splits")

@@ -60,14 +60,18 @@ or support a research claim.
   byte-identical deterministic artifacts.
 - Published six reviewed aggregate files and kept the real Test split closed.
 
-## Gate 5: separately approved Test freeze
+## Gate 5: v0.5.0 frozen Test pilot (complete)
 
-- Freeze the complete planned method set before first Test access.
-- Require a new permanent maintainer approval and machine-readable Test attestation.
-- Publish aggregate Test results only after independent validation.
+- Froze all seven methods and four split strategies before first Test access.
+- Required owner-authored approvals, machine-readable attestations, and exact two-session access
+  accounting.
+- Preserved the first blocked replay and its incident evidence, then completed protocol revision
+  r1 with two separately approved replacement sessions.
+- Compared 430 deterministic files with zero replay differences and published only twelve reviewed
+  aggregate files.
 
 ## Decisions left for later gates
 
-Later protocol decisions must set multi-seed analyses, statistical tests, and the conditions for
-first Test access. The v0.2.0 cohort and split identities, the v0.3.0 classical protocol, and the
-v0.4.0 ESM-2 protocol are frozen inputs, not values to retune after seeing future Test performance.
+Any later study must define a new cohort or external evaluation question before implementation.
+The v0.2 cohort and splits, v0.3 classical protocol, v0.4 ESM-2 protocol, and v0.5 Test results are
+frozen evidence. They cannot be retuned or selectively rerun after Test inspection.

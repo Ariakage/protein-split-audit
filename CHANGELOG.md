@@ -7,6 +7,34 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+## 0.5.0 - 2026-07-18
+
+### Added
+
+- A strict v0.5 Test-access gate bound to a clean generation commit, an attestation-only execution
+  commit, frozen inputs and methods, the canonical runtime, and exactly two formal sessions.
+- A fixed seven-method by four-split Test matrix that fits on Train, excludes Validation, seals
+  predictions before opening Test labels, and records complete local provenance.
+- Deterministic Cluster30-component bootstrap intervals, paired within-split method comparisons,
+  and independently resampled Random-minus-cluster generalization gaps.
+- Exact A/B replay verification and twelve reviewed aggregate Test files with no sequence or
+  record-level output.
+
+### Fixed
+
+- Removed formal session names from deterministic feature, embedding, and fitted-artifact
+  identity. The original replay attempt remains preserved as blocked evidence; protocol revision
+  r1 used newly approved replacement sessions and reached zero deterministic mismatches.
+
+### Scope
+
+- Reports one frozen 442-protein, five-class *E. coli* K-12 Test pilot with one method set and one
+  statistical protocol. It does not establish a general benchmark or a universal method ranking.
+- Keeps sequences, accessions, predictions, nearest-neighbor rows, features, embeddings, fitted
+  models, caches, ledgers, incidents, and logs local and untracked.
+- Adds no Test-driven tuning, third Test session, model fine-tuning, new representation, or claim
+  about ESM-2 pretraining-data independence.
+
 ## 0.4.0 - 2026-07-16
 
 ### Added

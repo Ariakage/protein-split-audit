@@ -35,11 +35,19 @@ dist/
 /cache/models/
 /cache/embeddings/
 *.npy
+*.npz
+*.parquet
+*.pt
+*.pth
+*.ckpt
 *.safetensors
 *.joblib
+/models/
 
 # Local run artifacts
 /results/runs/
+*.jsonl
+*.log
 /report/_build/
 /notebooks/.ipynb_checkpoints/
 

@@ -12,13 +12,19 @@ import numpy as np
 import numpy.typing as npt
 import torch
 
+from protein_split_audit.attestations.test_access import VerifiedTestAuthorization
 from protein_split_audit.embeddings.batching import (
     BatchingStatistics,
     batching_statistics,
     deterministic_batches,
 )
 from protein_split_audit.embeddings.pooling import residue_mean_pool
-from protein_split_audit.embeddings.tokenizer import TokenizerAdapter, tokenize_records
+from protein_split_audit.embeddings.tokenizer import (
+    TokenizedRecord,
+    TokenizerAdapter,
+    tokenize_frozen_test_records,
+    tokenize_records,
+)
 from protein_split_audit.features.validation import SequenceRecord
 
 
@@ -31,9 +37,10 @@ class ExtractionResult:
     batching: BatchingStatistics
 
 
-def extract_embedding_matrix(
+def _extract_tokenized_matrix(
     records: Sequence[SequenceRecord],
     tokenizer: TokenizerAdapter,
+    tokenized: tuple[TokenizedRecord, ...],
     encoder: Any,
     *,
     max_padded_tokens: int,
@@ -46,7 +53,6 @@ def extract_embedding_matrix(
     accessions = tuple(record.accession for record in records)
     if len(set(accessions)) != len(accessions):
         raise ValueError("embedding extraction accessions must be unique")
-    tokenized = tokenize_records(records, tokenizer)
     batches = deterministic_batches(tokenized, max_padded_tokens)
     pad_token_id = tokenizer.pad_token_id  # type: ignore[attr-defined]
     if pad_token_id is None:
@@ -90,4 +96,51 @@ def extract_embedding_matrix(
     return ExtractionResult(matrix, accessions, batching_statistics(batches))
 
 
-__all__ = ["ExtractionResult", "extract_embedding_matrix"]
+def extract_embedding_matrix(
+    records: Sequence[SequenceRecord],
+    tokenizer: TokenizerAdapter,
+    encoder: Any,
+    *,
+    max_padded_tokens: int,
+    device: str,
+) -> ExtractionResult:
+    """Extract pooled Train/Validation embeddings in canonical row order."""
+
+    tokenized = tokenize_records(records, tokenizer)
+    return _extract_tokenized_matrix(
+        records,
+        tokenizer,
+        tokenized,
+        encoder,
+        max_padded_tokens=max_padded_tokens,
+        device=device,
+    )
+
+
+def extract_frozen_test_embedding_matrix(
+    records: Sequence[SequenceRecord],
+    tokenizer: TokenizerAdapter,
+    encoder: Any,
+    authorization: VerifiedTestAuthorization,
+    *,
+    max_padded_tokens: int,
+    device: str,
+) -> ExtractionResult:
+    """Extract pooled Train/Test embeddings after capability verification."""
+
+    tokenized = tokenize_frozen_test_records(records, tokenizer, authorization)
+    return _extract_tokenized_matrix(
+        records,
+        tokenizer,
+        tokenized,
+        encoder,
+        max_padded_tokens=max_padded_tokens,
+        device=device,
+    )
+
+
+__all__ = [
+    "ExtractionResult",
+    "extract_embedding_matrix",
+    "extract_frozen_test_embedding_matrix",
+]
