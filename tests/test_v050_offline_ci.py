@@ -31,6 +31,25 @@ def test_ci_uses_locked_offline_checks_and_official_isolated_wheel_pattern() -> 
     assert "psaudit experiment test-matrix" not in workflow
 
 
+def test_ci_primes_the_isolated_wheel_environment_before_offline_smoke() -> None:
+    workflow = (PROJECT_ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+
+    prime_start = workflow.index("Prime isolated wheel dependency cache")
+    smoke_start = workflow.index("Smoke-test wheel in an offline isolated environment")
+    assert prime_start < smoke_start
+
+    prime_block = workflow[prime_start:smoke_start]
+    assert (
+        'uv run --isolated --no-project --with "$WHEEL" python -c '
+        '"import sys; assert sys.version_info[:2] == (3, 12)"'
+    ) in prime_block
+    assert "UV_OFFLINE" not in prime_block
+
+    smoke_block = workflow[smoke_start:]
+    assert 'uv run --isolated --no-project --with "$WHEEL" psaudit --version' in smoke_block
+    assert 'UV_OFFLINE: "true"' in smoke_block
+
+
 def test_formal_test_cli_has_no_override_and_denies_generation_a() -> None:
     runner = CliRunner()
     help_result = runner.invoke(app, ["experiment", "test-matrix", "--help"])
