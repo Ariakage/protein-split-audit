@@ -23,6 +23,7 @@ from pydantic import (
     model_validator,
 )
 
+from protein_split_audit.analysis.schemas import PostTestAnalysisConfig
 from protein_split_audit.cohort.schemas import (
     CohortConfig,
     DevelopmentCohortConfig,
@@ -749,3 +750,105 @@ def load_experiment_config(
     if loaded.get("experiment_type") == "esm2_validation":
         return EsmExperimentConfig.model_validate(loaded)
     return ExperimentConfig.model_validate(loaded)
+
+
+def _resolve_analysis_path(value: object, base_dir: Path, project_root: Path) -> Path:
+    """Resolve one v0.6 path without permitting absolute or escaping values."""
+
+    if not isinstance(value, (str, Path)):
+        raise ValueError("analysis path value must be a string or pathlib.Path")
+    raw = Path(value).expanduser()
+    if raw.is_absolute():
+        raise ValueError("analysis paths must be project-relative")
+    resolved = (base_dir / raw).resolve()
+    if not resolved.is_relative_to(project_root):
+        raise ValueError("analysis paths must remain inside the project root")
+    return resolved
+
+
+def load_analysis_config(path: Path) -> PostTestAnalysisConfig:
+    """Load the strict v0.6 analysis contract with config-relative paths."""
+
+    config_path, _source_bytes, loaded = _load_yaml_mapping(path)
+    if config_path.parent.name != "analysis" or config_path.parent.parent.name != "configs":
+        raise ValueError("post-Test analysis configuration must live under configs/analysis")
+    base = config_path.parent
+    project_root = config_path.parents[2]
+
+    def resolve(value: object) -> Path:
+        return _resolve_analysis_path(value, base, project_root)
+
+    raw_inputs = loaded.get("inputs")
+    if isinstance(raw_inputs, dict):
+        for field in ("v050_attestation", "v050_protocol", "v050_config"):
+            artifact = raw_inputs.get(field)
+            if isinstance(artifact, dict) and artifact.get("path") is not None:
+                artifact["path"] = resolve(artifact["path"])
+        for field in ("run_a", "run_b"):
+            run = raw_inputs.get(field)
+            if not isinstance(run, dict):
+                continue
+            if run.get("root") is not None:
+                run["root"] = resolve(run["root"])
+            for artifact_name in ("access_ledger", "matrix_summary", "statistics"):
+                artifact = run.get(artifact_name)
+                if isinstance(artifact, dict) and artifact.get("path") is not None:
+                    artifact["path"] = resolve(artifact["path"])
+        replay = raw_inputs.get("replay_report")
+        if isinstance(replay, dict) and replay.get("path") is not None:
+            replay["path"] = resolve(replay["path"])
+        aggregate = raw_inputs.get("reviewed_aggregate")
+        if isinstance(aggregate, dict) and aggregate.get("root") is not None:
+            aggregate["root"] = resolve(aggregate["root"])
+        cohort = raw_inputs.get("cohort")
+        if isinstance(cohort, dict):
+            for field in ("manifest", "content_manifest"):
+                if cohort.get(field) is not None:
+                    cohort[field] = resolve(cohort[field])
+        splits = raw_inputs.get("splits")
+        if isinstance(splits, list):
+            for split in splits:
+                if not isinstance(split, dict):
+                    continue
+                for field in ("manifest", "content_manifest"):
+                    if split.get(field) is not None:
+                        split[field] = resolve(split[field])
+
+    raw_outputs = loaded.get("outputs")
+    if isinstance(raw_outputs, dict):
+        for field in (
+            "run_a_root",
+            "run_b_root",
+            "replay_report",
+            "aggregate_review_root",
+            "release_root",
+        ):
+            if raw_outputs.get(field) is not None:
+                raw_outputs[field] = resolve(raw_outputs[field])
+    if loaded.get("attestation") is not None:
+        loaded["attestation"] = resolve(loaded["attestation"])
+
+    config = PostTestAnalysisConfig.model_validate(loaded)
+    if config.name == "v060-post-test-analysis-r1":
+        run_a_name = "v0.6.0-analysis-r1-a"
+        run_b_name = "v0.6.0-analysis-r1-b"
+        replay_name = "v0.6.0-analysis-r1-replay.json"
+        aggregate_name = "v0.6.0-analysis-r1-aggregate-review"
+        attestation_name = "v0.6.0-analysis-freeze-r1.yaml"
+    else:
+        run_a_name = "v0.6.0-analysis-a"
+        run_b_name = "v0.6.0-analysis-b"
+        replay_name = "v0.6.0-analysis-replay.json"
+        aggregate_name = "v0.6.0-aggregate-review"
+        attestation_name = "v0.6.0-analysis-freeze.yaml"
+    expected_paths = {
+        config.outputs.run_a_root: project_root / "results/runs" / run_a_name,
+        config.outputs.run_b_root: project_root / "results/runs" / run_b_name,
+        config.outputs.replay_report: project_root / "results/runs" / replay_name,
+        config.outputs.aggregate_review_root: project_root / "results/runs" / aggregate_name,
+        config.outputs.release_root: project_root / "results/released/v0.6.0",
+        config.attestation: project_root / "docs/attestations" / attestation_name,
+    }
+    if any(observed != expected for observed, expected in expected_paths.items()):
+        raise ValueError("analysis output or attestation path differs from the frozen contract")
+    return config

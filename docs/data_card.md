@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Pilot-v1 data card and v0.5 Test use
+# Pilot-v1 data card and v0.6 post-Test use
 
 ## What is released
 
@@ -22,6 +22,11 @@ the approved protocol attestation. Embeddings and per-record outputs remain loca
 ProteinSplitAudit v0.5.0 evaluates all seven frozen methods on Test for the first time. The formal
 matrix has 28 cells and uses exactly two mechanical sessions. The release contains twelve
 aggregate files and no protein-level result.
+
+ProteinSplitAudit v0.6.0 analyzes those unchanged frozen predictions without rerunning inference.
+It publishes ten aggregate analysis tables, an analysis manifest, an exact-replay report, and six
+PDF figures. The release does not add a cohort row, change a split, train a model, or expose a
+protein-level result.
 
 ## Source and candidate pool
 
@@ -85,6 +90,12 @@ differences were positive with paired intervals above zero. The ESM-2 150M-minus
 the Random-minus-cluster Macro-F1 intervals included zero. These are descriptive results from one
 small cohort, not significance tests or a general ranking.
 
+The v0.6.0 aggregate files support audit of fixed post-Test questions: split performance,
+nearest-Train identity, length, EC-class errors, method comparisons, prediction agreement,
+Nearest Homolog behavior, and component-based robustness. Unsupported or privacy-sensitive groups
+are omitted under the frozen reporting rules. The outputs are suitable for checking the analysis
+contract, not for inventing new hypotheses or selecting a preferred model after Test inspection.
+
 ## Limitations
 
 Swiss-Prot curation does not eliminate annotation uncertainty, taxonomic bias, research-attention
@@ -107,14 +118,20 @@ identity. Predictions, metrics, and bootstrap results matched, but the exact rep
 not. Revision r1 corrected that identity rule using synthetic fixtures before two replacement
 sessions were approved. Both attempts and their access records remain part of the audit trail.
 
+The initial v0.6 analysis session was consumed by an approved nullable-metadata state that the
+implementation rejected. Revision r1 corrected only that normalization with synthetic fixtures.
+Two replacement sessions then produced byte-identical deterministic outputs. A later presentation
+revision changed only figure layout; the source aggregate CSV bytes remained fixed.
+
 ## Access and licensing
 
 Reviewed v0.2 data manifests are in `results/released/v0.2.0/`; reviewed v0.3 classical summaries
 are in `results/released/v0.3.0/`; reviewed v0.4 ESM-2 summaries are in
 `results/released/v0.4.0/`; reviewed v0.5 Test aggregates are in
-`results/released/v0.5.0/`. Raw downloads, sequence-bearing Parquet and FASTA, normalized pair
-tables, protein-level manifests, embeddings, predictions, models, detailed audits, run
-directories, access ledgers, incidents, and caches remain ignored.
+`results/released/v0.5.0/`; reviewed v0.6 post-Test aggregates and figures are in
+`results/released/v0.6.0/`. Raw downloads, sequence-bearing Parquet and FASTA, normalized pair
+tables, protein-level manifests, embeddings, predictions, models, detailed audits, exploratory
+outputs, run directories, access ledgers, incidents, and caches remain ignored.
 
 UniProt-derived content retains its upstream terms. ProteinSplitAudit does not relicense it. Read
 `DATA_LICENSE.md`, `THIRD_PARTY_NOTICES.md`, and `docs/LICENSE_POLICY.md` before sharing any local

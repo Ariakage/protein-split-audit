@@ -1,0 +1,589 @@
+schema_version,analysis_class,analysis_id,split_order,split_name,stratum_dimension,stratum_order,stratum_id,stratum_label,method_order,method,metric_order,metric,sequence_count_display,sequence_count,component_count_display,component_count,estimate,ci_lower,ci_upper,bootstrap_iterations,bootstrap_seed,reporting_status
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,0,majority,0,accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,0,majority,1,balanced_accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,0,majority,2,macro_f1,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,0,majority,0,accuracy,52,52,52,52,0.461538461538462,0.326923076923077,0.596153846153846,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,0,majority,1,balanced_accuracy,52,52,52,52,0.2,0.2,0.2,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,0,majority,2,macro_f1,52,52,52,52,0.126315789473684,0.098550724637681,0.149397590361446,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,1,length-logistic,0,accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,1,length-logistic,1,balanced_accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,1,length-logistic,2,macro_f1,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,1,length-logistic,0,accuracy,52,52,52,52,0.192307692307692,0.096153846153846,0.307692307692308,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,1,length-logistic,1,balanced_accuracy,52,52,52,52,0.2,0.140375,0.246676470588235,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,1,length-logistic,2,macro_f1,52,52,52,52,0.113174182139699,0.055541958041958,0.168897435897436,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,2,aac-logistic,0,accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,2,aac-logistic,1,balanced_accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,2,aac-logistic,2,macro_f1,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,2,aac-logistic,0,accuracy,52,52,52,52,0.326923076923077,0.211538461538462,0.461538461538462,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,2,aac-logistic,1,balanced_accuracy,52,52,52,52,0.293809523809524,0.152674093148231,0.43600367965368,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,2,aac-logistic,2,macro_f1,52,52,52,52,0.252016806722689,0.139271007695292,0.35289445332789,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,0,accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,1,balanced_accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,2,macro_f1,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,3,kmer3-logistic,0,accuracy,52,52,52,52,0.5,0.365384615384615,0.634615384615385,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,3,kmer3-logistic,1,balanced_accuracy,52,52,52,52,0.445238095238095,0.343785714285714,0.56624788255223,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,3,kmer3-logistic,2,macro_f1,52,52,52,52,0.376945444844605,0.233299755799756,0.494766826488374,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,4,nearest-homolog,0,accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,4,nearest-homolog,1,balanced_accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,4,nearest-homolog,2,macro_f1,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,4,nearest-homolog,0,accuracy,52,52,52,52,0.461538461538462,0.326923076923077,0.596153846153846,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,4,nearest-homolog,1,balanced_accuracy,52,52,52,52,0.2,0.2,0.2,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,4,nearest-homolog,2,macro_f1,52,52,52,52,0.126315789473684,0.098550724637681,0.149397590361446,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,5,esm2-35m,0,accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,5,esm2-35m,1,balanced_accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,5,esm2-35m,2,macro_f1,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,5,esm2-35m,0,accuracy,52,52,52,52,0.769230769230769,0.653846153846154,0.884615384615385,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,5,esm2-35m,1,balanced_accuracy,52,52,52,52,0.727857142857143,0.553538636363636,0.868503496503496,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,5,esm2-35m,2,macro_f1,52,52,52,52,0.736190476190476,0.570124835829885,0.854879195386423,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,0,identity_00_20,0–<20%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,6,esm2-150m,0,accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,6,esm2-150m,1,balanced_accuracy,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,1,identity_20_30,20–<30%,6,esm2-150m,2,macro_f1,10,10,10,10,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,2,identity_30_40,30–<40%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,3,identity_40_50,40–<50%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,4,identity_50_70,50–<70%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,5,identity_70_100,70–100%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,6,esm2-150m,0,accuracy,52,52,52,52,0.769230769230769,0.653846153846154,0.884615384615385,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,6,esm2-150m,1,balanced_accuracy,52,52,52,52,0.699761904761905,0.544134920634921,0.837780303030303,2000,2026,reportable
+1,confirmatory,v060-identity,0,random,identity,6,no_hit,No hit,6,esm2-150m,2,macro_f1,52,52,52,52,0.706285283344107,0.533792867349369,0.840412572721396,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,0,majority,0,accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,0,majority,1,balanced_accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,0,majority,2,macro_f1,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,0,majority,0,accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,0,majority,1,balanced_accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,0,majority,2,macro_f1,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,0,majority,0,accuracy,52,52,51,51,0.5,0.365384615384615,0.634615384615385,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,0,majority,1,balanced_accuracy,52,52,51,51,0.2,0.2,0.2,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,0,majority,2,macro_f1,52,52,51,51,0.133333333333333,0.107042253521127,0.155294117647059,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,1,length-logistic,0,accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,1,length-logistic,1,balanced_accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,1,length-logistic,2,macro_f1,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,1,length-logistic,0,accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,1,length-logistic,1,balanced_accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,1,length-logistic,2,macro_f1,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,1,length-logistic,0,accuracy,52,52,51,51,0.173076923076923,0.076923076923077,0.283154934687953,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,1,length-logistic,1,balanced_accuracy,52,52,51,51,0.286025641025641,0.116660714285714,0.409066152407667,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,1,length-logistic,2,macro_f1,52,52,51,51,0.139262125902993,0.055872071483055,0.21630198547478,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,2,aac-logistic,0,accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,2,aac-logistic,1,balanced_accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,2,aac-logistic,2,macro_f1,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,2,aac-logistic,0,accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,2,aac-logistic,1,balanced_accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,2,aac-logistic,2,macro_f1,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,2,aac-logistic,0,accuracy,52,52,51,51,0.365384615384615,0.235294117647059,0.500235849056602,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,2,aac-logistic,1,balanced_accuracy,52,52,51,51,0.303974358974359,0.149414014146773,0.487065032679738,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,2,aac-logistic,2,macro_f1,52,52,51,51,0.285402275742833,0.162564744751816,0.403505280548759,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,0,accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,1,balanced_accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,2,macro_f1,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,0,accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,2,macro_f1,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,3,kmer3-logistic,0,accuracy,52,52,51,51,0.403846153846154,0.274509803921569,0.537037037037037,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,3,kmer3-logistic,1,balanced_accuracy,52,52,51,51,0.238076923076923,0.151503246753247,0.340970238095238,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,3,kmer3-logistic,2,macro_f1,52,52,51,51,0.239339525283798,0.13932380952381,0.329238095238095,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,4,nearest-homolog,0,accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,4,nearest-homolog,1,balanced_accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,4,nearest-homolog,2,macro_f1,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,4,nearest-homolog,0,accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,4,nearest-homolog,1,balanced_accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,4,nearest-homolog,2,macro_f1,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,4,nearest-homolog,0,accuracy,52,52,51,51,0.5,0.352941176470588,0.641509433962264,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,4,nearest-homolog,1,balanced_accuracy,52,52,51,51,0.2,0.2,0.2,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,4,nearest-homolog,2,macro_f1,52,52,51,51,0.133333333333333,0.108081461743434,0.155294117647059,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,5,esm2-35m,0,accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,5,esm2-35m,1,balanced_accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,5,esm2-35m,2,macro_f1,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,5,esm2-35m,0,accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,5,esm2-35m,1,balanced_accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,5,esm2-35m,2,macro_f1,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,5,esm2-35m,0,accuracy,52,52,51,51,0.711538461538462,0.588235294117647,0.830188679245283,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,5,esm2-35m,1,balanced_accuracy,52,52,51,51,0.63025641025641,0.416666666666667,0.803364718614718,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,5,esm2-35m,2,macro_f1,52,52,51,51,0.622619047619048,0.439397103130166,0.768864375205234,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,0,identity_00_20,0–<20%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,6,esm2-150m,0,accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,6,esm2-150m,1,balanced_accuracy,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,1,identity_20_30,20–<30%,6,esm2-150m,2,macro_f1,7,7,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,6,esm2-150m,0,accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,6,esm2-150m,1,balanced_accuracy,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,2,identity_30_40,30–<40%,6,esm2-150m,2,macro_f1,<5,NA,3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,3,identity_40_50,40–<50%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,4,identity_50_70,50–<70%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,5,identity_70_100,70–100%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,6,esm2-150m,0,accuracy,52,52,51,51,0.826923076923077,0.725490196078431,0.923076923076923,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,6,esm2-150m,1,balanced_accuracy,52,52,51,51,0.745641025641026,0.541660353535354,0.898334134615385,2000,2026,reportable
+1,confirmatory,v060-identity,1,cluster70,identity,6,no_hit,No hit,6,esm2-150m,2,macro_f1,52,52,51,51,0.757858282068808,0.549756983453705,0.89901665433469,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,0,majority,0,accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,0,majority,1,balanced_accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,0,majority,2,macro_f1,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,0,majority,0,accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,0,majority,1,balanced_accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,0,majority,2,macro_f1,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,0,majority,0,accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,0,majority,1,balanced_accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,0,majority,2,macro_f1,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,0,majority,0,accuracy,49,49,45,45,0.510204081632653,0.361659574468085,0.666666666666667,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,0,majority,1,balanced_accuracy,49,49,45,45,0.2,0.2,0.2,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,0,majority,2,macro_f1,49,49,45,45,0.135135135135135,0.105882352941176,0.158974358974359,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,1,length-logistic,0,accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,1,length-logistic,1,balanced_accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,1,length-logistic,2,macro_f1,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,1,length-logistic,0,accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,1,length-logistic,1,balanced_accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,1,length-logistic,2,macro_f1,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,1,length-logistic,0,accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,1,length-logistic,1,balanced_accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,1,length-logistic,2,macro_f1,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,1,length-logistic,0,accuracy,49,49,45,45,0.244897959183673,0.10863783533765,0.383019639934533,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,1,length-logistic,1,balanced_accuracy,49,49,45,45,0.304095238095238,0.168613671274962,0.453333333333333,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,1,length-logistic,2,macro_f1,49,49,45,45,0.202122626828509,0.078707879756317,0.305283721523188,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,2,aac-logistic,0,accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,2,aac-logistic,1,balanced_accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,2,aac-logistic,2,macro_f1,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,2,aac-logistic,0,accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,2,aac-logistic,1,balanced_accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,2,aac-logistic,2,macro_f1,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,2,aac-logistic,0,accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,2,aac-logistic,1,balanced_accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,2,aac-logistic,2,macro_f1,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,2,aac-logistic,0,accuracy,49,49,45,45,0.326530612244898,0.2,0.46,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,2,aac-logistic,1,balanced_accuracy,49,49,45,45,0.34415873015873,0.173845238095238,0.519542960662526,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,2,aac-logistic,2,macro_f1,49,49,45,45,0.29529601029601,0.160965168135798,0.419542142068458,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,0,accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,1,balanced_accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,2,macro_f1,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,0,accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,1,balanced_accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,2,macro_f1,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,0,accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,2,macro_f1,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,3,kmer3-logistic,0,accuracy,49,49,45,45,0.428571428571429,0.282608695652174,0.583333333333333,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,3,kmer3-logistic,1,balanced_accuracy,49,49,45,45,0.313714285714286,0.146734445277361,0.451318609022556,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,3,kmer3-logistic,2,macro_f1,49,49,45,45,0.267280701754386,0.125342589742294,0.374286762792549,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,4,nearest-homolog,0,accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,4,nearest-homolog,1,balanced_accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,4,nearest-homolog,2,macro_f1,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,4,nearest-homolog,0,accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,4,nearest-homolog,1,balanced_accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,4,nearest-homolog,2,macro_f1,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,4,nearest-homolog,0,accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,4,nearest-homolog,1,balanced_accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,4,nearest-homolog,2,macro_f1,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,4,nearest-homolog,0,accuracy,49,49,45,45,0.510204081632653,0.361702127659574,0.659574468085106,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,4,nearest-homolog,1,balanced_accuracy,49,49,45,45,0.2,0.2,0.2,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,4,nearest-homolog,2,macro_f1,49,49,45,45,0.135135135135135,0.105882352941176,0.159036144578313,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,5,esm2-35m,0,accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,5,esm2-35m,1,balanced_accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,5,esm2-35m,2,macro_f1,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,5,esm2-35m,0,accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,5,esm2-35m,1,balanced_accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,5,esm2-35m,2,macro_f1,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,5,esm2-35m,0,accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,5,esm2-35m,1,balanced_accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,5,esm2-35m,2,macro_f1,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,5,esm2-35m,0,accuracy,49,49,45,45,0.816326530612245,0.686274509803922,0.934782608695652,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,5,esm2-35m,1,balanced_accuracy,49,49,45,45,0.758666666666667,0.6,0.898879310344827,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,5,esm2-35m,2,macro_f1,49,49,45,45,0.78025974025974,0.563929202828672,0.904335841840152,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,0,identity_00_20,0–<20%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,6,esm2-150m,0,accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,6,esm2-150m,1,balanced_accuracy,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,1,identity_20_30,20–<30%,6,esm2-150m,2,macro_f1,5,5,4,4,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,6,esm2-150m,0,accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,6,esm2-150m,1,balanced_accuracy,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,2,identity_30_40,30–<40%,6,esm2-150m,2,macro_f1,8,8,7,7,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,6,esm2-150m,0,accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,6,esm2-150m,1,balanced_accuracy,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,3,identity_40_50,40–<50%,6,esm2-150m,2,macro_f1,<5,NA,4,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,4,identity_50_70,50–<70%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,5,identity_70_100,70–100%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,6,esm2-150m,0,accuracy,49,49,45,45,0.836734693877551,0.714285714285714,0.94,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,6,esm2-150m,1,balanced_accuracy,49,49,45,45,0.816539682539683,0.624281512605042,0.936694444444444,2000,2026,reportable
+1,confirmatory,v060-identity,2,cluster50,identity,6,no_hit,No hit,6,esm2-150m,2,macro_f1,49,49,45,45,0.815018315018315,0.63032891628605,0.926153802087637,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,0,majority,0,accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,0,majority,1,balanced_accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,0,majority,2,macro_f1,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,0,majority,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,0,majority,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,0,majority,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,0,majority,0,accuracy,58,58,52,52,0.46551724137931,0.333196721311475,0.603448275862069,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,0,majority,1,balanced_accuracy,58,58,52,52,0.2,0.2,0.2,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,0,majority,2,macro_f1,58,58,52,52,0.127058823529412,0.097435897435897,0.150547778454047,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,1,length-logistic,0,accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,1,length-logistic,1,balanced_accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,1,length-logistic,2,macro_f1,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,1,length-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,1,length-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,1,length-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,1,length-logistic,0,accuracy,58,58,52,52,0.224137931034483,0.116666666666667,0.345568181818181,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,1,length-logistic,1,balanced_accuracy,58,58,52,52,0.273201058201058,0.173333333333333,0.402280011655012,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,1,length-logistic,2,macro_f1,58,58,52,52,0.184235097547791,0.079162898855194,0.286268154101996,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,2,aac-logistic,0,accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,2,aac-logistic,1,balanced_accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,2,aac-logistic,2,macro_f1,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,2,aac-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,2,aac-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,2,aac-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,2,aac-logistic,0,accuracy,58,58,52,52,0.310344827586207,0.186440677966102,0.440677966101695,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,2,aac-logistic,1,balanced_accuracy,58,58,52,52,0.222659932659933,0.12055368338558,0.355694444444444,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,2,aac-logistic,2,macro_f1,58,58,52,52,0.225141525141525,0.130157798342009,0.324423493898958,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,0,accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,1,balanced_accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,3,kmer3-logistic,2,macro_f1,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,3,kmer3-logistic,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,3,kmer3-logistic,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,3,kmer3-logistic,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,3,kmer3-logistic,0,accuracy,58,58,52,52,0.517241379310345,0.375,0.642857142857143,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,3,kmer3-logistic,1,balanced_accuracy,58,58,52,52,0.41549062049062,0.258307880844646,0.558943181818182,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,3,kmer3-logistic,2,macro_f1,58,58,52,52,0.379650284356167,0.232147834274953,0.504771345675601,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,4,nearest-homolog,0,accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,4,nearest-homolog,1,balanced_accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,4,nearest-homolog,2,macro_f1,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,4,nearest-homolog,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,4,nearest-homolog,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,4,nearest-homolog,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,4,nearest-homolog,0,accuracy,58,58,52,52,0.46551724137931,0.32258064516129,0.607142857142857,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,4,nearest-homolog,1,balanced_accuracy,58,58,52,52,0.2,0.2,0.2,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,4,nearest-homolog,2,macro_f1,58,58,52,52,0.127058823529412,0.097435897435897,0.151122807017544,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,5,esm2-35m,0,accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,5,esm2-35m,1,balanced_accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,5,esm2-35m,2,macro_f1,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,5,esm2-35m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,5,esm2-35m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,5,esm2-35m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,5,esm2-35m,0,accuracy,58,58,52,52,0.706896551724138,0.586206896551724,0.825396825396825,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,5,esm2-35m,1,balanced_accuracy,58,58,52,52,0.652383357383357,0.485339993339993,0.791471343821177,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,5,esm2-35m,2,macro_f1,58,58,52,52,0.665455304928989,0.476592442645074,0.794689404156046,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,0,identity_00_20,0–<20%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,6,esm2-150m,0,accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,6,esm2-150m,1,balanced_accuracy,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,1,identity_20_30,20–<30%,6,esm2-150m,2,macro_f1,8,8,8,8,NA,NA,NA,NA,NA,insufficient_sequences
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,2,identity_30_40,30–<40%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,3,identity_40_50,40–<50%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,4,identity_50_70,50–<70%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,6,esm2-150m,0,accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,6,esm2-150m,1,balanced_accuracy,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,5,identity_70_100,70–100%,6,esm2-150m,2,macro_f1,<5,NA,<3,NA,NA,NA,NA,NA,NA,privacy_suppressed
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,6,esm2-150m,0,accuracy,58,58,52,52,0.793103448275862,0.678556295399516,0.894736842105263,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,6,esm2-150m,1,balanced_accuracy,58,58,52,52,0.742907647907648,0.559457792207792,0.880374611801242,2000,2026,reportable
+1,confirmatory,v060-identity,3,cluster30,identity,6,no_hit,No hit,6,esm2-150m,2,macro_f1,58,58,52,52,0.737322551662174,0.554797704881326,0.860658606744133,2000,2026,reportable

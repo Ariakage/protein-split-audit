@@ -1,0 +1,261 @@
+schema_version: 1
+project: ProteinSplitAudit
+release_target: v0.6.0
+attestation_type: frozen_test_output_analysis
+protocol:
+  path: docs/protocols/v0.6.0-post-test-analysis-r1.md
+  sha256: e58dd1c1c2bd7593172a452ba592d2abdb719cf164344fb6493a7175ee0c76b7
+code:
+  generation_git_commit: 5d5a7e817acb2b271b0353536ed4a270e104d18c
+  generation_git_dirty: false
+  software_version: 0.6.0
+  python_version: 3.12.11
+  configuration:
+    path: configs/analysis/v060-post-test-analysis-r1.yaml
+    sha256: c8df24c2450057a188cb22aa97221725db153067b495bb9e3fd09f6515cf7dbf
+  uv_lock:
+    path: uv.lock
+    sha256: efe81a00b6c2cbcda06ec89b3720a75ff4cac11e7edfe46d46ba08748a2fd5d3
+  dependency_diff:
+    path: docs/audits/v0.6.0-dependency-diff.md
+    sha256: e2187fe098bed8be81a740dcf716dc0d8efe1b2e09cf3b8d5c6eddf54bb5188f
+frozen_inputs:
+  v050_attestation_sha256: 28d03809b662b9ffd9b3d7e69830b203e1a9390887470dc114c38ef16e0e89c9
+  v050_replay_sha256: 8e7b18f293a0b88bf6ae57d5145fd3f79fb10c3a7e3cfde48c6642894ee785ed
+  run_a_directory_sha256: ed39f79cc33248d93ded09a2d379a31427e932f2d710ea1fa1e24df3a941a12c
+  run_b_directory_sha256: 39adb11a20ee76ccecc367e699465cdd5a0b58b7eae221661b849e5aa445e286
+  prediction_inventory_sha256: 0c9522da00914a7086dd251024c0ed714c2a175909d0e2f813465155a4b1174b
+  nearest_homolog_inventory_sha256: 4d6daba107c51c169d2dce08587887d0f792cc18d0de4e7c1ca345aba3ac0b2d
+  combined_analysis_inventory_sha256: 06703d334059d294bfe6d56a636a2ad7a01bb8b0bf82869675029715966b3459
+  cohort_file_sha256: c8066a1851e83c95a3063f896236603cb41df085308e795fb42499ec7a0002da
+  split_file_sha256:
+    random: ff572a4eb81f5f377acc348a7fda9786ad773eea6131b54bad88a2b167e5e859
+    cluster70: 898bd302cc77d157f0f4bd398ddc7ec40f9ef5eae43bbb3705963c7ba10ae74e
+    cluster50: 4c105e4b5c007830cf6916e566cebffa8ba1cb54572d59496def086b76eef0b2
+    cluster30: 7d951338073d8958a0852c33c8910c14f8d7ae55e0892ee4ab5f4f1e4c347bee
+  canonical_prediction_session: run-a
+  replay_evidence_session: run-b
+permissions:
+  new_test_inference_authorized: false
+  frozen_test_output_analysis_authorized: true
+analysis:
+  methods:
+  - majority
+  - length-logistic
+  - aac-logistic
+  - kmer3-logistic
+  - nearest-homolog
+  - esm2-35m
+  - esm2-150m
+  splits:
+  - random
+  - cluster70
+  - cluster50
+  - cluster30
+  label_order:
+  - '2.7'
+  - '3.1'
+  - '1.1'
+  - '2.1'
+  - '4.1'
+  formal_sessions:
+  - analysis-r1-a
+  - analysis-r1-b
+strata:
+  identity_bins:
+  - order: 0
+    id: identity_00_20
+    display: "0\u2013<20%"
+    lower: 0.0
+    upper: 0.2
+    lower_inclusive: true
+    upper_inclusive: false
+    no_hit: false
+  - order: 1
+    id: identity_20_30
+    display: "20\u2013<30%"
+    lower: 0.2
+    upper: 0.3
+    lower_inclusive: true
+    upper_inclusive: false
+    no_hit: false
+  - order: 2
+    id: identity_30_40
+    display: "30\u2013<40%"
+    lower: 0.3
+    upper: 0.4
+    lower_inclusive: true
+    upper_inclusive: false
+    no_hit: false
+  - order: 3
+    id: identity_40_50
+    display: "40\u2013<50%"
+    lower: 0.4
+    upper: 0.5
+    lower_inclusive: true
+    upper_inclusive: false
+    no_hit: false
+  - order: 4
+    id: identity_50_70
+    display: "50\u2013<70%"
+    lower: 0.5
+    upper: 0.7
+    lower_inclusive: true
+    upper_inclusive: false
+    no_hit: false
+  - order: 5
+    id: identity_70_100
+    display: "70\u2013100%"
+    lower: 0.7
+    upper: 1.0
+    lower_inclusive: true
+    upper_inclusive: true
+    no_hit: false
+  - order: 6
+    id: no_hit
+    display: No hit
+    lower: null
+    upper: null
+    lower_inclusive: false
+    upper_inclusive: false
+    no_hit: true
+  length_bins:
+  - order: 0
+    id: length_050_199
+    display: "50\u2013199"
+    minimum: 50
+    maximum: 199
+  - order: 1
+    id: length_200_399
+    display: "200\u2013399"
+    minimum: 200
+    maximum: 399
+  - order: 2
+    id: length_400_599
+    display: "400\u2013599"
+    minimum: 400
+    maximum: 599
+  - order: 3
+    id: length_600_799
+    display: "600\u2013799"
+    minimum: 600
+    maximum: 799
+  - order: 4
+    id: length_800_1000
+    display: "800\u20131000"
+    minimum: 800
+    maximum: 1000
+  component_size_bins:
+  - order: 0
+    id: component_singleton
+    display: '1'
+    minimum: 1
+    maximum: 1
+  - order: 1
+    id: component_02_04
+    display: "2\u20134"
+    minimum: 2
+    maximum: 4
+  - order: 2
+    id: component_05_09
+    display: "5\u20139"
+    minimum: 5
+    maximum: 9
+  - order: 3
+    id: component_10_19
+    display: "10\u201319"
+    minimum: 10
+    maximum: 19
+  - order: 4
+    id: component_20_plus
+    display: '>=20'
+    minimum: 20
+    maximum: null
+comparisons:
+  rq5:
+  - method_a: esm2-35m
+    method_b: aac-logistic
+    direction: method_a_minus_method_b
+  - method_a: esm2-35m
+    method_b: kmer3-logistic
+    direction: method_a_minus_method_b
+  - method_a: esm2-150m
+    method_b: aac-logistic
+    direction: method_a_minus_method_b
+  - method_a: esm2-150m
+    method_b: kmer3-logistic
+    direction: method_a_minus_method_b
+  - method_a: esm2-150m
+    method_b: esm2-35m
+    direction: method_a_minus_method_b
+  rq6:
+    method_a: esm2-150m
+    method_b: nearest-homolog
+    direction: method_a_minus_method_b
+statistics:
+  metrics:
+  - accuracy
+  - balanced_accuracy
+  - macro_f1
+  bootstrap:
+    unit: cluster30_discovery_component
+    iterations: 2000
+    confidence_level: 0.95
+    interval_method: percentile
+    lower_quantile: 0.025
+    upper_quantile: 0.975
+    quantile_method: linear
+    seed: 2026
+  diagnostic_seeds:
+  - 2026
+  - 3407
+  - 42
+  within_split_resampling: paired_component_bootstrap
+  cross_split_resampling: independent_component_bootstrap
+  generalization_direction: random_minus_comparison
+  component_influence_removals:
+  - 0
+  - 1
+  - 3
+  - 5
+reporting:
+  minimum_sequences_for_metric: 20
+  minimum_components_for_ci: 10
+privacy:
+  suppress_groups_below_sequences: 5
+  suppress_groups_below_components: 3
+publication:
+  public_artifacts:
+  - README.md
+  - split_performance_summary.csv
+  - identity_bin_summary.csv
+  - length_bin_summary.csv
+  - class_error_summary.csv
+  - component_size_summary.csv
+  - nearest_homolog_summary.csv
+  - model_comparisons.csv
+  - prediction_agreement.csv
+  - component_influence.csv
+  - robustness_summary.csv
+  - analysis_manifest.json
+  - replay_report.json
+  - figures/macro_f1_by_split.pdf
+  - figures/generalization_gap.pdf
+  - figures/performance_by_identity.pdf
+  - figures/performance_by_length.pdf
+  - figures/per_class_gap.pdf
+  - figures/nearest_homolog_analysis.pdf
+  refuse_overwrite: true
+runtime:
+  operating_system: Darwin
+  architecture: arm64
+  python: '3.12'
+  device: cpu
+  network_access: false
+  model_execution: false
+approval:
+  approved_by: Ariakage
+  approved_at_utc: '2026-07-18T07:34:37Z'
+  approval_reference: https://github.com/Ariakage/protein-split-audit/pull/5#issuecomment-5010435346
+  author_association: OWNER
+  approval_comment_sha256: 0933ae4be8fd95df7071034242af1acd9be5a856d207876d46d7b084210b07ee

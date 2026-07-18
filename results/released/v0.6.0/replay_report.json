@@ -1,0 +1,24 @@
+{
+  "aggregate_authorized": true,
+  "compared_file_count": 11,
+  "compared_files": [
+    "analysis_manifest.json",
+    "class_error_summary.csv",
+    "component_influence.csv",
+    "component_size_summary.csv",
+    "identity_bin_summary.csv",
+    "length_bin_summary.csv",
+    "model_comparisons.csv",
+    "nearest_homolog_summary.csv",
+    "prediction_agreement.csv",
+    "robustness_summary.csv",
+    "split_performance_summary.csv"
+  ],
+  "deterministic_mismatch_count": 0,
+  "excluded_files": {
+    "run_provenance.json": "run-specific timestamp and local execution details"
+  },
+  "run_a_inventory_sha256": "30e390f5069288f86ec7dc4d7f97c459a5bf24fbe34b1bf015a2520e7fe5b1a6",
+  "run_b_inventory_sha256": "30e390f5069288f86ec7dc4d7f97c459a5bf24fbe34b1bf015a2520e7fe5b1a6",
+  "schema_version": 1
+}

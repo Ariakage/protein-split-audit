@@ -2,6 +2,43 @@
 
 # Reproducing ProteinSplitAudit
 
+## v0.6 post-Test analysis lineage
+
+Prediction-metadata revision r1 was prepared in Generation Commit A5
+`5d5a7e817acb2b271b0353536ed4a270e104d18c`. Attestation Commit B2 is
+`73febd1be2a18d3c9b54f7aacf5cd90a208fbd52`; its r1 attestation SHA-256 is
+`8f802abac69b9aa925da40e391035576c1e8886a4442e7303f9bb204b644f54d`.
+
+The maintainer approved the two r1 analysis sessions at
+<https://github.com/Ariakage/protein-split-audit/pull/5#issuecomment-5010435346>.
+`analysis-r1-a` and `analysis-r1-b` ran consecutively from a clean detached B2 checkout with
+locked dependencies, network denial, no model execution, and no new Test inference. Both analyzed
+the canonical frozen v0.5 Run A predictions. The replay compared 11 deterministic files, found
+zero mismatches, and recorded SHA-256
+`447cc115f469fb3cc0d6a1f78ffbb9219eada8cbefb548f039a465775b53bdf9`.
+
+The first generated PDFs were retained as blocked visual-review evidence. Figure-presentation
+revision r2 was implemented in Presentation Commit P1
+`56cc94eeebb7d2c649dab8fd7b04ac0242b25abe` and tested only with synthetic fixtures before the
+figures were regenerated from the authenticated aggregate CSVs. The figure-generator SHA-256 is
+`3f50b83f5c1e96ed94b1f7ad1ff01423e51faa984e7b2e8078a6712949924388`.
+
+The maintainer approved P1 and the exact CSV and PDF hashes at
+<https://github.com/Ariakage/protein-split-audit/pull/5#issuecomment-5010597548>. Release Commit C
+copies the approved 19 files into `results/released/v0.6.0/` without rewriting them. Check the
+public bytes without opening Test inputs:
+
+```bash
+shasum -a 256 results/released/v0.6.0/* \
+  results/released/v0.6.0/figures/*
+uv run --locked pytest tests/test_v060_release_artifacts.py \
+  tests/test_v060_release_privacy.py -v
+```
+
+Do not run `psaudit analysis run` against the formal inputs. Both r1 sessions have been consumed,
+Release Commit C is not the attestation execution commit, and no further formal Test analysis is
+authorized.
+
 ## v0.5 frozen Test lineage
 
 The first v0.5 generation commit is `231685ce47a3573a77c0360ac925dc94ffc974c5` and its attestation
@@ -281,18 +318,18 @@ The top-level v0.2 provenance manifest binds 13 required aggregate identities. I
 
 ```bash
 uv lock --check
-uv sync --locked --group dev
-uv run --locked ruff check .
-uv run --locked ruff format --check .
-uv run --locked mypy src
-uv run --locked pytest -v
+uv sync --locked --group dev --extra esm
+uv run --locked --extra esm ruff check .
+uv run --locked --extra esm ruff format --check .
+uv run --locked --extra esm mypy src
+uv run --locked --extra esm pytest -v
 uv build
 ```
 
 Smoke-test the built wheel outside the project environment:
 
 ```bash
-WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.5.0-*.whl' -print -quit)
+WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.6.0-*.whl' -print -quit)
 uv run --isolated --no-project --with "$WHEEL" psaudit --version
 uv run --isolated --no-project --with "$WHEEL" psaudit doctor
 uv run --isolated --no-project --with "$WHEEL" psaudit cohort --help
@@ -300,7 +337,11 @@ uv run --isolated --no-project --with "$WHEEL" psaudit similarity --help
 uv run --isolated --no-project --with "$WHEEL" psaudit split --help
 uv run --isolated --no-project --with "$WHEEL" psaudit feature --help
 uv run --isolated --no-project --with "$WHEEL" psaudit model --help
+uv run --isolated --no-project --with "$WHEEL" psaudit evaluate --help
+uv run --isolated --no-project --with "$WHEEL" psaudit embedding --help
 uv run --isolated --no-project --with "$WHEEL" psaudit experiment --help
+uv run --isolated --no-project --with "$WHEEL" psaudit analysis --help
+uv run --isolated --no-project --with "$WHEEL" psaudit report --help
 ```
 
 ## Artifact boundary
@@ -309,6 +350,7 @@ Do not track raw data, processed sequences, pair tables, record-level cohort or 
 detailed audit rows, feature caches, models, predictions, MMseqs2 databases, or run directories.
 The v0.2 directory contains reviewed data manifests. `results/released/v0.3.0/` contains the
 approved classical aggregate Validation artifacts, `results/released/v0.4.0/` contains the
-approved ESM-2 aggregate Validation artifacts, and `results/released/v0.5.0/` contains the twelve
-approved aggregate Test files. Formal run directories, access ledgers, and incident evidence stay
-local and ignored.
+approved ESM-2 aggregate Validation artifacts, `results/released/v0.5.0/` contains the twelve
+approved aggregate Test files, and `results/released/v0.6.0/` contains the approved 19-file
+post-Test analysis bundle. Formal run directories, access ledgers, incident evidence, blocked
+figure candidates, and exploratory outputs stay local and ignored.

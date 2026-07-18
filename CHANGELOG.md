@@ -7,6 +7,34 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+## 0.6.0 - 2026-07-18
+
+### Added
+
+- An attestation-gated post-Test analysis over the frozen v0.5.0 predictions, with fixed identity,
+  length, class, component-size, agreement, influence, and robustness summaries.
+- Cluster30-component bootstrap intervals, prespecified method comparisons, deterministic
+  two-session replay, and an exact 19-file public allowlist.
+- Ten sequence-free aggregate CSV tables, an analysis manifest, a replay report, and six
+  deterministic PDF figures.
+
+### Fixed
+
+- Normalized nullable Nearest Homolog metadata without changing predictions or nearest-neighbor
+  results. The consumed initial analysis session and its incident evidence remain preserved.
+- Reworked public figure layouts to separate measurement units, shorten labels, omit unsupported
+  cells, and keep legends clear of plotted data. The rejected figure candidates remain local.
+
+### Scope
+
+- Analyzes the existing 442-protein, five-class *E. coli* K-12 Test pilot. It does not rerun Test
+  inference, train a model, change a split, or authorize another formal Test session.
+- Treats all uncertainty summaries as descriptive. It makes no significance claim, universal
+  method ranking, representative bacterial benchmark claim, or ESM-2 pretraining-independence
+  claim.
+- Publishes aggregate outputs only. Predictions, sequences, accessions, nearest-neighbor rows,
+  models, caches, ledgers, incidents, logs, and exploratory analyses remain local and untracked.
+
 ## 0.5.0 - 2026-07-18
 
 ### Added

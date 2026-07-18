@@ -70,8 +70,22 @@ or support a research claim.
 - Compared 430 deterministic files with zero replay differences and published only twelve reviewed
   aggregate files.
 
+## Gate 6: v0.6.0 post-Test analysis and robustness audit (complete)
+
+- Prespecified six confirmatory questions and fixed robustness checks before analyzing the frozen
+  v0.5 predictions.
+- Used the Cluster30 discovery component for all bootstrap intervals and kept same-split and
+  cross-split resampling rules distinct.
+- Preserved the initial nullable-metadata incident, then completed two separately approved r1
+  analysis sessions with zero differences across 11 deterministic files.
+- Published ten sequence-free aggregate tables, a manifest, a replay report, and six reviewed PDF
+  figures under an exact 19-file allowlist.
+- Added no Test inference, model execution, retraining, parameter tuning, or exploratory result to
+  the confirmatory release.
+
 ## Decisions left for later gates
 
 Any later study must define a new cohort or external evaluation question before implementation.
-The v0.2 cohort and splits, v0.3 classical protocol, v0.4 ESM-2 protocol, and v0.5 Test results are
-frozen evidence. They cannot be retuned or selectively rerun after Test inspection.
+The v0.2 cohort and splits, v0.3 classical protocol, v0.4 ESM-2 protocol, v0.5 Test results, and
+v0.6 confirmatory analysis are frozen evidence. They cannot be retuned or selectively rerun after
+Test inspection.

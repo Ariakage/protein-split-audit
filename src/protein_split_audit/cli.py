@@ -105,6 +105,8 @@ model_app = typer.Typer(help="Classical baseline commands.", no_args_is_help=Tru
 evaluate_app = typer.Typer(help="Validation evaluation commands.", no_args_is_help=True)
 experiment_app = typer.Typer(help="Validation experiment commands.", no_args_is_help=True)
 embedding_app = typer.Typer(help="Frozen ESM-2 embedding commands.", no_args_is_help=True)
+analysis_app = typer.Typer(help="Attestation-gated frozen-output analysis.", no_args_is_help=True)
+report_app = typer.Typer(help="Sanitized aggregate reporting commands.", no_args_is_help=True)
 app.add_typer(data_app, name="data")
 app.add_typer(cohort_app, name="cohort")
 app.add_typer(similarity_app, name="similarity")
@@ -114,6 +116,8 @@ app.add_typer(model_app, name="model")
 app.add_typer(evaluate_app, name="evaluate")
 app.add_typer(experiment_app, name="experiment")
 app.add_typer(embedding_app, name="embedding")
+app.add_typer(analysis_app, name="analysis")
+app.add_typer(report_app, name="report")
 
 
 @dataclass(frozen=True, slots=True)
@@ -302,6 +306,151 @@ def _not_implemented(command: str) -> None:
 
     typer.echo(f"Error: {command} is not implemented in this task.", err=True)
     raise typer.Exit(code=1)
+
+
+@analysis_app.command("verify-inputs")
+def analysis_verify_inputs(
+    config: Annotated[
+        Path,
+        typer.Option(
+            "--config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Frozen v0.6 analysis YAML configuration.",
+        ),
+    ],
+    attestation: Annotated[
+        Path,
+        typer.Option(
+            "--attestation",
+            dir_okay=False,
+            resolve_path=True,
+            help="Maintainer-approved v0.6 analysis attestation.",
+        ),
+    ],
+) -> None:
+    """Hash and validate authorized inputs without writing an analysis."""
+
+    from protein_split_audit.analysis.authorization import (
+        AnalysisOutputAccessDenied,
+        verify_analysis_authorization,
+    )
+
+    root = find_project_root(config)
+    if root is None:
+        typer.echo("Error: frozen Test-output analysis is not authorized", err=True)
+        raise typer.Exit(code=1)
+    try:
+        verify_analysis_authorization(config, attestation, root)
+    except (AnalysisOutputAccessDenied, OSError, ValueError):
+        typer.echo("Error: frozen Test-output analysis is not authorized", err=True)
+        raise typer.Exit(code=1) from None
+    typer.echo("PASS: authorized frozen input identities are valid")
+
+
+@analysis_app.command("run")
+def analysis_run(
+    config: Annotated[
+        Path,
+        typer.Option("--config", exists=True, dir_okay=False, readable=True, resolve_path=True),
+    ],
+    attestation: Annotated[
+        Path,
+        typer.Option(
+            "--attestation", exists=True, dir_okay=False, readable=True, resolve_path=True
+        ),
+    ],
+    session: Annotated[
+        Literal["analysis-a", "analysis-b", "analysis-r1-a", "analysis-r1-b"],
+        typer.Option("--session"),
+    ],
+    output_dir: Annotated[Path, typer.Option("--output-dir", resolve_path=True)],
+) -> None:
+    """Run one approved formal aggregate session without printing metrics."""
+
+    from protein_split_audit.analysis.aggregate import run_post_test_analysis
+
+    try:
+        run_post_test_analysis(config, attestation, session, output_dir)
+    except (OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from None
+    typer.echo(f"PASS: {session} deterministic aggregate completed")
+
+
+@analysis_app.command("replay")
+def analysis_replay(
+    run_a: Annotated[
+        Path, typer.Option("--run-a", exists=True, file_okay=False, resolve_path=True)
+    ],
+    run_b: Annotated[
+        Path, typer.Option("--run-b", exists=True, file_okay=False, resolve_path=True)
+    ],
+    output: Annotated[Path, typer.Option("--output", resolve_path=True)],
+) -> None:
+    """Compare two deterministic analysis sessions byte for byte."""
+
+    from protein_split_audit.analysis.replay import compare_analysis_replays
+
+    try:
+        result = compare_analysis_replays(run_a, run_b, output)
+    except (OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from None
+    typer.echo(f"PASS: exact analysis replay: {result.report_sha256}")
+
+
+@analysis_app.command("aggregate")
+def analysis_aggregate(
+    run_a: Annotated[
+        Path, typer.Option("--run-a", exists=True, file_okay=False, resolve_path=True)
+    ],
+    replay_report: Annotated[
+        Path,
+        typer.Option(
+            "--replay-report", exists=True, dir_okay=False, readable=True, resolve_path=True
+        ),
+    ],
+    attestation: Annotated[
+        Path,
+        typer.Option(
+            "--attestation", exists=True, dir_okay=False, readable=True, resolve_path=True
+        ),
+    ],
+    output_dir: Annotated[Path, typer.Option("--output-dir", resolve_path=True)],
+) -> None:
+    """Stage reviewed aggregates after exact replay authority."""
+
+    from protein_split_audit.analysis.aggregate import write_review_aggregate
+
+    try:
+        write_review_aggregate(run_a, replay_report, attestation, output_dir)
+    except (OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from None
+    typer.echo("PASS: replay-authorized aggregate staged")
+
+
+@report_app.command("figures")
+def report_figures(
+    input_dir: Annotated[
+        Path,
+        typer.Option("--input-dir", exists=True, file_okay=False, readable=True, resolve_path=True),
+    ],
+    output_dir: Annotated[Path, typer.Option("--output-dir", resolve_path=True)],
+) -> None:
+    """Render six deterministic PDFs from sanitized aggregate CSVs only."""
+
+    from protein_split_audit.reporting.figures import render_release_figures
+
+    try:
+        render_release_figures(input_dir, output_dir)
+    except (OSError, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from None
+    typer.echo("PASS: six aggregate figures rendered")
 
 
 @embedding_app.command("fetch")
