@@ -63,7 +63,11 @@ from protein_split_audit.experiments.replay import (
     compare_validation_replays,
 )
 from protein_split_audit.experiments.runner import run_experiment_cell
-from protein_split_audit.experiments.schemas import EsmExperimentConfig
+from protein_split_audit.experiments.schemas import (
+    EsmExperimentConfig,
+    ExperimentConfig,
+    FrozenTestExperimentConfig,
+)
 from protein_split_audit.experiments.test_gate import RealTestAccessDenied, enforce_test_gate
 from protein_split_audit.features.extract import extract_feature_cache
 from protein_split_audit.models.standalone import train_cached_model
@@ -1130,6 +1134,37 @@ def experiment_replay_compare(
         raise typer.Exit(code=1)
 
 
+@experiment_app.command("test-matrix")
+def experiment_test_matrix(
+    config: Annotated[
+        Path,
+        typer.Option(
+            "--config",
+            exists=True,
+            dir_okay=False,
+            readable=True,
+            resolve_path=True,
+            help="Frozen v0.5 Test protocol; consumes both formal access sessions.",
+        ),
+    ],
+) -> None:
+    """Run the attested 28-cell Test matrix and its automatic replay exactly once."""
+
+    try:
+        from protein_split_audit.evaluation.test_matrix import run_frozen_test_protocol
+
+        loaded = load_experiment_config(config)
+        if not isinstance(loaded, FrozenTestExperimentConfig):
+            raise ValueError("test-matrix requires the frozen v0.5 Test configuration")
+        result = run_frozen_test_protocol(config)
+    except (FileExistsError, OSError, RealTestAccessDenied, RuntimeError, ValueError) as error:
+        typer.echo(f"Error: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(f"Completed {len(result.run_a.cells)} cells in Run A")
+    typer.echo(f"Completed {len(result.run_b.cells)} cells in Replay B")
+    typer.echo(f"Aggregate review: {result.aggregate.output_dir}")
+
+
 @experiment_app.command("summarize")
 def experiment_summarize(
     matrix_dir: Annotated[
@@ -1207,6 +1242,10 @@ def experiment_finalize_test(
 
     try:
         experiment = load_experiment_config(config)
+        if not isinstance(experiment, (ExperimentConfig, EsmExperimentConfig)):
+            raise RealTestAccessDenied(
+                "Real test access is not authorized by the active attestation"
+            )
         if experiment.evaluation.split != "test" or experiment.attestation is None:
             raise RealTestAccessDenied(
                 "Real test access is not authorized by the active attestation"

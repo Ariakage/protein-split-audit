@@ -29,7 +29,7 @@ class PerClassMetrics:
 
 @dataclass(frozen=True, slots=True)
 class EvaluationMetrics:
-    """Aggregate and per-class Validation metrics."""
+    """Aggregate and per-class fixed-label metrics."""
 
     label_order: tuple[str, ...]
     macro_f1: float
@@ -49,7 +49,7 @@ def evaluate_predictions(
     rows: Sequence[PredictionRow],
     label_order: tuple[str, ...],
 ) -> EvaluationMetrics:
-    """Evaluate complete Validation predictions in frozen label order."""
+    """Evaluate complete predictions in frozen label order."""
 
     if not rows:
         raise ValueError("evaluation requires prediction rows")

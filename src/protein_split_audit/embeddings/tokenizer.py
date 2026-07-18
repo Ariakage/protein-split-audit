@@ -8,6 +8,10 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Literal, Protocol, cast
 
+from protein_split_audit.attestations.test_access import (
+    VerifiedTestAuthorization,
+    require_verified_authorization,
+)
 from protein_split_audit.features.validation import SequenceRecord
 
 
@@ -26,7 +30,7 @@ class TokenizedRecord:
 
     accession: str
     sequence_sha256: bytes
-    partition: Literal["train", "validation"]
+    partition: Literal["train", "validation", "test"]
     input_ids: tuple[int, ...]
     special_tokens_mask: tuple[bool, ...]
 
@@ -37,20 +41,20 @@ class TokenizedRecord:
         return len(self.input_ids)
 
 
-def tokenize_records(
+def _tokenize_records(
     records: Sequence[SequenceRecord],
     tokenizer: TokenizerAdapter,
+    *,
+    allowed_partitions: frozenset[str],
 ) -> tuple[TokenizedRecord, ...]:
-    """Encode validated sequences without truncation or ambiguous residue mapping."""
+    """Encode sequences after the caller fixes the allowed partition boundary."""
 
     result: list[TokenizedRecord] = []
     for record in records:
         if not 50 <= len(record.sequence) <= 1000:
             raise ValueError(f"sequence length is outside 50-1000: {record.accession}")
-        if record.split not in {"train", "validation"}:
-            raise ValueError(
-                f"embedding input partition is not Train/Validation: {record.accession}"
-            )
+        if record.split not in allowed_partitions:
+            raise ValueError(f"embedding input partition is not authorized: {record.accession}")
         encoded = tokenizer(
             record.sequence,
             add_special_tokens=True,
@@ -89,7 +93,7 @@ def tokenize_records(
             TokenizedRecord(
                 accession=record.accession,
                 sequence_sha256=record.sequence_sha256,
-                partition=cast(Literal["train", "validation"], record.split),
+                partition=cast(Literal["train", "validation", "test"], record.split),
                 input_ids=input_ids,
                 special_tokens_mask=special_tokens_mask,
             )
@@ -97,4 +101,37 @@ def tokenize_records(
     return tuple(result)
 
 
-__all__ = ["TokenizedRecord", "TokenizerAdapter", "tokenize_records"]
+def tokenize_records(
+    records: Sequence[SequenceRecord],
+    tokenizer: TokenizerAdapter,
+) -> tuple[TokenizedRecord, ...]:
+    """Encode validated Train/Validation sequences only."""
+
+    return _tokenize_records(
+        records,
+        tokenizer,
+        allowed_partitions=frozenset({"train", "validation"}),
+    )
+
+
+def tokenize_frozen_test_records(
+    records: Sequence[SequenceRecord],
+    tokenizer: TokenizerAdapter,
+    authorization: VerifiedTestAuthorization,
+) -> tuple[TokenizedRecord, ...]:
+    """Encode Train/Test sequences only after verifying the opaque capability."""
+
+    require_verified_authorization(authorization)
+    return _tokenize_records(
+        records,
+        tokenizer,
+        allowed_partitions=frozenset({"train", "test"}),
+    )
+
+
+__all__ = [
+    "TokenizedRecord",
+    "TokenizerAdapter",
+    "tokenize_frozen_test_records",
+    "tokenize_records",
+]

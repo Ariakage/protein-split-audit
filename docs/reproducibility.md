@@ -1,6 +1,47 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Reproducing ProteinSplitAudit v0.4.0
+# Reproducing ProteinSplitAudit
+
+## v0.5 Generation A: prepare without opening Test
+
+The v0.5.0 Generation A candidate contains code, tests, the frozen configuration, the human-readable
+protocol, and the dependency comparison. It deliberately contains no v0.5 attestation, real Test
+result, release aggregate, release note, tag, or release date.
+
+Before Generation A is proposed, run the locked offline checks:
+
+```bash
+uv lock --check
+uv sync --locked --extra esm --group dev
+uv run --locked ruff check .
+uv run --locked ruff format --check .
+uv run --locked mypy src
+uv run --locked pytest -v
+uv build --clear
+```
+
+The Test command is present so its denial and CLI surface can be tested, but it must not progress
+past authorization in this state:
+
+```bash
+uv run --locked psaudit experiment test-matrix \
+  --config configs/experiment/v050-test.yaml
+```
+
+Formal execution requires a later, permanent owner-authored approval URL and an attestation-only
+Commit B whose sole parent is Generation A. The approved command then consumes Run A and Replay B
+automatically. It has no resume or single-cell option. Any failure after the first Test read
+consumes that session and requires an incident report, a protocol revision, and new approval before
+a replacement run can exist.
+
+The universal Bootstrap unit is the frozen Cluster30 discovery component. Each primary metric uses
+2,000 deterministic component draws and a percentile 95% interval. Same-split method differences
+are paired; Random-minus-cluster gaps use independent draws. Exact A/B replay is required before a
+twelve-file sequence-free aggregate review can be generated.
+
+`docs/audits/v0.5.0-dependency-diff.md` proves that the v0.4.0 and v0.5.0 lockfiles differ only in
+the root package version. `CITATION.cff` continues to describe the latest published release,
+v0.4.0, until v0.5.0 is actually released.
 
 ## v0.4 generation, attestation, and formal replay
 

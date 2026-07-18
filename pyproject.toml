@@ -1,6 +1,6 @@
 [project]
 name = "protein-split-audit"
-version = "0.4.0"
+version = "0.5.0"
 description = "A reproducible benchmark for auditing sequence-similarity leakage in protein enzyme classification."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"

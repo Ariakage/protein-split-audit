@@ -38,7 +38,9 @@ class ValidatedInputBundle:
     split_content_manifest_sha256: str
 
 
-def _json_mapping(path: Path) -> dict[str, object]:
+def load_json_mapping(path: Path) -> dict[str, object]:
+    """Load one JSON object without applying experiment-specific policy."""
+
     try:
         value = json.loads(path.read_bytes())
     except (OSError, json.JSONDecodeError) as error:
@@ -48,7 +50,9 @@ def _json_mapping(path: Path) -> dict[str, object]:
     return value
 
 
-def _nested(mapping: dict[str, object], *keys: str) -> object:
+def nested_manifest_value(mapping: dict[str, object], *keys: str) -> object:
+    """Return one required nested manifest value."""
+
     value: object = mapping
     for key in keys:
         if not isinstance(value, dict) or key not in value:
@@ -57,7 +61,9 @@ def _nested(mapping: dict[str, object], *keys: str) -> object:
     return value
 
 
-def _verify_hash(path: Path, expected: object, label: str) -> str:
+def verify_file_hash(path: Path, expected: object, label: str) -> str:
+    """Verify one complete file before any structured projection is opened."""
+
     if not isinstance(expected, str) or len(expected) != 64:
         raise ValueError(f"invalid expected {label} hash")
     observed = sha256_file(path)
@@ -66,7 +72,7 @@ def _verify_hash(path: Path, expected: object, label: str) -> str:
     return observed
 
 
-def _selected_fasta(path: Path, selected: frozenset[str]) -> dict[str, str]:
+def load_selected_fasta(path: Path, selected: frozenset[str]) -> dict[str, str]:
     """Parse only selected FASTA records; skipped sequence lines are never joined."""
 
     sequences: dict[str, str] = {}
@@ -110,21 +116,21 @@ def _load_inputs(
 ) -> ValidatedInputBundle:
     """Verify frozen identities and materialize Train/Validation records only."""
 
-    cohort_content = _json_mapping(cohort_content_manifest)
-    split_content = _json_mapping(split_content_manifest)
-    cohort_hash = _verify_hash(
+    cohort_content = load_json_mapping(cohort_content_manifest)
+    split_content = load_json_mapping(split_content_manifest)
+    cohort_hash = verify_file_hash(
         cohort_manifest,
-        _nested(cohort_content, "artifacts", "cohort_manifest", "file_sha256"),
+        nested_manifest_value(cohort_content, "artifacts", "cohort_manifest", "file_sha256"),
         "cohort manifest",
     )
-    fasta_hash = _verify_hash(
+    fasta_hash = verify_file_hash(
         cohort_fasta,
-        _nested(cohort_content, "artifacts", "fasta", "file_sha256"),
+        nested_manifest_value(cohort_content, "artifacts", "fasta", "file_sha256"),
         "FASTA",
     )
-    split_hash = _verify_hash(
+    split_hash = verify_file_hash(
         split_manifest,
-        _nested(split_content, "artifact", "file_sha256"),
+        nested_manifest_value(split_content, "artifact", "file_sha256"),
         "split manifest",
     )
     cohort_content_hash = sha256_file(cohort_content_manifest)
@@ -162,7 +168,7 @@ def _load_inputs(
     if set(by_accession) != selected:
         raise ValueError("selected split and cohort accessions differ")
 
-    fasta_sequences = _selected_fasta(cohort_fasta, selected)
+    fasta_sequences = load_selected_fasta(cohort_fasta, selected)
     if set(fasta_sequences) != selected:
         raise ValueError("selected cohort and FASTA accessions differ")
     assignment_by_accession = {str(row["accession"]): row for row in selected_rows}
@@ -255,5 +261,9 @@ __all__ = [
     "SequenceRecord",
     "ValidatedInputBundle",
     "load_feature_inputs",
+    "load_json_mapping",
+    "load_selected_fasta",
     "load_validation_inputs",
+    "nested_manifest_value",
+    "verify_file_hash",
 ]

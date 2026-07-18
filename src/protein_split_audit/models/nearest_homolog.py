@@ -9,6 +9,10 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+from protein_split_audit.attestations.test_access import (
+    VerifiedTestAuthorization,
+    require_verified_authorization,
+)
 from protein_split_audit.features.validation import SequenceRecord
 from protein_split_audit.models.majority import fit_majority
 from protein_split_audit.models.schemas import NearestHomologModelConfig
@@ -69,20 +73,23 @@ def _hit_key(hit: HomologHit) -> tuple[float, float, float, float, float, str]:
     )
 
 
-def predict_nearest(
+def _predict_nearest_for_partition(
     records: Sequence[SequenceRecord],
     hits: Sequence[HomologHit],
+    *,
+    query_partition: str,
 ) -> NearestResult:
-    """Select stable top hits and apply an explicit Train-majority fallback."""
+    """Select stable top hits for one already-authorized query partition."""
 
     train = {record.accession: record for record in records if record.split == "train"}
-    validation = {record.accession: record for record in records if record.split == "validation"}
+    queries = {record.accession: record for record in records if record.split == query_partition}
     majority = fit_majority([record.label for record in train.values()])
     grouped: dict[str, list[HomologHit]] = defaultdict(list)
     seen: set[tuple[str, str]] = set()
+    display_partition = "Validation" if query_partition == "validation" else "Test"
     for hit in hits:
-        if hit.query_accession not in validation:
-            raise ValueError("nearest-homolog query must belong to Validation")
+        if hit.query_accession not in queries:
+            raise ValueError(f"nearest-homolog query must belong to {display_partition}")
         if hit.target_accession not in train:
             raise ValueError("nearest-homolog target must belong to Train")
         if not (
@@ -100,8 +107,8 @@ def predict_nearest(
         grouped[hit.query_accession].append(hit)
 
     rows: list[NearestPrediction] = []
-    for accession in sorted(validation):
-        query = validation[accession]
+    for accession in sorted(queries):
+        query = queries[accession]
         candidates = grouped.get(accession, [])
         if not candidates:
             rows.append(
@@ -146,6 +153,26 @@ def predict_nearest(
     )
 
 
+def predict_nearest(
+    records: Sequence[SequenceRecord],
+    hits: Sequence[HomologHit],
+) -> NearestResult:
+    """Select stable Validation hits and apply an explicit Train-majority fallback."""
+
+    return _predict_nearest_for_partition(records, hits, query_partition="validation")
+
+
+def predict_test_nearest(
+    records: Sequence[SequenceRecord],
+    hits: Sequence[HomologHit],
+    authorization: VerifiedTestAuthorization,
+) -> NearestResult:
+    """Predict unlabeled Test queries after capability verification."""
+
+    require_verified_authorization(authorization)
+    return _predict_nearest_for_partition(records, hits, query_partition="test")
+
+
 def parse_hits(path: Path) -> tuple[HomologHit, ...]:
     """Parse normalized MMseqs2 output without relying on its row order."""
 
@@ -181,11 +208,7 @@ def parse_hits(path: Path) -> tuple[HomologHit, ...]:
     return tuple(rows)
 
 
-def write_subset_fasta(records: Sequence[SequenceRecord], split: str, path: Path) -> Path:
-    """Write a deterministic Train or Validation FASTA and reject Test."""
-
-    if split not in {"train", "validation"}:
-        raise ValueError("nearest-homolog FASTA split must be Train or Validation")
+def _write_subset_fasta(records: Sequence[SequenceRecord], split: str, path: Path) -> Path:
     selected = sorted(
         (record for record in records if record.split == split),
         key=lambda row: row.accession,
@@ -199,6 +222,28 @@ def write_subset_fasta(records: Sequence[SequenceRecord], split: str, path: Path
         newline="\n",
     )
     return path
+
+
+def write_subset_fasta(records: Sequence[SequenceRecord], split: str, path: Path) -> Path:
+    """Write a deterministic Train or Validation FASTA and reject Test."""
+
+    if split not in {"train", "validation"}:
+        raise ValueError("nearest-homolog FASTA split must be Train or Validation")
+    return _write_subset_fasta(records, split, path)
+
+
+def write_test_subset_fasta(
+    records: Sequence[SequenceRecord],
+    split: str,
+    path: Path,
+    authorization: VerifiedTestAuthorization,
+) -> Path:
+    """Write deterministic Train/Test FASTA only with verified Test authority."""
+
+    require_verified_authorization(authorization)
+    if split not in {"train", "test"}:
+        raise ValueError("formal nearest-homolog FASTA split must be Train or Test")
+    return _write_subset_fasta(records, split, path)
 
 
 def build_nearest_argv(
@@ -278,13 +323,54 @@ def execute_nearest(
     return predict_nearest(records, parse_hits(run.outputs[0])), run
 
 
+def execute_test_nearest(
+    records: Sequence[SequenceRecord],
+    config: NearestHomologModelConfig,
+    authorization: VerifiedTestAuthorization,
+) -> tuple[NearestResult, MmseqsRunResult]:
+    """Run one capability-gated Test-to-Train MMseqs2 search."""
+
+    require_verified_authorization(authorization)
+    train_count = sum(record.split == "train" for record in records)
+    context = MmseqsRunContext.create(
+        cache_root=config.runtime.cache_root,
+        timeout_seconds=config.runtime.timeout_seconds,
+        expected_output_names=("hits.tsv",),
+    )
+    query = write_test_subset_fasta(
+        records,
+        "test",
+        context.staging_dir / "test.fasta",
+        authorization,
+    )
+    target = write_test_subset_fasta(
+        records,
+        "train",
+        context.staging_dir / "train.fasta",
+        authorization,
+    )
+    argv = build_nearest_argv(
+        config,
+        query_fasta=query,
+        target_fasta=target,
+        output_tsv=context.expected_outputs[0],
+        temp_dir=context.staging_dir / "tmp",
+        train_count=train_count,
+    )
+    run = run_mmseqs(argv, context)
+    return predict_test_nearest(records, parse_hits(run.outputs[0]), authorization), run
+
+
 __all__ = [
     "HomologHit",
     "NearestPrediction",
     "NearestResult",
     "build_nearest_argv",
     "execute_nearest",
+    "execute_test_nearest",
     "parse_hits",
     "predict_nearest",
+    "predict_test_nearest",
     "write_subset_fasta",
+    "write_test_subset_fasta",
 ]

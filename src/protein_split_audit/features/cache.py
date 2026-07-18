@@ -54,6 +54,12 @@ def _matrix_hash(matrix: FeatureMatrix) -> str:
     return sha256_bytes(header + contiguous.tobytes(order="C"))
 
 
+def feature_matrix_sha256(matrix: FeatureMatrix) -> str:
+    """Return the canonical dense/CSR semantic hash used by all feature caches."""
+
+    return _matrix_hash(matrix)
+
+
 def _identity(config: FeatureConfig, bundle: ValidatedInputBundle) -> dict[str, object]:
     return {
         "feature": config.model_dump(mode="json"),
@@ -184,6 +190,7 @@ def load_feature_cache(
 
 __all__ = [
     "FeatureCache",
+    "feature_matrix_sha256",
     "get_or_create_feature_cache",
     "load_feature_cache",
     "write_feature_cache",

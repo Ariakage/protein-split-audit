@@ -7,6 +7,17 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+### Added
+
+- A strict v0.5 Test-access gate bound to Generation Commit A, a future attestation-only Commit B,
+  frozen inputs and methods, the canonical runtime, and exactly two formal sessions.
+- A fixed seven-method by four-split Test matrix that fits on Train, excludes Validation, seals
+  predictions before opening Test labels, and records complete local provenance.
+- Deterministic Cluster30-component bootstrap intervals, paired within-split method comparisons,
+  and independently resampled Random-minus-cluster generalization gaps.
+- Exact A/B replay verification and a capability-gated, twelve-file sanitized aggregate review
+  bundle. Real Test access remains closed until separate permanent maintainer approval.
+
 ## 0.4.0 - 2026-07-16
 
 ### Added

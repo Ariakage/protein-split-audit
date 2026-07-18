@@ -3,12 +3,38 @@
 # ProteinSplitAudit
 
 ProteinSplitAudit builds auditable protein-enzyme datasets and checks whether similar sequences
-leak across Train, Validation, and Test boundaries. Version 0.4.0 adds two pinned ESM-2 embedding
-baselines to the four splits frozen in v0.2.0. The v0.3.0 classical baselines remain unchanged.
+leak across Train, Validation, and Test boundaries. The current v0.5.0 Generation A candidate
+prepares the project's first controlled Test evaluation. It combines the five classical methods
+from v0.3.0 and the two frozen ESM-2 methods from v0.4.0 across the four splits frozen in v0.2.0.
 
-The v0.4 experiment covers Validation only. It checks extraction, Train-only fitting, evaluation,
-provenance, and replay on fixed inputs. It does not open the real Test split or claim final
-benchmark performance.
+No v0.5 Test result exists in this repository state. The command remains fail-closed until a
+permanent maintainer approval is bound by the sole Attestation Commit B. Development and CI use
+synthetic rows only; they do not restore the 442-row cohort, open the real Test partition, load
+official ESM weights, or run MMseqs2.
+
+## v0.5.0 frozen Test protocol (access still closed)
+
+The frozen matrix contains 28 cells: Majority, Length Logistic, AAC Logistic, 3-mer Logistic,
+Nearest Homolog, ESM-2 35M, and ESM-2 150M across Random, Cluster70, Cluster50, and Cluster30.
+Every cell fits on Train, excludes Validation, predicts Test once, seals the prediction inventory,
+and only then permits an in-memory label join for evaluation.
+
+Formal access, once separately approved, consists of Run A followed immediately by Replay B from
+independent cache namespaces. A consumed or interrupted session cannot be retried silently. Exact
+replay is required before the code can produce a local aggregate review. The proposed public
+bundle contains class-level tables only; per-protein predictions, accessions, sequences, nearest
+neighbors, features, embeddings, fitted models, resource logs, and run directories remain local.
+
+The only real-Test CLI surface is intentionally all-or-nothing:
+
+```bash
+uv run --locked psaudit experiment test-matrix \
+  --config configs/experiment/v050-test.yaml
+```
+
+At Generation A this command must exit before opening a real input because
+`docs/attestations/v0.5.0-test-freeze.yaml` does not yet exist. There is no single-cell, resume,
+parameter override, or interactive Test command.
 
 ## v0.4.0 frozen ESM-2 Validation matrix
 
@@ -112,6 +138,7 @@ psaudit experiment matrix --config configs/experiment/v040-validation.yaml
 psaudit experiment replay-compare --help
 psaudit experiment summarize --help
 psaudit experiment finalize-test --config configs/experiment/v040-test-gated.yaml
+psaudit experiment test-matrix --config configs/experiment/v050-test.yaml
 ```
 
 Only `data download` and the explicit `embedding fetch` command use the network. Snapshot
@@ -135,7 +162,8 @@ uv run --locked pytest -v
 uv build
 ```
 
-The data rules are in `docs/protocol.md`. The frozen ESM-2 protocol is in
+The data rules are in `docs/protocol.md`. The still-closed frozen Test protocol is in
+`docs/protocols/v0.5.0-frozen-test-evaluation.md`. The frozen ESM-2 protocol is in
 `docs/protocols/v0.4.0-esm2-baselines.md`, and the classical protocol remains in
 `docs/protocols/v0.3.0-classical-baselines.md`. `docs/reproducibility.md` explains the clean replay
 workflow, while `docs/data_card.md` describes the pilot's scope and limitations. Release-specific

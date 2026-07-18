@@ -62,7 +62,7 @@ jobs:
 
       - name: Reject tracked record and sequence artifacts
         run: |
-          forbidden=$(git ls-files | grep -E '\.(parquet|fasta|fa|tsv\.gz|pt|pth|ckpt|npy|safetensors|bin|joblib)$|^(data/(raw|processed|interim)/|results/runs/|cache/(models|embeddings)/|models/|results/per-record/)' | grep -v '^cache/\.gitkeep$' || true)
+          forbidden=$(git ls-files | grep -E '\.(parquet|fasta|fa|tsv\.gz|pt|pth|ckpt|npy|npz|safetensors|bin|joblib|jsonl|log)$|^(data/(raw|processed|interim)/|results/runs/|cache/(models|embeddings|features)/|models/|results/per-record/)' | grep -v '^cache/\.gitkeep$' || true)
           if [ -n "$forbidden" ]; then
             echo "Tracked generated artifact policy violation:"
             echo "$forbidden"
@@ -70,7 +70,7 @@ jobs:
           fi
 
       - name: Build package artifacts
-        run: uv build
+        run: uv build --clear
         env:
           HF_HUB_OFFLINE: "1"
           TRANSFORMERS_OFFLINE: "1"
@@ -78,26 +78,18 @@ jobs:
 
       - name: Smoke-test wheel in an offline isolated environment
         run: |
-          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-*.whl' -print -quit)
+          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.5.0-*.whl' -print -quit)
           test -n "$WHEEL"
-          SMOKE_ENV="$RUNNER_TEMP/psaudit-wheel-smoke"
-          LOCKED_SITE_PACKAGES=$(.venv/bin/python -c 'import site; print(site.getsitepackages()[0])')
-          uv venv --python 3.12 "$SMOKE_ENV"
-          uv pip install --offline --no-deps --python "$SMOKE_ENV/bin/python" "$WHEEL"
-          export PYTHONNOUSERSITE=1
-          export PYTHONPATH="$LOCKED_SITE_PACKAGES"
-          export SMOKE_ENV
-          "$SMOKE_ENV/bin/python" -c 'import os, pathlib, protein_split_audit; assert pathlib.Path(protein_split_audit.__file__).is_relative_to(pathlib.Path(os.environ["SMOKE_ENV"]))'
-          "$SMOKE_ENV/bin/psaudit" --version
-          "$SMOKE_ENV/bin/psaudit" doctor
-          "$SMOKE_ENV/bin/psaudit" cohort --help
-          "$SMOKE_ENV/bin/psaudit" similarity --help
-          "$SMOKE_ENV/bin/psaudit" split --help
-          "$SMOKE_ENV/bin/psaudit" feature --help
-          "$SMOKE_ENV/bin/psaudit" model --help
-          "$SMOKE_ENV/bin/psaudit" evaluate --help
-          "$SMOKE_ENV/bin/psaudit" embedding --help
-          "$SMOKE_ENV/bin/psaudit" experiment --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit --version
+          uv run --isolated --no-project --with "$WHEEL" psaudit doctor
+          uv run --isolated --no-project --with "$WHEEL" psaudit cohort --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit similarity --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit split --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit feature --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit model --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit evaluate --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit embedding --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit experiment --help
         env:
           HF_HUB_OFFLINE: "1"
           TRANSFORMERS_OFFLINE: "1"

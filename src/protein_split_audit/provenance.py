@@ -152,6 +152,17 @@ def git_metadata(root: Path) -> GitMetadata:
     return GitMetadata(available=True, commit=commit, dirty=dirty)
 
 
+def git_output(root: Path, *args: str) -> str:
+    """Return stripped stdout from one read-only Git query or raise clearly."""
+
+    result = _run_git(root, *args)
+    if result is None or result.returncode != 0:
+        stderr = "" if result is None else result.stderr.strip()
+        detail = f": {stderr}" if stderr else ""
+        raise RuntimeError(f"Git query failed{detail}")
+    return result.stdout.strip()
+
+
 def serialize_download_manifest(manifest: DownloadManifest) -> bytes:
     """Serialize a download manifest as stable, human-readable UTF-8 JSON."""
 

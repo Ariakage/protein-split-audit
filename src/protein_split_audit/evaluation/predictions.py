@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
-"""Immutable validation prediction rows."""
+"""Immutable Validation or capability-gated Test prediction rows."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Literal
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,11 +20,9 @@ class PredictionRow:
     scores: tuple[float, ...]
     nearest_train_identity: float | None
     no_hit: bool | None
-    evaluation_split: str = "validation"
+    evaluation_split: Literal["validation", "test"] = "validation"
 
     def __post_init__(self) -> None:
-        if self.evaluation_split != "validation":
-            raise ValueError("v0.3 predictions must belong to Validation")
         if len(self.sequence_sha256) != 32:
             raise ValueError("prediction sequence hash must contain 32 bytes")
 

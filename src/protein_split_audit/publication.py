@@ -5,7 +5,9 @@
 from __future__ import annotations
 
 import fcntl
+import json
 import os
+import re
 import shutil
 import tempfile
 from collections.abc import Mapping
@@ -13,10 +15,100 @@ from pathlib import Path
 from typing import BinaryIO
 
 _LOCK_NAME = ".psaudit-publication.lock"
+SANITIZED_TEST_FILENAMES = frozenset(
+    {
+        "README.md",
+        "confidence_intervals.csv",
+        "confusion_matrices.csv",
+        "environment_summary.json",
+        "generalization_gap.csv",
+        "input_hashes.json",
+        "method_comparisons.csv",
+        "nearest_homolog_summary.csv",
+        "protocol_attestation.yaml",
+        "replay_report.json",
+        "test_per_class.csv",
+        "test_summary.csv",
+    }
+)
+_PRIVATE_PATH = re.compile(r"(?:/Users/|/home/|[A-Za-z]:\\Users\\)")
+_ACCESSION_VALUE = re.compile(rb"\b(?:[A-NR-Z][0-9][A-Z0-9]{3}[0-9]|[A-Z][0-9]{4})\b")
+_SEQUENCE_RUN = re.compile(rb"[ACDEFGHIKLMNPQRSTVWY]{50,}")
+_SECRET_VALUE = re.compile(rb"(?:ghp_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|Bearer\s+[A-Za-z0-9._-]+)")
+_FORBIDDEN_STRUCTURED_KEYS = frozenset(
+    {
+        "accession",
+        "accessions",
+        "authorization",
+        "cookie",
+        "correct",
+        "host_path",
+        "hostname",
+        "password",
+        "private_path",
+        "query_accession",
+        "sequence",
+        "sequences",
+        "target_accession",
+        "token",
+        "true_label_by_accession",
+    }
+)
 
 
 class PublicationError(RuntimeError):
     """Raised when an artifact bundle cannot be published safely."""
+
+
+def _structured_keys(value: object) -> tuple[str, ...]:
+    if isinstance(value, dict):
+        keys = tuple(str(key) for key in value)
+        return keys + tuple(nested for item in value.values() for nested in _structured_keys(item))
+    if isinstance(value, list):
+        return tuple(nested for item in value for nested in _structured_keys(item))
+    return ()
+
+
+def validate_sanitized_test_bundle(outputs: Mapping[Path, bytes]) -> None:
+    """Reject unsafe or unexpected content from a proposed public Test aggregate."""
+
+    names = {path.name for path in outputs}
+    if names != SANITIZED_TEST_FILENAMES or len(outputs) != len(SANITIZED_TEST_FILENAMES):
+        raise PublicationError("Sanitized Test aggregate has an unexpected public file set.")
+    for path, content in outputs.items():
+        if path.suffix not in {".md", ".csv", ".json", ".yaml"}:
+            raise PublicationError("Sanitized Test aggregate contains an unapproved extension.")
+        try:
+            text = content.decode("utf-8")
+        except UnicodeDecodeError:
+            raise PublicationError(
+                "Sanitized Test aggregate must contain UTF-8 text only."
+            ) from None
+        if (
+            _PRIVATE_PATH.search(text)
+            or _ACCESSION_VALUE.search(content)
+            or _SEQUENCE_RUN.search(content)
+            or _SECRET_VALUE.search(content)
+            or "SYNTHETIC_SECRET_CANARY" in text
+        ):
+            raise PublicationError("Sanitized Test aggregate failed the privacy scan.")
+        if path.suffix == ".json":
+            try:
+                value = json.loads(content)
+            except json.JSONDecodeError:
+                raise PublicationError("Sanitized Test aggregate contains invalid JSON.") from None
+            keys = {key.casefold() for key in _structured_keys(value)}
+            if keys.intersection(_FORBIDDEN_STRUCTURED_KEYS):
+                raise PublicationError("Sanitized Test aggregate contains a forbidden field.")
+        if path.suffix == ".csv":
+            header = text.splitlines()[0].split(",") if text.splitlines() else []
+            forbidden = {field.casefold() for field in header}.intersection(
+                _FORBIDDEN_STRUCTURED_KEYS
+            )
+            if path.name == "confusion_matrices.csv":
+                forbidden -= {"true_label", "predicted_label"}
+            if forbidden:
+                raise PublicationError("Sanitized Test aggregate contains a forbidden column.")
 
 
 def _resolve_destination(destination: Path) -> Path:
