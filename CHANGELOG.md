@@ -7,6 +7,11 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+### Added
+
+- Preparation for an attestation-gated, deterministic post-Test analysis and robustness audit
+  over the frozen v0.5.0 outputs, with no new model training or Test inference.
+
 ## 0.5.0 - 2026-07-18
 
 ### Added

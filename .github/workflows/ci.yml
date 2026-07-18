@@ -78,13 +78,13 @@ jobs:
 
       - name: Prime isolated wheel dependency cache
         run: |
-          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.5.0-*.whl' -print -quit)
+          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.6.0-*.whl' -print -quit)
           test -n "$WHEEL"
           uv run --isolated --no-project --with "$WHEEL" python -c "import sys; assert sys.version_info[:2] == (3, 12)"
 
       - name: Smoke-test wheel in an offline isolated environment
         run: |
-          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.5.0-*.whl' -print -quit)
+          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.6.0-*.whl' -print -quit)
           test -n "$WHEEL"
           uv run --isolated --no-project --with "$WHEEL" psaudit --version
           uv run --isolated --no-project --with "$WHEEL" psaudit doctor
@@ -96,6 +96,8 @@ jobs:
           uv run --isolated --no-project --with "$WHEEL" psaudit evaluate --help
           uv run --isolated --no-project --with "$WHEEL" psaudit embedding --help
           uv run --isolated --no-project --with "$WHEEL" psaudit experiment --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit analysis --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit report --help
         env:
           HF_HUB_OFFLINE: "1"
           TRANSFORMERS_OFFLINE: "1"
