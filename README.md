@@ -3,13 +3,35 @@
 # ProteinSplitAudit
 
 ProteinSplitAudit builds auditable protein-enzyme datasets and checks whether similar sequences
-cross Train, Validation, and Test boundaries. Version 0.5.0 is the project's first controlled Test
-evaluation. It uses the five classical methods released in v0.3.0, the two frozen ESM-2 methods
-released in v0.4.0, and the four splits frozen in v0.2.0.
+cross Train, Validation, and Test boundaries. Version 0.6.0 adds a prespecified post-Test analysis
+and robustness audit over the frozen v0.5.0 predictions. It uses the five classical methods
+released in v0.3.0, the two frozen ESM-2 methods released in v0.4.0, and the four splits frozen in
+v0.2.0.
 
 The release publishes aggregate results for a 442-protein, five-class *E. coli* K-12 pilot. It is
 not a general protein benchmark. Protein sequences, accessions, record-level predictions,
 embeddings, fitted models, caches, and run logs remain local and untracked.
+
+## v0.6.0 post-Test analysis
+
+The v0.6 protocol asks six fixed questions about split-level performance, nearest-Train identity,
+sequence length, EC-class errors, ESM-2 versus classical features, and Nearest Homolog failure
+modes. Robustness checks cover bootstrap seeds, component influence, class-balance sensitivity,
+prediction agreement, and fixed component-size bins.
+
+Formal analysis used two replacement sessions from clean Attestation Commit B2 after an earlier
+nullable-metadata incident had been preserved. Both sessions analyzed the same canonical frozen
+v0.5 Run A output. Their replay compared 11 deterministic files and found zero mismatches. No
+model was loaded or executed, and no new Test inference was run.
+
+The reviewed directory `results/released/v0.6.0/` contains ten aggregate CSV tables, an analysis
+manifest, a replay report, and six PDF figures. The figures were regenerated from those same
+authenticated CSV bytes after a separate presentation review. Missing or under-supported cells
+are omitted, not shown as zero.
+
+These summaries describe one small, class-imbalanced, organism-specific pilot. Bootstrap
+intervals are descriptive; the release makes no significance claim, universal model ranking, or
+general bacterial-enzyme benchmark claim.
 
 ## v0.5.0 frozen Test pilot
 
