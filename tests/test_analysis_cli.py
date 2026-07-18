@@ -21,8 +21,17 @@ def test_analysis_and_report_help_expose_only_frozen_interfaces() -> None:
     assert report.exit_code == 0
     assert "figures" in report.stdout
 
+    run_help = runner.invoke(
+        app,
+        ["analysis", "run", "--help"],
+        env={"COLUMNS": "200"},
+    )
+    assert run_help.exit_code == 0
+    assert "analysis-r1-a" in run_help.stdout
+    assert "analysis-r1-b" in run_help.stdout
 
-def test_verify_inputs_fails_closed_without_future_attestation() -> None:
+
+def test_superseded_attestation_cannot_authorize_generation_a5() -> None:
     result = CliRunner().invoke(
         app,
         [

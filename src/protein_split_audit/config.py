@@ -829,15 +829,25 @@ def load_analysis_config(path: Path) -> PostTestAnalysisConfig:
         loaded["attestation"] = resolve(loaded["attestation"])
 
     config = PostTestAnalysisConfig.model_validate(loaded)
+    if config.name == "v060-post-test-analysis-r1":
+        run_a_name = "v0.6.0-analysis-r1-a"
+        run_b_name = "v0.6.0-analysis-r1-b"
+        replay_name = "v0.6.0-analysis-r1-replay.json"
+        aggregate_name = "v0.6.0-analysis-r1-aggregate-review"
+        attestation_name = "v0.6.0-analysis-freeze-r1.yaml"
+    else:
+        run_a_name = "v0.6.0-analysis-a"
+        run_b_name = "v0.6.0-analysis-b"
+        replay_name = "v0.6.0-analysis-replay.json"
+        aggregate_name = "v0.6.0-aggregate-review"
+        attestation_name = "v0.6.0-analysis-freeze.yaml"
     expected_paths = {
-        config.outputs.run_a_root: project_root / "results/runs/v0.6.0-analysis-a",
-        config.outputs.run_b_root: project_root / "results/runs/v0.6.0-analysis-b",
-        config.outputs.replay_report: project_root / "results/runs/v0.6.0-analysis-replay.json",
-        config.outputs.aggregate_review_root: (
-            project_root / "results/runs/v0.6.0-aggregate-review"
-        ),
+        config.outputs.run_a_root: project_root / "results/runs" / run_a_name,
+        config.outputs.run_b_root: project_root / "results/runs" / run_b_name,
+        config.outputs.replay_report: project_root / "results/runs" / replay_name,
+        config.outputs.aggregate_review_root: project_root / "results/runs" / aggregate_name,
         config.outputs.release_root: project_root / "results/released/v0.6.0",
-        config.attestation: project_root / "docs/attestations/v0.6.0-analysis-freeze.yaml",
+        config.attestation: project_root / "docs/attestations" / attestation_name,
     }
     if any(observed != expected for observed, expected in expected_paths.items()):
         raise ValueError("analysis output or attestation path differs from the frozen contract")

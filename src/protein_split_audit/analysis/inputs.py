@@ -91,7 +91,7 @@ class PredictionRecord:
     predicted_label: str
     correct: bool
     nearest_train_identity: float | None
-    no_hit: bool
+    no_hit: bool | None
 
     @property
     def private_identity(self) -> tuple[str, bytes]:
@@ -200,18 +200,25 @@ def parse_prediction_artifact(
                 raise ValueError("prediction score must be finite")
         no_hit = raw["no_hit"]
         nearest = raw["nearest_train_identity"]
-        if not isinstance(no_hit, bool):
-            raise ValueError("prediction no-hit flag must be boolean")
-        if no_hit:
-            if nearest is not None:
-                raise ValueError("prediction no-hit identity must be null")
-            normalized_identity = None
+        if method == "nearest-homolog":
+            if not isinstance(no_hit, bool):
+                raise ValueError("prediction no-hit flag must be boolean")
+            if no_hit:
+                if nearest is not None:
+                    raise ValueError("prediction no-hit identity must be null")
+                normalized_identity = None
+            else:
+                if not isinstance(nearest, (int, float)) or not math.isfinite(float(nearest)):
+                    raise ValueError("prediction hit identity must be finite")
+                normalized_identity = float(nearest)
+                if not 0.0 <= normalized_identity <= 1.0:
+                    raise ValueError("prediction hit identity must be between zero and one")
         else:
-            if not isinstance(nearest, (int, float)) or not math.isfinite(float(nearest)):
-                raise ValueError("prediction hit identity must be finite")
-            normalized_identity = float(nearest)
-            if not 0.0 <= normalized_identity <= 1.0:
-                raise ValueError("prediction hit identity must be between zero and one")
+            if no_hit is not None or nearest is not None:
+                raise ValueError(
+                    "prediction neighbor metadata must be null for non-Nearest-Homolog methods"
+                )
+            normalized_identity = None
         rows.append(
             PredictionRecord(
                 accession=accession,
@@ -235,7 +242,7 @@ def align_prediction_inventories(
 
     if not rows_by_method:
         raise ValueError("prediction alignment requires at least one method")
-    reference: tuple[tuple[str, bytes, str, float | None, bool], ...] | None = None
+    reference: tuple[tuple[str, bytes, str], ...] | None = None
     identities: tuple[tuple[str, bytes], ...] = ()
     for method in sorted(rows_by_method):
         rows = rows_by_method[method]
@@ -244,8 +251,6 @@ def align_prediction_inventories(
                 row.accession,
                 row.sequence_sha256,
                 row.true_label,
-                row.nearest_train_identity,
-                row.no_hit,
             )
             for row in rows
         )
@@ -461,15 +466,12 @@ def load_frozen_analysis_rows(
             for prediction in predictions:
                 metadata = expected[prediction.private_identity]
                 detail = details[split][prediction.accession]
-                if (
-                    prediction.true_label != metadata.label
-                    or prediction.nearest_train_identity != detail.percent_identity
-                    or prediction.no_hit != detail.no_hit
-                ):
+                if prediction.true_label != metadata.label:
                     raise ValueError(f"{split} prediction metadata relation is inconsistent")
-                if (
-                    method == "nearest-homolog"
-                    and prediction.predicted_label != detail.predicted_label
+                if method == "nearest-homolog" and (
+                    prediction.nearest_train_identity != detail.percent_identity
+                    or prediction.no_hit != detail.no_hit
+                    or prediction.predicted_label != detail.predicted_label
                 ):
                     raise ValueError(f"{split} nearest-homolog prediction relation is inconsistent")
                 output.append(
@@ -484,8 +486,8 @@ def load_frozen_analysis_rows(
                         sequence_length=metadata.length,
                         component_id=metadata.component_id,
                         component_size=metadata.component_size,
-                        nearest_train_identity=prediction.nearest_train_identity,
-                        no_hit=prediction.no_hit,
+                        nearest_train_identity=detail.percent_identity,
+                        no_hit=detail.no_hit,
                         nearest_train_accession=detail.nearest_train_accession,
                         nearest_train_label=detail.nearest_train_label,
                         query_coverage=detail.query_coverage,

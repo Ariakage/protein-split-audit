@@ -22,6 +22,12 @@ type MethodName = Literal[
 ]
 type SplitName = Literal["random", "cluster70", "cluster50", "cluster30"]
 type MetricName = Literal["accuracy", "balanced_accuracy", "macro_f1"]
+type AnalysisSession = Literal[
+    "analysis-a",
+    "analysis-b",
+    "analysis-r1-a",
+    "analysis-r1-b",
+]
 
 METHODS: tuple[MethodName, ...] = (
     "majority",
@@ -34,6 +40,10 @@ METHODS: tuple[MethodName, ...] = (
 )
 SPLITS: tuple[SplitName, ...] = ("random", "cluster70", "cluster50", "cluster30")
 LABEL_ORDER = ("2.7", "3.1", "1.1", "2.1", "4.1")
+FORMAL_SESSION_PAIRS: tuple[tuple[AnalysisSession, AnalysisSession], ...] = (
+    ("analysis-a", "analysis-b"),
+    ("analysis-r1-a", "analysis-r1-b"),
+)
 
 _PREDICTION_HASHES: dict[tuple[MethodName, SplitName], str] = {
     ("majority", "random"): "977701893196e98009ddc85c1fcf95ae2cf4734fc67bac80ff040672f4c4a909",
@@ -601,8 +611,8 @@ class AnalysisOutputs(BaseModel):
 
     @model_validator(mode="after")
     def require_fixed_outputs(self) -> AnalysisOutputs:
-        if self.formal_sessions != ("analysis-a", "analysis-b"):
-            raise ValueError("formal sessions must be exactly analysis-a then analysis-b")
+        if self.formal_sessions not in FORMAL_SESSION_PAIRS:
+            raise ValueError("formal sessions must be an approved complete session pair")
         if self.public_artifacts != PUBLIC_ARTIFACTS:
             raise ValueError("public artifact allowlist must contain exactly 19 frozen files")
         return self
@@ -615,7 +625,7 @@ class PostTestAnalysisConfig(BaseModel):
 
     schema_version: Literal[1]
     analysis_type: Literal["frozen_test_output_analysis"]
-    name: Literal["v060-post-test-analysis"]
+    name: Literal["v060-post-test-analysis", "v060-post-test-analysis-r1"]
     release_target: Literal["v0.6.0"]
     methods: tuple[MethodName, ...]
     splits: tuple[SplitName, ...]
@@ -639,18 +649,23 @@ class PostTestAnalysisConfig(BaseModel):
             raise ValueError("analysis must declare the four frozen splits in order")
         if self.label_order != LABEL_ORDER:
             raise ValueError("analysis must use the frozen five-label order")
-        if not self.attestation.as_posix().endswith(
-            "docs/attestations/v0.6.0-analysis-freeze.yaml"
-        ):
+        attestation_name = (
+            "v0.6.0-analysis-freeze.yaml"
+            if self.name == "v060-post-test-analysis"
+            else "v0.6.0-analysis-freeze-r1.yaml"
+        )
+        if not self.attestation.as_posix().endswith(f"docs/attestations/{attestation_name}"):
             raise ValueError("analysis requires the fixed future attestation path")
         return self
 
 
 __all__ = [
+    "FORMAL_SESSION_PAIRS",
     "LABEL_ORDER",
     "METHODS",
     "PUBLIC_ARTIFACTS",
     "SPLITS",
+    "AnalysisSession",
     "ArtifactIdentity",
     "GitCommit",
     "MethodName",

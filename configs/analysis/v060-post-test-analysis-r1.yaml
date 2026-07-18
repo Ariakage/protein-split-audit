@@ -1,0 +1,214 @@
+# SPDX-License-Identifier: Apache-2.0
+
+schema_version: 1
+analysis_type: frozen_test_output_analysis
+name: v060-post-test-analysis-r1
+release_target: v0.6.0
+
+methods:
+  - majority
+  - length-logistic
+  - aac-logistic
+  - kmer3-logistic
+  - nearest-homolog
+  - esm2-35m
+  - esm2-150m
+splits: [random, cluster70, cluster50, cluster30]
+label_order: ["2.7", "3.1", "1.1", "2.1", "4.1"]
+
+inputs:
+  v050_attestation:
+    path: ../../docs/attestations/v0.5.0-test-freeze-r1.yaml
+    sha256: 28d03809b662b9ffd9b3d7e69830b203e1a9390887470dc114c38ef16e0e89c9
+  v050_protocol:
+    path: ../../docs/protocols/v0.5.0-frozen-test-evaluation.md
+    sha256: ec2d27d68f373a1f436b56a34022c9527e6a1516831b66b833fc9d1fbbc8fc8c
+  v050_config:
+    path: ../experiment/v050-test.yaml
+    sha256: 104be8a272c9a0cf2aef1b230c43a4ba70c8dd494d432e24b1ff3859ba2a5e54
+  v050_lock:
+    revision: v0.5.0
+    path: uv.lock
+    sha256: 95c185c8fe0028e79f2764bc40d5c3e103ecc6969be08f29c97d69e23b991868
+  v050_execution_commit: 1d9c7e9df54fa3e2d0563f7a00ec94709928250d
+  canonical_prediction_session: run-a
+  replay_evidence_session: run-b
+  run_a:
+    root: ../../results/runs/v0.5.0-test-r1/run-a
+    directory_sha256: ed39f79cc33248d93ded09a2d379a31427e932f2d710ea1fa1e24df3a941a12c
+    access_ledger:
+      path: ../../results/runs/v0.5.0-test-r1/access-ledger/run-a.jsonl
+      sha256: 3114ea03a15c4eb498a8df07e5c572aaaff368331728992bd43b32296fb5b8e9
+    matrix_summary:
+      path: ../../results/runs/v0.5.0-test-r1/run-a/matrix_summary.json
+      sha256: ae8d0e179909ed3308714f3e5e742bb4fad687995487b9155dd422df496fb8f0
+    statistics:
+      path: ../../results/runs/v0.5.0-test-r1/run-a/statistics.json
+      sha256: b6758f315762a84737435f1fe156cb6c41f98bc680ca2e9cedbeee569d08135d
+  run_b:
+    root: ../../results/runs/v0.5.0-test-r1/run-b
+    directory_sha256: 39adb11a20ee76ccecc367e699465cdd5a0b58b7eae221661b849e5aa445e286
+    access_ledger:
+      path: ../../results/runs/v0.5.0-test-r1/access-ledger/run-b.jsonl
+      sha256: 70947b36780e20701e71999b69bd9d613c0e3d361e6b9b185c3a5255754a3284
+    matrix_summary:
+      path: ../../results/runs/v0.5.0-test-r1/run-b/matrix_summary.json
+      sha256: 5f322ca1d88bef2ecb61a35df1646baa00c2a300161a21915c5c8af6a4afb00a
+    statistics:
+      path: ../../results/runs/v0.5.0-test-r1/run-b/statistics.json
+      sha256: b6758f315762a84737435f1fe156cb6c41f98bc680ca2e9cedbeee569d08135d
+  replay_report:
+    path: ../../results/runs/v0.5.0-test-r1/replay_report.json
+    sha256: 8e7b18f293a0b88bf6ae57d5145fd3f79fb10c3a7e3cfde48c6642894ee785ed
+  reviewed_aggregate:
+    root: ../../results/released/v0.5.0
+    directory_sha256: 563b9e829742bfbf9946a874875a171e7bb19fd9848cd66e2d81abf344093791
+  predictions:
+    inventory_sha256: 0c9522da00914a7086dd251024c0ed714c2a175909d0e2f813465155a4b1174b
+    artifacts:
+      - {method: majority, split: random, relative_path: v050-test__majority__random/predictions.parquet, sha256: 977701893196e98009ddc85c1fcf95ae2cf4734fc67bac80ff040672f4c4a909}
+      - {method: majority, split: cluster70, relative_path: v050-test__majority__cluster70/predictions.parquet, sha256: 4808f69e3a618ce1a812cea758c1049b2d68c92b14116f75c307cfe32c4e4b9a}
+      - {method: majority, split: cluster50, relative_path: v050-test__majority__cluster50/predictions.parquet, sha256: d443ecdfaef8a1cc991719fa4cfeed00c7e25093f25265b796bd299a8f8578af}
+      - {method: majority, split: cluster30, relative_path: v050-test__majority__cluster30/predictions.parquet, sha256: 00dac47ae2d6dbea7a00c9dbaf138192b540d0f5429fb785bf300f76dc95cbfb}
+      - {method: length-logistic, split: random, relative_path: v050-test__length-logistic__random/predictions.parquet, sha256: d124cd7f27c285c74df5e084e172a0c89c23d7925bcf3404ece8fa41c392e468}
+      - {method: length-logistic, split: cluster70, relative_path: v050-test__length-logistic__cluster70/predictions.parquet, sha256: c76202e0293479dd646e922d37d3265c2ccb44e4f99693a71d7a3917b9d869d4}
+      - {method: length-logistic, split: cluster50, relative_path: v050-test__length-logistic__cluster50/predictions.parquet, sha256: 177efa6fb8b6aec7f3e05c25261f7aaf8d9ab4115886c58f384a5540cf1f5eae}
+      - {method: length-logistic, split: cluster30, relative_path: v050-test__length-logistic__cluster30/predictions.parquet, sha256: 651442d5a6b02238ed6bfea9b0d842e66541b59eb0a90d0484cea9cb4a29cf54}
+      - {method: aac-logistic, split: random, relative_path: v050-test__aac-logistic__random/predictions.parquet, sha256: 1817810409d03fb7b5c76bbfc159d832a4d1db42cefd78d56f43d175fa39ca24}
+      - {method: aac-logistic, split: cluster70, relative_path: v050-test__aac-logistic__cluster70/predictions.parquet, sha256: c15d7ba3a0b31c571f5fc23d5851137a4915b447a68b06d401137865bed74271}
+      - {method: aac-logistic, split: cluster50, relative_path: v050-test__aac-logistic__cluster50/predictions.parquet, sha256: 3d032bce9bc8a96c82d2eba54f935b0aec9b47fb44c6d46d79b25e871305349a}
+      - {method: aac-logistic, split: cluster30, relative_path: v050-test__aac-logistic__cluster30/predictions.parquet, sha256: c344eb7bc06382e31eec332ff16278bad80b43e7145bcdf30479960e2139dbaf}
+      - {method: kmer3-logistic, split: random, relative_path: v050-test__kmer3-logistic__random/predictions.parquet, sha256: 677ff2f3165c2671a857cb6dcfdb9996d73df6280394718a89b39913a37d63ba}
+      - {method: kmer3-logistic, split: cluster70, relative_path: v050-test__kmer3-logistic__cluster70/predictions.parquet, sha256: 2f2cb9e7f7e28a3aeb42a4decdbbee5e5f87577e9184c205209d2a5361f74506}
+      - {method: kmer3-logistic, split: cluster50, relative_path: v050-test__kmer3-logistic__cluster50/predictions.parquet, sha256: 43da3eec12c7dd02c3d2a6df50ff625f3926f52934c12008df514ddbbeb06c00}
+      - {method: kmer3-logistic, split: cluster30, relative_path: v050-test__kmer3-logistic__cluster30/predictions.parquet, sha256: 377eb9234dfa770747064ed48a97c2e622da46076309c61bdf3a4df8fb6578ef}
+      - {method: nearest-homolog, split: random, relative_path: v050-test__nearest-homolog__random/predictions.parquet, sha256: fae5c438350969ff2c21a5ec723df7a17ba1e134b0148cd6e94e33d1798e7daf}
+      - {method: nearest-homolog, split: cluster70, relative_path: v050-test__nearest-homolog__cluster70/predictions.parquet, sha256: fdfae6e018fa5b1f55cc5eb71d3616d8f9795a9164b9af411d91e7b94273ba8b}
+      - {method: nearest-homolog, split: cluster50, relative_path: v050-test__nearest-homolog__cluster50/predictions.parquet, sha256: 64ccd1909793305d53cbb85540c6d719caeae5e0c12120e1e2970cd1fcf7b721}
+      - {method: nearest-homolog, split: cluster30, relative_path: v050-test__nearest-homolog__cluster30/predictions.parquet, sha256: fcf894cda818cc1f04b1cb0784563adb0f688c462ece64399f27d5e2ff1d9d9f}
+      - {method: esm2-35m, split: random, relative_path: v050-test__esm2-35m__random/predictions.parquet, sha256: ece6f94926bdac8a12d074c97e2aab3bf9eece623e1eff468ad04d7c5ba06a7d}
+      - {method: esm2-35m, split: cluster70, relative_path: v050-test__esm2-35m__cluster70/predictions.parquet, sha256: a5ea20590c9ad26d2c7d3a06b9e731c1571f47768e69a538600f59a86e14c56e}
+      - {method: esm2-35m, split: cluster50, relative_path: v050-test__esm2-35m__cluster50/predictions.parquet, sha256: 4df8ad17f2f19ff7480a5a6ced3c1df0f7d6797c22f125126482307ec8dfe018}
+      - {method: esm2-35m, split: cluster30, relative_path: v050-test__esm2-35m__cluster30/predictions.parquet, sha256: e43fca8fd98f574ac6db7a6bc9a8eee3b928d5eb8d952e9f4c43ba0151cc0736}
+      - {method: esm2-150m, split: random, relative_path: v050-test__esm2-150m__random/predictions.parquet, sha256: 0b9c93d4373e1e6b67cc9f84bed6d7506897a0a3ba71443b1998f868f6dd9970}
+      - {method: esm2-150m, split: cluster70, relative_path: v050-test__esm2-150m__cluster70/predictions.parquet, sha256: adea2d4cef3c84688a22cdec5ab3fd2a5b6c799c569c6a2ba800a42c9a1cc26f}
+      - {method: esm2-150m, split: cluster50, relative_path: v050-test__esm2-150m__cluster50/predictions.parquet, sha256: be8e09ad8b049f4de3eeb28fc4d1e17503ac5687109e462fb32f38adf0303493}
+      - {method: esm2-150m, split: cluster30, relative_path: v050-test__esm2-150m__cluster30/predictions.parquet, sha256: eb0e6eaad7790d896ceae6d3cb392811ee719848092c46c15c1eaa8e42e1a253}
+  nearest_homolog:
+    inventory_sha256: 4d6daba107c51c169d2dce08587887d0f792cc18d0de4e7c1ca345aba3ac0b2d
+    artifacts:
+      - {split: random, relative_path: v050-test__nearest-homolog__random/nearest_homolog.parquet, sha256: e3455a777662313a292028f59d8554a94e86c963da4eda7cab155a9dfc804b66}
+      - {split: cluster70, relative_path: v050-test__nearest-homolog__cluster70/nearest_homolog.parquet, sha256: 9834cbd5cc6d0dbab37890d0671b531b7015b92ef71075407115b4c89e378bb2}
+      - {split: cluster50, relative_path: v050-test__nearest-homolog__cluster50/nearest_homolog.parquet, sha256: 89285603b03972d549d5c6a88fc667fcf5de08453d5f22788284ff8f8d7696d4}
+      - {split: cluster30, relative_path: v050-test__nearest-homolog__cluster30/nearest_homolog.parquet, sha256: d89c37fda9b7f1744d179dcd947763ea0e71a5c7617fa29748dfd949504c4cdd}
+  combined_analysis_inventory_sha256: 06703d334059d294bfe6d56a636a2ad7a01bb8b0bf82869675029715966b3459
+  cohort:
+    manifest: ../../data/manifests/cohorts/pilot-v1.parquet
+    file_sha256: c8066a1851e83c95a3063f896236603cb41df085308e795fb42499ec7a0002da
+    semantic_sha256: 8de56565f7e37daadfa83fe91ecb1f39f4946796b4413de75d6ec080f8ba2d83
+    content_manifest: ../../data/manifests/cohorts/pilot-v1.json
+    content_manifest_sha256: 304d126e603a6361684dc76320f8c8e508ad5d9c7917a33052cd52fd5263ead1
+    row_count: 442
+    bootstrap_component_column: discovery_component_id_cluster30
+  splits:
+    - {name: random, manifest: ../../data/manifests/splits/random.parquet, file_sha256: ff572a4eb81f5f377acc348a7fda9786ad773eea6131b54bad88a2b167e5e859, semantic_sha256: ed9668d2aca28b727dc35c56eb486839c4dafe643ea0868738d3d4f6f81b8b99, content_manifest: ../../data/manifests/splits/random.json, content_manifest_sha256: 80ed5a977b3111833f2f87a26bc11fa423a31e1976ea67f6b97e65414c7e898b, train_count: 308, validation_count: 68, test_count: 66}
+    - {name: cluster70, manifest: ../../data/manifests/splits/cluster70.parquet, file_sha256: 898bd302cc77d157f0f4bd398ddc7ec40f9ef5eae43bbb3705963c7ba10ae74e, semantic_sha256: 32b7a93d1eeaf7dd3db565819f8adb7f7bdc6714277f8e22be265b606ad0f953, content_manifest: ../../data/manifests/splits/cluster70.json, content_manifest_sha256: bb2744886a6631f888eaa79028403b0ce6a41621235c68d16946e367bea837ab, train_count: 308, validation_count: 68, test_count: 66}
+    - {name: cluster50, manifest: ../../data/manifests/splits/cluster50.parquet, file_sha256: 4c105e4b5c007830cf6916e566cebffa8ba1cb54572d59496def086b76eef0b2, semantic_sha256: 1e1edc4f3baa3e6d41d631dd59c0dcca8b0400e247c5a27d49e389a50c2c8d51, content_manifest: ../../data/manifests/splits/cluster50.json, content_manifest_sha256: 640e8d84fa84081d124cd6a37171351913f34b6a85a388af0b88f8d105b39023, train_count: 308, validation_count: 68, test_count: 66}
+    - {name: cluster30, manifest: ../../data/manifests/splits/cluster30.parquet, file_sha256: 7d951338073d8958a0852c33c8910c14f8d7ae55e0892ee4ab5f4f1e4c347bee, semantic_sha256: e590fb87499260340adba595e55a247244f990357affefbc8da2df7a6cec4a55, content_manifest: ../../data/manifests/splits/cluster30.json, content_manifest_sha256: c0a40a89888f813bfa1173dfb9e66089ed4d8489c55bab6a7aaff1645132535c, train_count: 308, validation_count: 68, test_count: 66}
+
+strata:
+  identity_bins:
+    - {order: 0, id: identity_00_20, display: "0–<20%", lower: 0.0, upper: 0.2, lower_inclusive: true, upper_inclusive: false, no_hit: false}
+    - {order: 1, id: identity_20_30, display: "20–<30%", lower: 0.2, upper: 0.3, lower_inclusive: true, upper_inclusive: false, no_hit: false}
+    - {order: 2, id: identity_30_40, display: "30–<40%", lower: 0.3, upper: 0.4, lower_inclusive: true, upper_inclusive: false, no_hit: false}
+    - {order: 3, id: identity_40_50, display: "40–<50%", lower: 0.4, upper: 0.5, lower_inclusive: true, upper_inclusive: false, no_hit: false}
+    - {order: 4, id: identity_50_70, display: "50–<70%", lower: 0.5, upper: 0.7, lower_inclusive: true, upper_inclusive: false, no_hit: false}
+    - {order: 5, id: identity_70_100, display: "70–100%", lower: 0.7, upper: 1.0, lower_inclusive: true, upper_inclusive: true, no_hit: false}
+    - {order: 6, id: no_hit, display: "No hit", lower: null, upper: null, lower_inclusive: false, upper_inclusive: false, no_hit: true}
+  length_bins:
+    - {order: 0, id: length_050_199, display: "50–199", minimum: 50, maximum: 199}
+    - {order: 1, id: length_200_399, display: "200–399", minimum: 200, maximum: 399}
+    - {order: 2, id: length_400_599, display: "400–599", minimum: 400, maximum: 599}
+    - {order: 3, id: length_600_799, display: "600–799", minimum: 600, maximum: 799}
+    - {order: 4, id: length_800_1000, display: "800–1000", minimum: 800, maximum: 1000}
+  component_size_bins:
+    - {order: 0, id: component_singleton, display: "1", minimum: 1, maximum: 1}
+    - {order: 1, id: component_02_04, display: "2–4", minimum: 2, maximum: 4}
+    - {order: 2, id: component_05_09, display: "5–9", minimum: 5, maximum: 9}
+    - {order: 3, id: component_10_19, display: "10–19", minimum: 10, maximum: 19}
+    - {order: 4, id: component_20_plus, display: ">=20", minimum: 20, maximum: null}
+
+comparisons:
+  rq5:
+    - {method_a: esm2-35m, method_b: aac-logistic, direction: method_a_minus_method_b}
+    - {method_a: esm2-35m, method_b: kmer3-logistic, direction: method_a_minus_method_b}
+    - {method_a: esm2-150m, method_b: aac-logistic, direction: method_a_minus_method_b}
+    - {method_a: esm2-150m, method_b: kmer3-logistic, direction: method_a_minus_method_b}
+    - {method_a: esm2-150m, method_b: esm2-35m, direction: method_a_minus_method_b}
+  rq6: {method_a: esm2-150m, method_b: nearest-homolog, direction: method_a_minus_method_b}
+
+statistics:
+  metrics: [accuracy, balanced_accuracy, macro_f1]
+  bootstrap:
+    unit: cluster30_discovery_component
+    iterations: 2000
+    confidence_level: 0.95
+    interval_method: percentile
+    lower_quantile: 0.025
+    upper_quantile: 0.975
+    quantile_method: linear
+    seed: 2026
+  diagnostic_seeds: [2026, 3407, 42]
+  within_split_resampling: paired_component_bootstrap
+  cross_split_resampling: independent_component_bootstrap
+  generalization_direction: random_minus_comparison
+  component_influence_removals: [0, 1, 3, 5]
+
+reporting:
+  minimum_sequences_for_metric: 20
+  minimum_components_for_ci: 10
+privacy:
+  suppress_groups_below_sequences: 5
+  suppress_groups_below_components: 3
+permissions:
+  new_test_inference_authorized: false
+  frozen_test_output_analysis_authorized: false
+runtime:
+  operating_system: Darwin
+  architecture: arm64
+  python: "3.12"
+  device: cpu
+  network_access: false
+  model_execution: false
+  source_date_epoch: 0
+
+outputs:
+  formal_sessions: [analysis-r1-a, analysis-r1-b]
+  run_a_root: ../../results/runs/v0.6.0-analysis-r1-a
+  run_b_root: ../../results/runs/v0.6.0-analysis-r1-b
+  replay_report: ../../results/runs/v0.6.0-analysis-r1-replay.json
+  aggregate_review_root: ../../results/runs/v0.6.0-analysis-r1-aggregate-review
+  release_root: ../../results/released/v0.6.0
+  public_artifacts:
+    - README.md
+    - split_performance_summary.csv
+    - identity_bin_summary.csv
+    - length_bin_summary.csv
+    - class_error_summary.csv
+    - component_size_summary.csv
+    - nearest_homolog_summary.csv
+    - model_comparisons.csv
+    - prediction_agreement.csv
+    - component_influence.csv
+    - robustness_summary.csv
+    - analysis_manifest.json
+    - replay_report.json
+    - figures/macro_f1_by_split.pdf
+    - figures/generalization_gap.pdf
+    - figures/performance_by_identity.pdf
+    - figures/performance_by_length.pdf
+    - figures/per_class_gap.pdf
+    - figures/nearest_homolog_analysis.pdf
+  refuse_overwrite: true
+
+attestation: ../../docs/attestations/v0.6.0-analysis-freeze-r1.yaml

@@ -11,7 +11,8 @@ from protein_split_audit.analysis.schemas import PUBLIC_ARTIFACTS
 from protein_split_audit.provenance import sha256_file
 
 PROJECT_ROOT = Path(__file__).parents[1]
-ATTESTATION_PATH = "docs/attestations/v0.6.0-analysis-freeze.yaml"
+LEGACY_ATTESTATION_PATH = "docs/attestations/v0.6.0-analysis-freeze.yaml"
+ATTESTATION_PATH = "docs/attestations/v0.6.0-analysis-freeze-r1.yaml"
 RELEASE_PREFIX = "results/released/v0.6.0/"
 
 
@@ -65,6 +66,7 @@ def _assert_v060_artifact_candidates(
         and path != "cache/.gitkeep"
     ]
     assert violations == []
+    assert LEGACY_ATTESTATION_PATH in candidates
     assert (ATTESTATION_PATH in candidates) == attestation_exists
     observed_release = {
         path.removeprefix(RELEASE_PREFIX) for path in candidates if path.startswith(RELEASE_PREFIX)
@@ -86,15 +88,13 @@ def test_generation_a_version_and_release_boundary() -> None:
     assert 'name = "protein-split-audit"\nversion = "0.6.0"' in lock
     _assert_v060_release_phase(
         citation=citation,
-        attestation_exists=(
-            PROJECT_ROOT / "docs/attestations/v0.6.0-analysis-freeze.yaml"
-        ).exists(),
+        attestation_exists=(PROJECT_ROOT / ATTESTATION_PATH).exists(),
         release_exists=(PROJECT_ROOT / "results/released/v0.6.0").exists(),
         release_notes_exist=(PROJECT_ROOT / "docs/releases/v0.6.0.md").exists(),
     )
 
 
-def test_attestation_b_is_a_valid_prerelease_phase() -> None:
+def test_attestation_b2_is_a_valid_prerelease_phase() -> None:
     _assert_v060_release_phase(
         citation="version: 0.5.0\n",
         attestation_exists=True,
@@ -155,9 +155,17 @@ def test_repository_phase_contains_only_approved_artifact_candidates() -> None:
     )
 
 
-def test_attestation_b_is_an_approved_artifact_candidate() -> None:
+def test_generation_a5_is_an_approved_artifact_candidate() -> None:
     _assert_v060_artifact_candidates(
-        (ATTESTATION_PATH,),
+        (LEGACY_ATTESTATION_PATH,),
+        attestation_exists=False,
+        release_exists=False,
+    )
+
+
+def test_attestation_b2_is_an_approved_artifact_candidate() -> None:
+    _assert_v060_artifact_candidates(
+        (LEGACY_ATTESTATION_PATH, ATTESTATION_PATH),
         attestation_exists=True,
         release_exists=False,
     )
@@ -166,7 +174,7 @@ def test_attestation_b_is_an_approved_artifact_candidate() -> None:
 def test_release_c_exact_allowlist_is_an_approved_artifact_candidate() -> None:
     release = tuple(f"{RELEASE_PREFIX}{name}" for name in PUBLIC_ARTIFACTS)
     _assert_v060_artifact_candidates(
-        (ATTESTATION_PATH, *release),
+        (LEGACY_ATTESTATION_PATH, ATTESTATION_PATH, *release),
         attestation_exists=True,
         release_exists=True,
     )

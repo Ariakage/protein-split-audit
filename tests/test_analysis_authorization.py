@@ -20,6 +20,7 @@ from protein_split_audit.provenance import sha256_file
 
 PROJECT_ROOT = Path(__file__).parents[1]
 CONFIG = PROJECT_ROOT / "configs/analysis/v060-post-test-analysis.yaml"
+R1_CONFIG = PROJECT_ROOT / "configs/analysis/v060-post-test-analysis-r1.yaml"
 
 
 def _mapping() -> dict[str, object]:
@@ -112,6 +113,15 @@ def test_analysis_attestation_requires_the_narrow_authority() -> None:
     assert attestation.analysis.formal_sessions == ("analysis-a", "analysis-b")
 
 
+def test_analysis_attestation_accepts_the_prospective_r1_sessions() -> None:
+    mapping = _mapping()
+    mapping["analysis"]["formal_sessions"] = ["analysis-r1-a", "analysis-r1-b"]
+
+    attestation = AnalysisFreezeAttestation.model_validate(mapping)
+
+    assert attestation.analysis.formal_sessions == ("analysis-r1-a", "analysis-r1-b")
+
+
 @pytest.mark.parametrize(
     "mutation, message",
     (
@@ -195,6 +205,51 @@ def test_verifier_issues_capability_only_after_metadata_and_input_gates(tmp_path
     assert events == ["git", "inputs"]
     assert authorization.canonical_prediction_session == "run-a"
     assert authorization.execution_commit == "c" * 40
+
+
+def test_r1_verifier_binds_only_the_revised_protocol_and_config(tmp_path: Path) -> None:
+    root = tmp_path / "project"
+    (root / "configs/analysis").mkdir(parents=True)
+    (root / "docs/protocols").mkdir(parents=True)
+    (root / "docs/audits").mkdir(parents=True)
+    (root / "docs/attestations").mkdir(parents=True)
+    config_path = root / "configs/analysis/v060-post-test-analysis-r1.yaml"
+    config_path.write_bytes(R1_CONFIG.read_bytes())
+    protocol = root / "docs/protocols/v0.6.0-post-test-analysis-r1.md"
+    protocol.write_text("revised protocol\n", encoding="utf-8")
+    lock = root / "uv.lock"
+    lock.write_text("lock\n", encoding="utf-8")
+    dependency = root / "docs/audits/v0.6.0-dependency-diff.md"
+    dependency.write_text("audit\n", encoding="utf-8")
+
+    mapping = _mapping()
+    mapping["protocol"]["path"] = "docs/protocols/v0.6.0-post-test-analysis-r1.md"
+    mapping["protocol"]["sha256"] = sha256_file(protocol)
+    code = mapping["code"]
+    assert isinstance(code, dict)
+    code["configuration"]["path"] = "configs/analysis/v060-post-test-analysis-r1.yaml"
+    code["configuration"]["sha256"] = sha256_file(config_path)
+    code["uv_lock"]["sha256"] = sha256_file(lock)
+    code["dependency_diff"]["sha256"] = sha256_file(dependency)
+    analysis = mapping["analysis"]
+    assert isinstance(analysis, dict)
+    analysis["formal_sessions"] = ["analysis-r1-a", "analysis-r1-b"]
+    attestation_path = root / "docs/attestations/v0.6.0-analysis-freeze-r1.yaml"
+    attestation_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding="utf-8")
+
+    events: list[str] = []
+    authorization = verify_analysis_authorization(
+        config_path,
+        attestation_path,
+        root,
+        observed_software_version="0.6.0",
+        observed_python_version="3.12.11",
+        git_verifier=lambda *_: events.append("git") or "c" * 40,
+        frozen_input_verifier=lambda _: events.append("inputs"),
+    )
+
+    assert events == ["git", "inputs"]
+    assert authorization.formal_sessions == ("analysis-r1-a", "analysis-r1-b")
 
 
 def test_verifier_fails_closed_before_input_gate_on_bad_metadata(tmp_path: Path) -> None:

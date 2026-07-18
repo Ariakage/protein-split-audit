@@ -12,7 +12,6 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Literal
 
 import numpy as np
 
@@ -48,6 +47,7 @@ from protein_split_audit.analysis.schemas import (
     METHODS,
     PUBLIC_ARTIFACTS,
     SPLITS,
+    AnalysisSession,
     MetricName,
 )
 from protein_split_audit.analysis.stratified_metrics import (
@@ -252,7 +252,7 @@ class DeterministicBundleResult:
 class AnalysisRunResult:
     """One newly written formal analysis session."""
 
-    session: Literal["analysis-a", "analysis-b"]
+    session: AnalysisSession
     output_dir: Path
     deterministic_file_sha256: Mapping[str, str]
 
@@ -1313,7 +1313,7 @@ def build_analysis_outputs(
 def run_post_test_analysis(
     config_path: Path,
     attestation_path: Path,
-    session: Literal["analysis-a", "analysis-b"],
+    session: AnalysisSession,
     output_dir: Path,
 ) -> AnalysisRunResult:
     """Verify authority, consume one session, and write aggregates without stdout metrics."""
@@ -1327,7 +1327,11 @@ def run_post_test_analysis(
     if root is None:
         raise RuntimeError("project root is unavailable")
     config = load_analysis_config(config_path)
-    expected = config.outputs.run_a_root if session == "analysis-a" else config.outputs.run_b_root
+    try:
+        session_index = config.outputs.formal_sessions.index(session)
+    except ValueError as error:
+        raise ValueError("formal session differs from the frozen configuration") from error
+    expected = (config.outputs.run_a_root, config.outputs.run_b_root)[session_index]
     if output_dir.resolve() != expected:
         raise ValueError("formal output directory differs from the frozen configuration")
     authorization = verify_analysis_authorization(config_path, attestation_path, root)

@@ -14,6 +14,7 @@ from protein_split_audit.config import load_analysis_config
 
 PROJECT_ROOT = Path(__file__).parents[1]
 CONFIG = PROJECT_ROOT / "configs/analysis/v060-post-test-analysis.yaml"
+R1_CONFIG = PROJECT_ROOT / "configs/analysis/v060-post-test-analysis-r1.yaml"
 
 METHODS = (
     "majority",
@@ -108,6 +109,46 @@ def test_v060_config_freezes_the_complete_analysis_contract() -> None:
     assert config.outputs.formal_sessions == ("analysis-a", "analysis-b")
     assert len(config.outputs.public_artifacts) == 19
     assert config.outputs.refuse_overwrite is True
+
+
+def test_v060_r1_config_accepts_distinct_formal_sessions(tmp_path: Path) -> None:
+    def mutate(mapping: dict[str, object]) -> None:
+        mapping["name"] = "v060-post-test-analysis-r1"
+        outputs = mapping["outputs"]
+        assert isinstance(outputs, dict)
+        outputs["formal_sessions"] = ["analysis-r1-a", "analysis-r1-b"]
+        outputs["run_a_root"] = "../../results/runs/v0.6.0-analysis-r1-a"
+        outputs["run_b_root"] = "../../results/runs/v0.6.0-analysis-r1-b"
+        outputs["replay_report"] = "../../results/runs/v0.6.0-analysis-r1-replay.json"
+        outputs["aggregate_review_root"] = "../../results/runs/v0.6.0-analysis-r1-aggregate-review"
+        mapping["attestation"] = "../../docs/attestations/v0.6.0-analysis-freeze-r1.yaml"
+
+    config = _load_mutation(tmp_path, mutate)
+
+    assert config.name == "v060-post-test-analysis-r1"
+    assert config.outputs.formal_sessions == ("analysis-r1-a", "analysis-r1-b")
+    assert config.outputs.run_a_root.name == "v0.6.0-analysis-r1-a"
+    assert config.outputs.run_b_root.name == "v0.6.0-analysis-r1-b"
+    assert config.attestation.name == "v0.6.0-analysis-freeze-r1.yaml"
+
+
+def test_v060_r1_config_file_preserves_the_frozen_scientific_contract() -> None:
+    original = load_analysis_config(CONFIG)
+    revised = load_analysis_config(R1_CONFIG)
+
+    assert revised.name == "v060-post-test-analysis-r1"
+    assert revised.outputs.formal_sessions == ("analysis-r1-a", "analysis-r1-b")
+    assert revised.attestation.name == "v0.6.0-analysis-freeze-r1.yaml"
+    assert revised.methods == original.methods
+    assert revised.splits == original.splits
+    assert revised.label_order == original.label_order
+    assert revised.strata == original.strata
+    assert revised.comparisons == original.comparisons
+    assert revised.statistics == original.statistics
+    assert revised.reporting == original.reporting
+    assert revised.privacy == original.privacy
+    assert revised.inputs == original.inputs
+    assert revised.outputs.public_artifacts == original.outputs.public_artifacts
 
 
 @pytest.mark.parametrize(

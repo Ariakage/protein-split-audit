@@ -20,6 +20,7 @@ from pydantic import BaseModel, ConfigDict, ValidationError, field_validator, mo
 
 from protein_split_audit import __version__
 from protein_split_audit.analysis.schemas import (
+    FORMAL_SESSION_PAIRS,
     LABEL_ORDER,
     METHODS,
     PUBLIC_ARTIFACTS,
@@ -131,8 +132,8 @@ class AttestedAnalysisDefinition(BaseModel):
             raise ValueError("attested splits must remain frozen in order")
         if self.label_order != LABEL_ORDER:
             raise ValueError("attested label order must remain frozen")
-        if self.formal_sessions != ("analysis-a", "analysis-b"):
-            raise ValueError("formal sessions must be exactly analysis-a then analysis-b")
+        if self.formal_sessions not in FORMAL_SESSION_PAIRS:
+            raise ValueError("formal sessions must be an approved complete session pair")
         return self
 
 
@@ -360,15 +361,18 @@ def _verify_config_binding(
     observed_software_version: str,
     observed_python_version: str,
 ) -> None:
+    revision = "-r1" if config.name == "v060-post-test-analysis-r1" else ""
+    protocol_logical = f"docs/protocols/v0.6.0-post-test-analysis{revision}.md"
+    configuration_logical = f"configs/analysis/v060-post-test-analysis{revision}.yaml"
     expected = {
         "protocol": (
             attestation.protocol,
-            "docs/protocols/v0.6.0-post-test-analysis.md",
-            root / "docs/protocols/v0.6.0-post-test-analysis.md",
+            protocol_logical,
+            root / protocol_logical,
         ),
         "configuration": (
             attestation.code.configuration,
-            "configs/analysis/v060-post-test-analysis.yaml",
+            configuration_logical,
             config_path,
         ),
         "uv_lock": (attestation.code.uv_lock, "uv.lock", root / "uv.lock"),

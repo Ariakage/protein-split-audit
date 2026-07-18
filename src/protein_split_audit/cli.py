@@ -362,7 +362,10 @@ def analysis_run(
             "--attestation", exists=True, dir_okay=False, readable=True, resolve_path=True
         ),
     ],
-    session: Annotated[Literal["analysis-a", "analysis-b"], typer.Option("--session")],
+    session: Annotated[
+        Literal["analysis-a", "analysis-b", "analysis-r1-a", "analysis-r1-b"],
+        typer.Option("--session"),
+    ],
     output_dir: Annotated[Path, typer.Option("--output-dir", resolve_path=True)],
 ) -> None:
     """Run one approved formal aggregate session without printing metrics."""
