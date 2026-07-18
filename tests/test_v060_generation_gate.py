@@ -7,9 +7,12 @@ import tomllib
 from pathlib import Path
 
 from protein_split_audit import __version__
+from protein_split_audit.analysis.schemas import PUBLIC_ARTIFACTS
 from protein_split_audit.provenance import sha256_file
 
 PROJECT_ROOT = Path(__file__).parents[1]
+ATTESTATION_PATH = "docs/attestations/v0.6.0-analysis-freeze.yaml"
+RELEASE_PREFIX = "results/released/v0.6.0/"
 
 
 def _assert_v060_release_phase(
@@ -26,6 +29,51 @@ def _assert_v060_release_phase(
         assert "version: 0.6.0" in citation
         return
     assert "version: 0.5.0" in citation
+
+
+def _assert_v060_artifact_candidates(
+    candidates: tuple[str, ...],
+    *,
+    attestation_exists: bool,
+    release_exists: bool,
+) -> None:
+    forbidden_suffixes = (
+        ".ckpt",
+        ".fasta",
+        ".joblib",
+        ".jsonl",
+        ".log",
+        ".npy",
+        ".npz",
+        ".parquet",
+        ".pth",
+        ".pt",
+        ".safetensors",
+    )
+    forbidden_prefixes = (
+        "cache/",
+        "data/interim/",
+        "data/processed/",
+        "data/raw/",
+        "models/",
+        "results/runs/",
+    )
+    violations = [
+        path
+        for path in candidates
+        if (path.endswith(forbidden_suffixes) or path.startswith(forbidden_prefixes))
+        and path != "cache/.gitkeep"
+    ]
+    assert violations == []
+    assert (ATTESTATION_PATH in candidates) == attestation_exists
+    observed_release = {
+        path.removeprefix(RELEASE_PREFIX) for path in candidates if path.startswith(RELEASE_PREFIX)
+    }
+    expected_release = set(PUBLIC_ARTIFACTS) if release_exists else set()
+    assert observed_release == expected_release
+    if release_exists:
+        assert attestation_exists
+    assert all(not path.startswith("docs/plans/") for path in candidates)
 
 
 def test_generation_a_version_and_release_boundary() -> None:
@@ -91,7 +139,7 @@ def test_dependency_audit_records_the_normalized_identity() -> None:
     assert "No other lockfile change is approved" in report
 
 
-def test_generation_a_contains_no_formal_or_private_artifact_candidate() -> None:
+def test_repository_phase_contains_only_approved_artifact_candidates() -> None:
     completed = subprocess.run(
         ["git", "ls-files", "--cached", "--others", "--exclude-standard"],
         cwd=PROJECT_ROOT,
@@ -100,37 +148,28 @@ def test_generation_a_contains_no_formal_or_private_artifact_candidate() -> None
         text=True,
     )
     candidates = tuple(line for line in completed.stdout.splitlines() if line)
-    forbidden_suffixes = (
-        ".ckpt",
-        ".fasta",
-        ".joblib",
-        ".jsonl",
-        ".log",
-        ".npy",
-        ".npz",
-        ".parquet",
-        ".pth",
-        ".pt",
-        ".safetensors",
+    _assert_v060_artifact_candidates(
+        candidates,
+        attestation_exists=(PROJECT_ROOT / ATTESTATION_PATH).exists(),
+        release_exists=(PROJECT_ROOT / RELEASE_PREFIX).exists(),
     )
-    forbidden_prefixes = (
-        "cache/",
-        "data/interim/",
-        "data/processed/",
-        "data/raw/",
-        "models/",
-        "results/runs/",
-        "results/released/v0.6.0/",
+
+
+def test_attestation_b_is_an_approved_artifact_candidate() -> None:
+    _assert_v060_artifact_candidates(
+        (ATTESTATION_PATH,),
+        attestation_exists=True,
+        release_exists=False,
     )
-    violations = [
-        path
-        for path in candidates
-        if (path.endswith(forbidden_suffixes) or path.startswith(forbidden_prefixes))
-        and path != "cache/.gitkeep"
-    ]
-    assert violations == []
-    assert "docs/attestations/v0.6.0-analysis-freeze.yaml" not in candidates
-    assert all(not path.startswith("docs/plans/") for path in candidates)
+
+
+def test_release_c_exact_allowlist_is_an_approved_artifact_candidate() -> None:
+    release = tuple(f"{RELEASE_PREFIX}{name}" for name in PUBLIC_ARTIFACTS)
+    _assert_v060_artifact_candidates(
+        (ATTESTATION_PATH, *release),
+        attestation_exists=True,
+        release_exists=True,
+    )
 
 
 def test_analysis_package_has_no_model_inference_or_sequence_loader_import() -> None:
