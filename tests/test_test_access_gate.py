@@ -251,7 +251,7 @@ def _repository(
     mapping = _attestation_mapping(root, generation)
     if mutate is not None:
         mutate(mapping)
-    attestation = root / "docs/attestations/v0.5.0-test-freeze.yaml"
+    attestation = root / "docs/attestations/v0.5.0-test-freeze-r1.yaml"
     attestation.parent.mkdir(parents=True, exist_ok=True)
     attestation.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding="utf-8")
     if extra_b_file:

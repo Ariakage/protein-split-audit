@@ -52,6 +52,7 @@ def test_v050_config_freezes_the_exact_matrix_and_statistics() -> None:
 
     assert isinstance(config, FrozenTestExperimentConfig)
     assert config.experiment_type == "frozen_test"
+    assert config.protocol_revision == "r1"
     assert tuple(method.name for method in config.methods) == METHODS
     assert tuple(split.name for split in config.splits) == SPLITS
     assert config.cell_count == 28
@@ -68,8 +69,8 @@ def test_v050_config_freezes_the_exact_matrix_and_statistics() -> None:
     assert config.statistics.bootstrap.unit == "cluster30_discovery_component"
     assert config.statistics.bootstrap.interval_method == "percentile"
     assert config.outputs.refuse_overwrite is True
-    assert config.outputs.root == PROJECT_ROOT / "results/runs/v0.5.0-test"
-    assert config.attestation == PROJECT_ROOT / "docs/attestations/v0.5.0-test-freeze.yaml"
+    assert config.outputs.root == PROJECT_ROOT / "results/runs/v0.5.0-test-r1"
+    assert config.attestation == PROJECT_ROOT / "docs/attestations/v0.5.0-test-freeze-r1.yaml"
 
 
 @pytest.mark.parametrize(
@@ -91,8 +92,9 @@ def test_v050_config_freezes_the_exact_matrix_and_statistics() -> None:
         ),
         (
             lambda value: value["outputs"].__setitem__("root", "../../results/runs/other"),
-            "fixed v0.5 Test run root",
+            "fixed v0.5 r1 Test run root",
         ),
+        (lambda value: value.__setitem__("protocol_revision", "r2"), "Input should be 'r1'"),
         (lambda value: value.__setitem__("hyperparameters", {"C": 10}), "Extra inputs"),
     ),
 )

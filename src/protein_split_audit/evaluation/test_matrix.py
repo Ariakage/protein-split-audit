@@ -284,6 +284,12 @@ def _write_json(path: Path, mapping: Mapping[str, object]) -> Path:
     return path
 
 
+def _without_session_namespace(identity: Mapping[str, object]) -> dict[str, object]:
+    """Return the deterministic identity shared by both formal replay sessions."""
+
+    return {str(key): value for key, value in identity.items() if str(key) != "session"}
+
+
 def _hard_scores(
     labels: tuple[str, ...],
     label_order: tuple[str, ...],
@@ -355,7 +361,7 @@ def _write_feature_artifacts(
         "feature_config_sha256": (
             sha256_file(method.feature_config) if method.feature_config is not None else None
         ),
-        "implementation_version": "frozen-test-feature-v1",
+        "implementation_version": "frozen-test-feature-v1-r1",
         "input_hashes": dict(bundle.input_hashes),
         "method": method.name,
         "partitions": ["train", "test"],
@@ -365,7 +371,9 @@ def _write_feature_artifacts(
     _write_json(
         feature_dir / "manifest.json",
         {
-            "cache_key": sha256_bytes(serialize_canonical_json(identity)),
+            "cache_key": sha256_bytes(
+                serialize_canonical_json(_without_session_namespace(identity))
+            ),
             "column_count": int(matrix.shape[1]),
             "files": files,
             "identity": identity,
@@ -428,7 +436,7 @@ def _write_embedding_artifacts(
             sha256_file(method.embedding_config) if method.embedding_config is not None else None
         ),
         "execution_commit": authorization.execution_commit,
-        "implementation_version": "frozen-test-esm-residue-mean-v1",
+        "implementation_version": "frozen-test-esm-residue-mean-v1-r1",
         "input_hashes": dict(bundle.input_hashes),
         "method": method.name,
         "partitions": ["train", "test"],
@@ -437,7 +445,7 @@ def _write_embedding_artifacts(
     }
     manifest: dict[str, object] = {
         "batching": dict(batching),
-        "cache_key": sha256_bytes(serialize_canonical_json(identity)),
+        "cache_key": sha256_bytes(serialize_canonical_json(_without_session_namespace(identity))),
         "identity": identity,
         "loading_info": normalized_loading,
         "matrix_file_sha256": sha256_file(matrix_path),
@@ -445,8 +453,12 @@ def _write_embedding_artifacts(
         "row_count": int(matrix.shape[0]),
         "hidden_size": int(matrix.shape[1]),
     }
-    manifest_path = _write_json(embedding_dir / "manifest.json", manifest)
-    return sha256_file(manifest_path)
+    deterministic_manifest = dict(manifest)
+    deterministic_manifest["identity"] = _without_session_namespace(identity)
+    deterministic_manifest_sha256 = sha256_bytes(serialize_canonical_json(deterministic_manifest))
+    manifest["deterministic_manifest_sha256"] = deterministic_manifest_sha256
+    _write_json(embedding_dir / "manifest.json", manifest)
+    return deterministic_manifest_sha256
 
 
 def _test_records(bundle: FrozenTestBundle) -> tuple[SequenceRecord, ...]:

@@ -3,6 +3,7 @@
 schema_version: 1
 experiment_type: frozen_test
 name: v050-frozen-test
+protocol_revision: r1
 
 cohort:
   manifest: ../../data/manifests/cohorts/pilot-v1.parquet
@@ -183,6 +184,6 @@ runtime:
 
 formal_sessions: [run-a, run-b]
 outputs:
-  root: ../../results/runs/v0.5.0-test
+  root: ../../results/runs/v0.5.0-test-r1
   refuse_overwrite: true
-attestation: ../../docs/attestations/v0.5.0-test-freeze.yaml
+attestation: ../../docs/attestations/v0.5.0-test-freeze-r1.yaml

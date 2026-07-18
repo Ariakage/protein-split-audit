@@ -94,7 +94,7 @@ def test_formal_protocol_writes_review_aggregate_only_after_exact_replay(
     assert calls == [
         (
             capability,
-            PROJECT_ROOT / "results/runs/v0.5.0-test/aggregate-review",
+            PROJECT_ROOT / "results/runs/v0.5.0-test-r1/aggregate-review",
             CONFIG,
             authorization.attestation_path,
         )

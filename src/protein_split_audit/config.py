@@ -705,10 +705,10 @@ def _load_frozen_test_experiment(
         loaded["attestation"] = resolve(loaded["attestation"])
 
     config = FrozenTestExperimentConfig.model_validate(loaded)
-    if config.outputs.root != project_root / "results/runs/v0.5.0-test":
-        raise ValueError("outputs.root must be the fixed v0.5 Test run root")
-    if config.attestation != project_root / "docs/attestations/v0.5.0-test-freeze.yaml":
-        raise ValueError("attestation must be the fixed v0.5 Test-freeze path")
+    if config.outputs.root != project_root / "results/runs/v0.5.0-test-r1":
+        raise ValueError("outputs.root must be the fixed v0.5 r1 Test run root")
+    if config.attestation != project_root / "docs/attestations/v0.5.0-test-freeze-r1.yaml":
+        raise ValueError("attestation must be the fixed v0.5 r1 Test-freeze path")
     return config
 
 

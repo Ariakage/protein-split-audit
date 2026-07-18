@@ -426,8 +426,8 @@ class FrozenTestOutputConfig(BaseModel):
     def require_fixed_root(self) -> FrozenTestOutputConfig:
         """Prevent a config-level output override."""
 
-        if not self.root.as_posix().endswith("results/runs/v0.5.0-test"):
-            raise ValueError("outputs.root must be the fixed v0.5 Test run root")
+        if not self.root.as_posix().endswith("results/runs/v0.5.0-test-r1"):
+            raise ValueError("outputs.root must be the fixed v0.5 r1 Test run root")
         return self
 
 
@@ -439,6 +439,7 @@ class FrozenTestExperimentConfig(BaseModel):
     schema_version: Literal[1]
     experiment_type: Literal["frozen_test"]
     name: Literal["v050-frozen-test"]
+    protocol_revision: Literal["r1"]
     cohort: FrozenCohortInput
     splits: tuple[FrozenTestSplitInput, ...]
     methods: tuple[FrozenTestMethodDefinition, ...]
@@ -484,8 +485,8 @@ class FrozenTestExperimentConfig(BaseModel):
             raise ValueError("v0.5 formal sessions must be exactly run-a then run-b")
         if tuple(item.name for item in self.model_snapshots) != ("esm2_35m", "esm2_150m"):
             raise ValueError("v0.5 model snapshots must remain frozen in order")
-        if not self.attestation.as_posix().endswith("docs/attestations/v0.5.0-test-freeze.yaml"):
-            raise ValueError("v0.5 requires its future Test-freeze attestation path")
+        if not self.attestation.as_posix().endswith("docs/attestations/v0.5.0-test-freeze-r1.yaml"):
+            raise ValueError("v0.5 r1 requires its future Test-freeze attestation path")
         return self
 
 

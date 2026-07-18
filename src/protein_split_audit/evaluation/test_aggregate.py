@@ -508,7 +508,7 @@ def _input_hashes(
             "replay_report_sha256": capability.report_sha256,
             "splits": splits,
             "test_attestation": {
-                "path": "docs/attestations/v0.5.0-test-freeze.yaml",
+                "path": logical(config.attestation),
                 "sha256": sha256_file(attestation_path),
             },
             "tracked_evidence": [

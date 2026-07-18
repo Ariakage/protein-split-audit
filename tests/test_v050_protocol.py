@@ -32,6 +32,15 @@ def test_v050_protocol_records_the_resolved_maintainer_decisions() -> None:
         "GitHub Draft Release",
         "SHA256SUMS",
         "protein-split-audit 0.4.0 -> 0.5.0",
+        "replay-identity protocol revision r1",
+        "0ae83200cd9958bf2fa355301eace4e8aef5515a",
+        "ecffde95504ceb978ac1eb593f06c81025099b8dbdd5eb56dc2d601058e5a0d8",
+        "d5361f5401d8eb5cd7f064f812d1e188a1a8fb508f88669e42f1424e8d91a575",
+        "36 deterministic mismatches",
+        "zero prediction disagreements",
+        "results/runs/v0.5.0-test-r1/",
+        "docs/attestations/v0.5.0-test-freeze-r1.yaml",
+        "No real Test command may run while preparing Generation Commit A2",
     )
     for value in required:
         assert value in text

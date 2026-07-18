@@ -14,9 +14,12 @@ from protein_split_audit.attestations.test_access import (
 )
 from protein_split_audit.config import load_experiment_config
 from protein_split_audit.experiments.schemas import FrozenTestExperimentConfig
+from protein_split_audit.provenance import sha256_file
 
 PROJECT_ROOT = Path(__file__).parents[1]
-ATTESTATION = PROJECT_ROOT / "docs/attestations/v0.5.0-test-freeze.yaml"
+HISTORICAL_ATTESTATION = PROJECT_ROOT / "docs/attestations/v0.5.0-test-freeze.yaml"
+REVISION_ATTESTATION = PROJECT_ROOT / "docs/attestations/v0.5.0-test-freeze-r1.yaml"
+HISTORICAL_ATTESTATION_SHA256 = "f419d0ffc3f6985f1dc637a3cb24b5e63b3fc88d0780d63b440f1eec2d43a122"
 
 
 def test_generation_a_version_and_release_state_are_consistent() -> None:
@@ -32,12 +35,15 @@ def test_generation_a_version_and_release_state_are_consistent() -> None:
     assert config.evaluation.real_test_access_authorized is False
     assert "version: 0.4.0" in citation
 
-    if ATTESTATION.exists():
-        loaded = yaml.safe_load(ATTESTATION.read_text(encoding="utf-8"))
+    if HISTORICAL_ATTESTATION.exists():
+        assert sha256_file(HISTORICAL_ATTESTATION) == HISTORICAL_ATTESTATION_SHA256
+        loaded = yaml.safe_load(HISTORICAL_ATTESTATION.read_text(encoding="utf-8"))
         FrozenAccessAttestation.model_validate(loaded)
     else:
         assert not (PROJECT_ROOT / "results/released/v0.5.0").exists()
         assert not (PROJECT_ROOT / "docs/releases/v0.5.0.md").exists()
+    assert not REVISION_ATTESTATION.exists()
+    assert not (PROJECT_ROOT / "results/runs/v0.5.0-test-r1").exists()
 
 
 def test_dependency_diff_allows_only_the_root_version_change() -> None:

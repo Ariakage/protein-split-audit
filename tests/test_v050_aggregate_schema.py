@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 
 from protein_split_audit.evaluation.test_aggregate import write_test_aggregates
@@ -52,3 +53,5 @@ def test_sanitized_aggregate_has_frozen_table_shapes(tmp_path: Path) -> None:
     assert len(_rows(output / "method_comparisons.csv")) == 40
     assert len(_rows(output / "nearest_homolog_summary.csv")) == 4
     assert len(_rows(output / "confidence_intervals.csv")) == 117
+    hashes = json.loads((output / "input_hashes.json").read_bytes())
+    assert hashes["test_attestation"]["path"] == ("docs/attestations/v0.5.0-test-freeze-r1.yaml")

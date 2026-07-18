@@ -42,7 +42,7 @@ def _sequence(index: int) -> str:
 
 def _authorization() -> VerifiedTestAuthorization:
     return VerifiedTestAuthorization(
-        attestation_path=Path("docs/attestations/v0.5.0-test-freeze.yaml"),
+        attestation_path=Path("docs/attestations/v0.5.0-test-freeze-r1.yaml"),
         attestation_sha256="a" * 64,
         generation_commit="b" * 40,
         execution_commit="c" * 40,
