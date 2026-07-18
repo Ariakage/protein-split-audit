@@ -9,6 +9,7 @@ PROJECT_ROOT = Path(__file__).parents[1]
 
 def test_v060_ci_keeps_locked_offline_quality_and_wheel_checks() -> None:
     workflow = (PROJECT_ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    assert "uses: actions/checkout@v5\n        with:\n          fetch-depth: 0" in workflow
     for command in (
         "uv lock --check",
         "uv sync --locked --group dev --extra esm",
