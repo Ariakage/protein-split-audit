@@ -12,6 +12,22 @@ from protein_split_audit.provenance import sha256_file
 PROJECT_ROOT = Path(__file__).parents[1]
 
 
+def _assert_v060_release_phase(
+    *,
+    citation: str,
+    attestation_exists: bool,
+    release_exists: bool,
+    release_notes_exist: bool,
+) -> None:
+    if release_exists or release_notes_exist:
+        assert release_exists
+        assert release_notes_exist
+        assert attestation_exists
+        assert "version: 0.6.0" in citation
+        return
+    assert "version: 0.5.0" in citation
+
+
 def test_generation_a_version_and_release_boundary() -> None:
     pyproject = (PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8")
     lock = (PROJECT_ROOT / "uv.lock").read_text(encoding="utf-8")
@@ -20,10 +36,32 @@ def test_generation_a_version_and_release_boundary() -> None:
     assert __version__ == "0.6.0"
     assert 'version = "0.6.0"' in pyproject
     assert 'name = "protein-split-audit"\nversion = "0.6.0"' in lock
-    assert "version: 0.5.0" in citation
-    assert not (PROJECT_ROOT / "docs/attestations/v0.6.0-analysis-freeze.yaml").exists()
-    assert not (PROJECT_ROOT / "results/released/v0.6.0").exists()
-    assert not (PROJECT_ROOT / "docs/releases/v0.6.0.md").exists()
+    _assert_v060_release_phase(
+        citation=citation,
+        attestation_exists=(
+            PROJECT_ROOT / "docs/attestations/v0.6.0-analysis-freeze.yaml"
+        ).exists(),
+        release_exists=(PROJECT_ROOT / "results/released/v0.6.0").exists(),
+        release_notes_exist=(PROJECT_ROOT / "docs/releases/v0.6.0.md").exists(),
+    )
+
+
+def test_attestation_b_is_a_valid_prerelease_phase() -> None:
+    _assert_v060_release_phase(
+        citation="version: 0.5.0\n",
+        attestation_exists=True,
+        release_exists=False,
+        release_notes_exist=False,
+    )
+
+
+def test_release_c_is_a_valid_release_phase() -> None:
+    _assert_v060_release_phase(
+        citation="version: 0.6.0\n",
+        attestation_exists=True,
+        release_exists=True,
+        release_notes_exist=True,
+    )
 
 
 def test_lock_diff_changes_only_the_root_project_version() -> None:
