@@ -19,10 +19,13 @@ from protein_split_audit.provenance import sha256_file
 PROJECT_ROOT = Path(__file__).parents[1]
 HISTORICAL_ATTESTATION = PROJECT_ROOT / "docs/attestations/v0.5.0-test-freeze.yaml"
 REVISION_ATTESTATION = PROJECT_ROOT / "docs/attestations/v0.5.0-test-freeze-r1.yaml"
+RELEASE_ROOT = PROJECT_ROOT / "results/released/v0.5.0"
+RELEASE_NOTES = PROJECT_ROOT / "docs/releases/v0.5.0.md"
 HISTORICAL_ATTESTATION_SHA256 = "f419d0ffc3f6985f1dc637a3cb24b5e63b3fc88d0780d63b440f1eec2d43a122"
+REVISION_ATTESTATION_SHA256 = "28d03809b662b9ffd9b3d7e69830b203e1a9390887470dc114c38ef16e0e89c9"
 
 
-def test_generation_a_version_and_release_state_are_consistent() -> None:
+def test_v050_version_and_release_state_are_consistent() -> None:
     pyproject = (PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8")
     lock = (PROJECT_ROOT / "uv.lock").read_text(encoding="utf-8")
     citation = (PROJECT_ROOT / "CITATION.cff").read_text(encoding="utf-8")
@@ -31,18 +34,28 @@ def test_generation_a_version_and_release_state_are_consistent() -> None:
 
     assert __version__ == "0.5.0"
     assert 'version = "0.5.0"' in pyproject
+    assert "reproducible toolkit" in pyproject
+    assert "benchmark" not in pyproject.casefold()
     assert re.search(r'\[\[package\]\]\nname = "protein-split-audit"\nversion = "0\.5\.0"', lock)
     assert config.evaluation.real_test_access_authorized is False
-    assert "version: 0.4.0" in citation
-
     if HISTORICAL_ATTESTATION.exists():
         assert sha256_file(HISTORICAL_ATTESTATION) == HISTORICAL_ATTESTATION_SHA256
         loaded = yaml.safe_load(HISTORICAL_ATTESTATION.read_text(encoding="utf-8"))
         FrozenAccessAttestation.model_validate(loaded)
+    if REVISION_ATTESTATION.exists():
+        assert sha256_file(REVISION_ATTESTATION) == REVISION_ATTESTATION_SHA256
+        loaded = yaml.safe_load(REVISION_ATTESTATION.read_text(encoding="utf-8"))
+        FrozenAccessAttestation.model_validate(loaded)
+
+    if RELEASE_ROOT.exists():
+        assert REVISION_ATTESTATION.exists()
+        assert RELEASE_NOTES.is_file()
+        assert "version: 0.5.0" in citation
+        assert "date-released: 2026-07-18" in citation
     else:
-        assert not (PROJECT_ROOT / "results/released/v0.5.0").exists()
-        assert not (PROJECT_ROOT / "docs/releases/v0.5.0.md").exists()
-    assert not REVISION_ATTESTATION.exists()
+        assert not RELEASE_NOTES.exists()
+        assert "version: 0.4.0" in citation
+        assert "date-released: 2026-07-16" in citation
     assert not (PROJECT_ROOT / "results/runs/v0.5.0-test-r1").exists()
 
 

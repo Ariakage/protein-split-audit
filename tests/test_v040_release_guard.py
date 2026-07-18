@@ -85,9 +85,6 @@ def test_release_c_binds_attestation_and_reviewed_aggregates() -> None:
     assert "real_test_access_authorized: false" in release_notes
     assert "issuecomment-4988328840" in release_notes
     assert "issuecomment-4988568957" in release_notes
-    citation = (PROJECT_ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    assert "version: 0.4.0" in citation
-    assert "date-released: 2026-07-16" in citation
 
 
 def test_release_c_directory_has_no_private_paths_or_sensitive_headers() -> None:

@@ -3,27 +3,41 @@
 # ProteinSplitAudit
 
 ProteinSplitAudit builds auditable protein-enzyme datasets and checks whether similar sequences
-leak across Train, Validation, and Test boundaries. The current v0.5.0 Generation A candidate
-prepares the project's first controlled Test evaluation. It combines the five classical methods
-from v0.3.0 and the two frozen ESM-2 methods from v0.4.0 across the four splits frozen in v0.2.0.
+cross Train, Validation, and Test boundaries. Version 0.5.0 is the project's first controlled Test
+evaluation. It uses the five classical methods released in v0.3.0, the two frozen ESM-2 methods
+released in v0.4.0, and the four splits frozen in v0.2.0.
 
-No v0.5 Test result exists in this repository state. The command remains fail-closed until a
-permanent maintainer approval is bound by the sole Attestation Commit B. Development and CI use
-synthetic rows only; they do not restore the 442-row cohort, open the real Test partition, load
-official ESM weights, or run MMseqs2.
+The release publishes aggregate results for a 442-protein, five-class *E. coli* K-12 pilot. It is
+not a general protein benchmark. Protein sequences, accessions, record-level predictions,
+embeddings, fitted models, caches, and run logs remain local and untracked.
 
-## v0.5.0 frozen Test protocol (access still closed)
+## v0.5.0 frozen Test pilot
 
 The frozen matrix contains 28 cells: Majority, Length Logistic, AAC Logistic, 3-mer Logistic,
 Nearest Homolog, ESM-2 35M, and ESM-2 150M across Random, Cluster70, Cluster50, and Cluster30.
 Every cell fits on Train, excludes Validation, predicts Test once, seals the prediction inventory,
 and only then permits an in-memory label join for evaluation.
 
-Formal access, once separately approved, consists of Run A followed immediately by Replay B from
-independent cache namespaces. A consumed or interrupted session cannot be retried silently. Exact
-replay is required before the code can produce a local aggregate review. The proposed public
-bundle contains class-level tables only; per-protein predictions, accessions, sequences, nearest
-neighbors, features, embeddings, fitted models, resource logs, and run directories remain local.
+Formal access consisted of Run A followed immediately by Replay B from independent cache
+namespaces. The first formal attempt produced identical predictions, metrics, and bootstrap
+results, but its session name entered several derived artifact identities. The replay gate found
+36 deterministic mismatches and blocked publication. That attempt, both access ledgers, and its
+incident report remain preserved.
+
+Protocol revision r1 fixed only session-specific artifact identity and was tested with synthetic
+fixtures before the maintainer approved two replacement sessions. The replacement Run A and Run B
+completed all 28 cells. Their comparator checked 430 deterministic files and found zero
+mismatches, prediction disagreements, metric differences, or bootstrap differences.
+
+The twelve reviewed files under `results/released/v0.5.0/` contain aggregate metrics, per-class
+summaries, complete aggregate confusion counts, component-bootstrap intervals, prespecified
+method comparisons, generalization gaps, environment and input hashes, the replay report, and the
+approved attestation.
+
+In this pilot, all 32 prespecified ESM-versus-AAC or ESM-versus-3-mer directed differences were
+positive, with paired component-bootstrap intervals above zero. All eight ESM-2 150M-minus-35M
+intervals and all 21 Random-minus-cluster Macro-F1 intervals included zero. These intervals are
+descriptive uncertainty summaries, not hypothesis tests or evidence of a universal method order.
 
 The only real-Test CLI surface is intentionally all-or-nothing:
 
@@ -32,9 +46,10 @@ uv run --locked psaudit experiment test-matrix \
   --config configs/experiment/v050-test.yaml
 ```
 
-At Generation A this command must exit before opening a real input because
-`docs/attestations/v0.5.0-test-freeze.yaml` does not yet exist. There is no single-cell, resume,
-parameter override, or interactive Test command.
+The two r1 sessions have been consumed. Release Commit C is not the attestation execution commit,
+so the authorization gate rejects another real Test run from the released tree. There is no
+single-cell, resume, parameter override, or interactive Test command, and no third Test session is
+authorized.
 
 ## v0.4.0 frozen ESM-2 Validation matrix
 
@@ -162,12 +177,12 @@ uv run --locked pytest -v
 uv build
 ```
 
-The data rules are in `docs/protocol.md`. The still-closed frozen Test protocol is in
-`docs/protocols/v0.5.0-frozen-test-evaluation.md`. The frozen ESM-2 protocol is in
+The data rules are in `docs/protocol.md`. The frozen Test protocol and its replay-identity revision
+are in `docs/protocols/v0.5.0-frozen-test-evaluation.md`. The frozen ESM-2 protocol is in
 `docs/protocols/v0.4.0-esm2-baselines.md`, and the classical protocol remains in
 `docs/protocols/v0.3.0-classical-baselines.md`. `docs/reproducibility.md` explains the clean replay
 workflow, while `docs/data_card.md` describes the pilot's scope and limitations. Release-specific
-identities are summarized in `docs/releases/v0.4.0.md`.
+identities are summarized in `docs/releases/v0.5.0.md`.
 
 ## Data, licenses, and citation
 

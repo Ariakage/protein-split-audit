@@ -2,46 +2,47 @@
 
 # Reproducing ProteinSplitAudit
 
-## v0.5 Generation A: prepare without opening Test
+## v0.5 frozen Test lineage
 
-The v0.5.0 Generation A candidate contains code, tests, the frozen configuration, the human-readable
-protocol, and the dependency comparison. It deliberately contains no v0.5 attestation, real Test
-result, release aggregate, release note, tag, or release date.
+The first v0.5 generation commit is `231685ce47a3573a77c0360ac925dc94ffc974c5` and its attestation
+commit is `0ae83200cd9958bf2fa355301eace4e8aef5515a`. That formal attempt consumed Run A and Run B. The
+predictions, metrics, and bootstrap results matched, but the replay report recorded 36
+deterministic identity mismatches. Publication stopped, and the original outputs, ledgers, replay
+report, and incident report were retained.
 
-Before Generation A is proposed, run the locked offline checks:
+Replay-identity revision r1 was prepared in Generation Commit A2
+`2d52b3c3a36318cf36f3dbaf05582090ff00ad6f`. It removes the session name from deterministic cache
+and fitted-artifact identity without changing a method, input, prediction, metric, or statistical
+rule. Attestation Commit B2 is `1d9c7e9df54fa3e2d0563f7a00ec94709928250d`. The attestation
+SHA-256 is `28d03809b662b9ffd9b3d7e69830b203e1a9390887470dc114c38ef16e0e89c9`.
+
+The maintainer approved r1 formal access at
+<https://github.com/Ariakage/protein-split-audit/pull/4#issuecomment-5009657104>. The replacement
+sessions ran consecutively from a clean detached B2 worktree with operating-system network denial,
+locked dependencies, local model snapshots, and separate caches. Each session completed all 28
+cells. The replay compared 430 deterministic files and reported zero differences. Its SHA-256 is
+`8e7b18f293a0b88bf6ae57d5145fd3f79fb10c3a7e3cfde48c6642894ee785ed`.
+
+The maintainer approved the twelve exact aggregate files at
+<https://github.com/Ariakage/protein-split-audit/pull/4#issuecomment-5009767954>. Release Commit C
+copies those bytes into `results/released/v0.5.0/`; it does not regenerate them. The public bundle
+can be checked without opening Test:
 
 ```bash
-uv lock --check
-uv sync --locked --extra esm --group dev
-uv run --locked ruff check .
-uv run --locked ruff format --check .
-uv run --locked mypy src
-uv run --locked pytest -v
-uv build --clear
+shasum -a 256 results/released/v0.5.0/*
+uv run --locked pytest tests/test_v050_release_artifacts.py \
+  tests/test_v050_release_privacy.py -v
 ```
 
-The Test command is present so its denial and CLI surface can be tested, but it must not progress
-past authorization in this state:
+Do not rerun `psaudit experiment test-matrix` against the real inputs. Both approved r1 sessions
+have been consumed, and Release Commit C is not the attestation execution commit. There is no
+authorized third Test session.
 
-```bash
-uv run --locked psaudit experiment test-matrix \
-  --config configs/experiment/v050-test.yaml
-```
-
-Formal execution requires a later, permanent owner-authored approval URL and an attestation-only
-Commit B whose sole parent is Generation A. The approved command then consumes Run A and Replay B
-automatically. It has no resume or single-cell option. Any failure after the first Test read
-consumes that session and requires an incident report, a protocol revision, and new approval before
-a replacement run can exist.
-
-The universal Bootstrap unit is the frozen Cluster30 discovery component. Each primary metric uses
+The universal bootstrap unit is the frozen Cluster30 discovery component. Each primary metric uses
 2,000 deterministic component draws and a percentile 95% interval. Same-split method differences
-are paired; Random-minus-cluster gaps use independent draws. Exact A/B replay is required before a
-twelve-file sequence-free aggregate review can be generated.
-
-`docs/audits/v0.5.0-dependency-diff.md` proves that the v0.4.0 and v0.5.0 lockfiles differ only in
-the root package version. `CITATION.cff` continues to describe the latest published release,
-v0.4.0, until v0.5.0 is actually released.
+are paired; Random-minus-cluster gaps use independent draws. The dependency comparison in
+`docs/audits/v0.5.0-dependency-diff.md` shows that the v0.4.0 and v0.5.0 lockfiles differ only in
+the root package version.
 
 ## v0.4 generation, attestation, and formal replay
 
@@ -291,7 +292,7 @@ uv build
 Smoke-test the built wheel outside the project environment:
 
 ```bash
-WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.4.0-*.whl' -print -quit)
+WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.5.0-*.whl' -print -quit)
 uv run --isolated --no-project --with "$WHEEL" psaudit --version
 uv run --isolated --no-project --with "$WHEEL" psaudit doctor
 uv run --isolated --no-project --with "$WHEEL" psaudit cohort --help
@@ -307,5 +308,7 @@ uv run --isolated --no-project --with "$WHEEL" psaudit experiment --help
 Do not track raw data, processed sequences, pair tables, record-level cohort or split Parquet,
 detailed audit rows, feature caches, models, predictions, MMseqs2 databases, or run directories.
 The v0.2 directory contains reviewed data manifests. `results/released/v0.3.0/` contains the
-approved classical aggregate Validation artifacts, while `results/released/v0.4.0/` contains the
-approved ESM-2 aggregate Validation artifacts and protocol attestation.
+approved classical aggregate Validation artifacts, `results/released/v0.4.0/` contains the
+approved ESM-2 aggregate Validation artifacts, and `results/released/v0.5.0/` contains the twelve
+approved aggregate Test files. Formal run directories, access ledgers, and incident evidence stay
+local and ignored.
