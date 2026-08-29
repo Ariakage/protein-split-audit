@@ -8,6 +8,7 @@
 
 OUT=/repro
 STATUS="$OUT/status.txt"
+CHECKOUT_TAG="${CHECKOUT_TAG:-v0.7.0}"
 mkdir -p "$OUT"
 exec > >(tee "$OUT/full.log") 2>&1
 
@@ -40,7 +41,7 @@ record "uv --version" uv --version
 record "clone public repository" \
   git clone https://github.com/ariakage/protein-split-audit /work
 cd /work || exit 97
-record "checkout frozen tag v0.6.0" git checkout -q v0.6.0
+record "checkout frozen tag $CHECKOUT_TAG" git checkout -q "$CHECKOUT_TAG"
 
 echo ""
 echo "REVIEWED STATE"
