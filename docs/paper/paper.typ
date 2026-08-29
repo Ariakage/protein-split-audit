@@ -323,9 +323,9 @@ Repeated runs produce byte-identical artifacts. The command verifies software be
 
 == A.2 投稿前待办事项的处理记录 (Pre-Submission Checklist Status) <sec:appendix:checklist>
 
-原清单共六项，四项已完成并留有证据，两项保留待办。
+原清单共六项，五项已完成并留有证据，一项保留待办。
 
-The original checklist had six items; four are completed with evidence on record, and two remain open.
+The original checklist had six items; five are completed with evidence on record, and one remains open.
 
 One: 选定目标平台。以 arXiv 预印本（分类 q-bio.QM，许可 CC BY 4.0）作为首发平台；期刊投稿在公开历史满足要求后另行决定（JOSS 要求公开历史不少于六个月）。The initial venue is an arXiv preprint (category q-bio.QM, license CC BY 4.0); journal submission will be decided once the public development history is long enough (JOSS requires at least six months).
 
@@ -335,10 +335,10 @@ Three: 数字核验与稿件源哈希。全部数字已用 `scripts/verify_manus
 
 Four: 外部数据集预注册。决定暂不预注册：本研究的公开范围明确限定为单一物种示范，外部物种评估属于未来工作。Decision: no preregistration at this time; the public scope is bounded to the single-species demonstration, and external datasets remain future work.
 
-以下两项尚未完成，不得以声明代替执行。The following two items remain open and must not be replaced by declarations.
+Six: 永久归档。软件 v0.7.0 已向 Zenodo 存档（记录 22164608，DOI `10.5281/zenodo.22164608`，2026-08-29 发布），存档源码绑定 GitHub 标签 v0.7.0，许可 Apache-2.0。Software v0.7.0 has been archived on Zenodo (record 22164608, DOI `10.5281/zenodo.22164608`, published 2026-08-29); the archived source is bound to GitHub tag v0.7.0 under Apache-2.0.
+
+以下一项尚未完成，不得以声明代替执行。The following item remains open and must not be replaced by declarations.
 
 Five: 独立复现。须由主要实现者之外的人从干净检出完成一次复现，并公开复现记录。One independent reproduction from a clean checkout by someone other than the main implementer, with the reproduction record made public.
-
-Six: 永久归档。投稿冻结版本在提交时向 Zenodo 存档并取得 DOI。Archive the submission-frozen release on Zenodo and obtain a DOI at submission time.
 
 #bibliography("references.bib", title: "参考文献 (References)", style: "gb-7714-2015-author-date")

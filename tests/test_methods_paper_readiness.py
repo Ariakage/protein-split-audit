@@ -135,10 +135,12 @@ def test_readiness_record_does_not_fabricate_submission_completion() -> None:
     assert readiness["blocked"]["target_journal"] is None
     assert readiness["blocked"]["correspondence_postal_address_if_required"] is None
     assert readiness["blocked"]["independent_human_reproduction"] is False
-    assert readiness["blocked"]["submission_release_doi"] is None
+    assert readiness["blocked"]["submission_release_doi"] == "10.5281/zenodo.22164608"
 
 
-def test_zenodo_metadata_is_doi_free_until_archival_deposit() -> None:
+def test_zenodo_metadata_template_stays_doi_free() -> None:
+    # The archive DOI belongs to the deposited Zenodo record
+    # (10.5281/zenodo.22164608), not to the deposit metadata template.
     metadata = (ROOT / ".zenodo.json").read_text(encoding="utf-8")
 
     assert '"license": "Apache-2.0"' in metadata

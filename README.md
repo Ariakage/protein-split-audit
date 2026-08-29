@@ -18,7 +18,8 @@ v0.7.0 ships a deterministic offline synthetic demonstration (`psaudit demo run`
 Typst manuscript draft with a number cross-check script, public governance, security, and
 independent-reproduction documentation, and a submission readiness checklist. It does not change
 pipeline behavior or touch the frozen v0.6.0 artifacts. Submission remains blocked until an
-independent third-party reproduction and a Zenodo archive DOI exist; see `paper/readiness.yaml`
+independent third-party reproduction exists; the software archive DOI
+(`10.5281/zenodo.22164608`) has been deposited. See `paper/readiness.yaml`
 and `docs/releases/v0.7.0.md`.
 
 ## v0.6.0 post-Test analysis

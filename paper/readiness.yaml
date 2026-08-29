@@ -27,6 +27,7 @@ completed:
   manuscript_numbers_cross_checked_against_released_artifacts: true
   manuscript_source_hashes_registered: true
   initial_preprint_platform_selected: true
+  zenodo_archive_deposited: true
 
 blocked:
   target_journal: null
@@ -43,7 +44,7 @@ blocked:
     Declared in the manuscript: the author declares no competing interests.
   ai_use_disclosure_approved: true
   independent_human_reproduction: false
-  submission_release_doi: null
+  submission_release_doi: "10.5281/zenodo.22164608"
   manuscript_numbers_independently_verified: true
   public_development_history_over_six_months: false
   external_research_adoption: false
