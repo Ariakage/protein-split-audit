@@ -5,13 +5,13 @@ title: "ProteinSplitAudit: Auditing Sequence-Similarity Leakage in Protein Enzym
 
 type: software
 
-version: 0.6.0
-date-released: 2026-07-18
+version: 0.7.0
+date-released: 2026-08-30
 
 authors:
   - family-names: "Chen"
-    given-names: "Jiajie"
-    alias: "Ariakage"
+    given-names: "Aria"
+    alias: "Jiajie Chen"
     orcid: "https://orcid.org/0009-0001-6214-219X"
 
 repository-code: "https://github.com/ariakage/protein-split-audit"

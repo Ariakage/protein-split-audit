@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
+import hashlib
 import subprocess
 import tomllib
 from pathlib import Path
 
 from protein_split_audit import __version__
 from protein_split_audit.analysis.schemas import PUBLIC_ARTIFACTS
-from protein_split_audit.provenance import sha256_file
 
 PROJECT_ROOT = Path(__file__).parents[1]
 LEGACY_ATTESTATION_PATH = "docs/attestations/v0.6.0-analysis-freeze.yaml"
@@ -27,7 +27,7 @@ def _assert_v060_release_phase(
         assert release_exists
         assert release_notes_exist
         assert attestation_exists
-        assert "version: 0.6.0" in citation
+        assert "version: 0.6.0" in citation or "version: 0.7.0" in citation
         return
     assert "version: 0.5.0" in citation
 
@@ -78,14 +78,14 @@ def _assert_v060_artifact_candidates(
     assert all(not path.startswith("docs/plans/") for path in candidates)
 
 
-def test_generation_a_version_and_release_boundary() -> None:
+def test_current_development_version_preserves_v060_release_boundary() -> None:
     pyproject = (PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8")
     lock = (PROJECT_ROOT / "uv.lock").read_text(encoding="utf-8")
     citation = (PROJECT_ROOT / "CITATION.cff").read_text(encoding="utf-8")
 
-    assert __version__ == "0.6.0"
-    assert 'version = "0.6.0"' in pyproject
-    assert 'name = "protein-split-audit"\nversion = "0.6.0"' in lock
+    assert __version__ == "0.7.0"
+    assert 'version = "0.7.0"' in pyproject
+    assert 'name = "protein-split-audit"\nversion = "0.7.0"' in lock
     _assert_v060_release_phase(
         citation=citation,
         attestation_exists=(PROJECT_ROOT / ATTESTATION_PATH).exists(),
@@ -112,9 +112,9 @@ def test_release_c_is_a_valid_release_phase() -> None:
     )
 
 
-def test_lock_diff_changes_only_the_root_project_version() -> None:
+def test_v070_lock_diff_changes_only_the_root_project_version() -> None:
     historical = subprocess.run(
-        ["git", "show", "v0.5.0:uv.lock"],
+        ["git", "show", "v0.6.0:uv.lock"],
         cwd=PROJECT_ROOT,
         check=True,
         capture_output=True,
@@ -123,10 +123,10 @@ def test_lock_diff_changes_only_the_root_project_version() -> None:
     new = tomllib.loads((PROJECT_ROOT / "uv.lock").read_text(encoding="utf-8"))
     old_root = next(item for item in old["package"] if item["name"] == "protein-split-audit")
     new_root = next(item for item in new["package"] if item["name"] == "protein-split-audit")
-    assert old_root.pop("version") == "0.5.0"
-    assert new_root.pop("version") == "0.6.0"
+    assert old_root.pop("version") == "0.6.0"
+    assert new_root.pop("version") == "0.7.0"
     assert old == new
-    assert sha256_file(PROJECT_ROOT / "uv.lock") == (
+    assert hashlib.sha256(historical).hexdigest() == (
         "efe81a00b6c2cbcda06ec89b3720a75ff4cac11e7edfe46d46ba08748a2fd5d3"
     )
 

@@ -3,14 +3,23 @@
 # ProteinSplitAudit
 
 ProteinSplitAudit builds auditable protein-enzyme datasets and checks whether similar sequences
-cross Train, Validation, and Test boundaries. Version 0.6.0 adds a prespecified post-Test analysis
-and robustness audit over the frozen v0.5.0 predictions. It uses the five classical methods
-released in v0.3.0, the two frozen ESM-2 methods released in v0.4.0, and the four splits frozen in
-v0.2.0.
+cross Train, Validation, and Test boundaries. The latest stable release, v0.7.0, adds public
+reproduction and manuscript infrastructure for a planned methods/software paper; it does not
+reopen Test or change the released pilot results. The v0.6.0 release adds a prespecified
+post-Test analysis and robustness audit over the frozen v0.5.0 predictions.
 
 The release publishes aggregate results for a 442-protein, five-class *E. coli* K-12 pilot. It is
 not a general protein benchmark. Protein sequences, accessions, record-level predictions,
 embeddings, fitted models, caches, and run logs remain local and untracked.
+
+## v0.7.0 release
+
+v0.7.0 ships a deterministic offline synthetic demonstration (`psaudit demo run`), a bilingual
+Typst manuscript draft with a number cross-check script, public governance, security, and
+independent-reproduction documentation, and a submission readiness checklist. It does not change
+pipeline behavior or touch the frozen v0.6.0 artifacts. Submission remains blocked until an
+independent third-party reproduction and a Zenodo archive DOI exist; see `paper/readiness.yaml`
+and `docs/releases/v0.7.0.md`.
 
 ## v0.6.0 post-Test analysis
 
@@ -150,6 +159,21 @@ uv run --locked psaudit doctor
 The distribution is `protein-split-audit`, the import package is `protein_split_audit`, and the
 command-line program is `psaudit`.
 
+## Run the public synthetic demonstration
+
+The repository includes a fully offline smoke test of the core method path. It creates generated
+protein-like records, constructs strict similarity components, compares Random and Cluster30
+splits, fits the fixed AAC logistic baseline on Train only, and writes aggregate outputs:
+
+```bash
+uv run --locked psaudit demo run --output-dir results/runs/methods-demo
+```
+
+Running the command twice in different new directories produces identical public files. The demo
+does not use UniProt, MMseqs2, a model download, or any frozen pilot record. Its numbers validate
+software behavior only and are not biological or benchmark evidence. See
+`docs/tutorials/methods-paper-demo.md`.
+
 ## Commands
 
 ```text
@@ -176,6 +200,7 @@ psaudit experiment replay-compare --help
 psaudit experiment summarize --help
 psaudit experiment finalize-test --config configs/experiment/v040-test-gated.yaml
 psaudit experiment test-matrix --config configs/experiment/v050-test.yaml
+psaudit demo run --output-dir <new-dir>
 ```
 
 Only `data download` and the explicit `embedding fetch` command use the network. Snapshot
@@ -204,7 +229,10 @@ are in `docs/protocols/v0.5.0-frozen-test-evaluation.md`. The frozen ESM-2 proto
 `docs/protocols/v0.4.0-esm2-baselines.md`, and the classical protocol remains in
 `docs/protocols/v0.3.0-classical-baselines.md`. `docs/reproducibility.md` explains the clean replay
 workflow, while `docs/data_card.md` describes the pilot's scope and limitations. Release-specific
-identities are summarized in `docs/releases/v0.5.0.md`.
+identities are summarized in `docs/releases/v0.6.0.md`, and the v0.7.0 release metadata is in
+`docs/releases/v0.7.0.md`. The intended methods-paper claims and
+submission blockers are tracked in `docs/methods_paper_scope.md`. Bilingual English and Chinese
+Typst manuscript sources and build instructions are in `docs/paper/`.
 
 ## Data, licenses, and citation
 
@@ -213,3 +241,12 @@ sequences and metadata keep their upstream terms; ProteinSplitAudit does not rel
 `LICENSES/`, `DATA_LICENSE.md`, `THIRD_PARTY_NOTICES.md`, and `docs/LICENSE_POLICY.md`.
 
 Citation metadata is available in `CITATION.cff`.
+The root `LICENSE` contains the software license, while `.zenodo.json` prepares archive metadata
+without fabricating a DOI before a deposit exists.
+
+## Community and support
+
+Use GitHub Issues for sanitized bug reports, feature proposals, and independent reproduction
+reports. Read `CONTRIBUTING.md`, `SUPPORT.md`, `GOVERNANCE.md`, and `SECURITY.md` before sharing
+diagnostics or proposing a protocol change. Never attach controlled protein records, formal
+ledgers, credentials, or unpublished row-level results.

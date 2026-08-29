@@ -80,13 +80,14 @@ jobs:
 
       - name: Prime isolated wheel dependency cache
         run: |
-          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.6.0-*.whl' -print -quit)
+          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-*.whl' -print -quit)
           test -n "$WHEEL"
+          unzip -l "$WHEEL" | grep -E 'dist-info/licenses/LICENSE$'
           uv run --isolated --no-project --with "$WHEEL" python -c "import sys; assert sys.version_info[:2] == (3, 12)"
 
       - name: Smoke-test wheel in an offline isolated environment
         run: |
-          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.6.0-*.whl' -print -quit)
+          WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-*.whl' -print -quit)
           test -n "$WHEEL"
           uv run --isolated --no-project --with "$WHEEL" psaudit --version
           uv run --isolated --no-project --with "$WHEEL" psaudit doctor
@@ -100,6 +101,10 @@ jobs:
           uv run --isolated --no-project --with "$WHEEL" psaudit experiment --help
           uv run --isolated --no-project --with "$WHEEL" psaudit analysis --help
           uv run --isolated --no-project --with "$WHEEL" psaudit report --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit demo --help
+          uv run --isolated --no-project --with "$WHEEL" psaudit demo run --output-dir "$RUNNER_TEMP/methods-demo-a"
+          uv run --isolated --no-project --with "$WHEEL" psaudit demo run --output-dir "$RUNNER_TEMP/methods-demo-b"
+          diff -ru --exclude=.psaudit-publication.lock "$RUNNER_TEMP/methods-demo-a" "$RUNNER_TEMP/methods-demo-b"
         env:
           HF_HUB_OFFLINE: "1"
           TRANSFORMERS_OFFLINE: "1"

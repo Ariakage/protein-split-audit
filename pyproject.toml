@@ -1,13 +1,14 @@
 [project]
 name = "protein-split-audit"
-version = "0.6.0"
+version = "0.7.0"
 description = "A reproducible toolkit for auditing sequence-similarity leakage in protein enzyme classification."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = "Apache-2.0"
+license-files = ["LICENSE"]
 
 authors = [
-    { name = "Jiajie Chen", email = "ariakage233@gmail.com" },
+    { name = "Aria Chen", email = "ariakage233@gmail.com" },
 ]
 
 keywords = [

@@ -329,7 +329,7 @@ uv build
 Smoke-test the built wheel outside the project environment:
 
 ```bash
-WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-0.6.0-*.whl' -print -quit)
+WHEEL=$(find "$PWD/dist" -name 'protein_split_audit-*.whl' -print -quit)
 uv run --isolated --no-project --with "$WHEEL" psaudit --version
 uv run --isolated --no-project --with "$WHEEL" psaudit doctor
 uv run --isolated --no-project --with "$WHEEL" psaudit cohort --help
