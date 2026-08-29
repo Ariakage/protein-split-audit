@@ -7,12 +7,19 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+### Added
+
+- A JORS-structured manuscript draft (`paper/jors/`): paper, references, and a
+  pandoc Makefile rendering the submission DOCX.
+
 ### Changed
 
-- Registered the completed independent reproduction (GitHub issue #7, clean
-  checkout of tag v0.7.0) in `paper/readiness.yaml`, the manuscript, and the
-  readiness test guards; journal submission remains blocked on venue selection
-  and the six-month public-history requirement.
+- Registered the completed independent reproduction (GitHub issue #7) in the
+  readiness record, the manuscript, and the readiness test guards.
+- Selected the Journal of Open Research Software (JORS) as the target journal
+  and refreshed `docs/venue_assessment.md`; SoftwareX is documented as the
+  fallback venue. Submission remains blocked on the pre-submission checklist
+  in `paper/jors/README.md`.
 
 ## 0.7.0 - 2026-08-30
 

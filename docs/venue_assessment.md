@@ -2,17 +2,24 @@
 
 # Methods/software-paper venue assessment
 
-Assessment date: 2026-08-29.
+Assessment date: 2026-08-29; revised 2026-08-30 after the independent
+reproduction (GitHub issue #7) was verified and registered.
 
 ## Recommendation
 
-Prepare the current manuscript in Journal of Open Source Software (JOSS) format, but do not submit
-it yet. JOSS is the closest match because the paper's contribution is research software design,
-auditability, and reusable infrastructure rather than a new biological result. The draft already
-uses the required Markdown/BibTeX structure and is within the official 750--1,750 word range.
+The maintainer selected the Journal of Open Research Software (JORS) on
+2026-08-30 as the first journal submission venue. The JORS-structured draft
+lives in `paper/jors/`; JORS has no six-month public-history requirement, and
+the project already satisfies its core expectations (open-source software with
+a persistent archive DOI, documentation, tests, and a public reproduction
+record). The JOSS draft (`paper/paper.md`) remains prepared for a possible
+later JOSS submission once the six-month history and adoption evidence exist.
 
-The recommendation is a preparation target, not a submission decision. The maintainer must still
-approve the venue, authorship metadata, declarations, and final archive.
+JORS is a close fit because the paper's contribution is research software
+design, auditability, and reusable infrastructure rather than a new biological
+result. The submission remains a maintainer action: final read of the draft,
+submission-system account, and article-processing charge are listed in
+`paper/jors/README.md`.
 
 ## JOSS fit and current gate
 
@@ -32,9 +39,27 @@ It is not currently eligible for JOSS submission. The public repository was crea
 spread over that period. The earliest calendar date is therefore after 2027-01-14, and timing
 alone is insufficient: the history must show continued public iteration rather than a burst of
 commits. JOSS also expects realized research use and strongly values independent adoption or
-community engagement. No external reproduction or adoption record exists yet.
+community engagement. One independent reproduction now exists (GitHub issue #7, verified and
+registered on 2026-08-30), but no adoption record exists yet.
 
 ## Alternative routes
+
+### JORS (selected first venue)
+
+The Journal of Open Research Software publishes software metapapers and has no six-month
+public-history requirement. A draft structured to the current JORS metapaper format
+(Abstract, Keywords, (1) Overview, (2) Implementation and Architecture, (3) Quality Control,
+(4) Availability, (5) Reuse Potential, plus declarations) is maintained in `paper/jors/`.
+Residual risk is editorial fit: the pilot is small and single-organism, so the manuscript must
+keep its software-method contribution framing and avoid benchmark claims.
+
+### SoftwareX
+
+SoftwareX publishes software-description articles without a public-history requirement and is
+the natural fallback if a JORS submission is declined: <https://www.sciencedirect.com/journal/softwarex>.
+Adaptation cost is moderate: the article would be reorganized around SoftwareX's template and
+its "motivation and significance" framing, but the underlying evidence (archive DOI,
+independent reproduction, deterministic demo) carries over unchanged.
 
 ### Bioinformatics Advances Application Note
 
@@ -65,13 +90,15 @@ implicitly.
 
 ## Decision rule
 
-- Choose JOSS after sustained public development, one independent reproduction, evidence of
-  research use, and a permanent release DOI.
+- Submit to JORS first (maintainer decision, 2026-08-30); the draft is in `paper/jors/`.
+- If JORS declines, adapt to SoftwareX before revisiting any other venue.
+- Choose JOSS after sustained public development past 2027-01-14, evidence of research use, and
+  ideally adoption; the draft remains in `paper/paper.md`.
 - Choose Bioinformatics Advances only after deciding that the manuscript will include enough
   biological application evidence for an Application Note.
 - Choose MethodsX only if the maintainer wants a protocol article rather than a software paper.
 - Seek an editor's scope opinion before choosing GigaScience because public sequence-level support
   data are intentionally restricted.
 
-Until the maintainer decides, `paper/readiness.yaml` keeps `target_journal: null` and the manuscript
-remains venue-neutral.
+`paper/readiness.yaml` records `target_journal` as JORS. `submission_status` stays `blocked`
+until the maintainer completes the pre-submission checklist in `paper/jors/README.md`.

@@ -30,7 +30,9 @@ completed:
   zenodo_archive_deposited: true
 
 blocked:
-  target_journal: null
+  target_journal: "Journal of Open Research Software (JORS)"
+  # Maintainer decision 2026-08-30; draft in paper/jors/. Submission itself
+  # remains blocked on the pre-submission checklist in paper/jors/README.md.
   correspondence_postal_address_if_required: null
   funding_statement: >-
     Declared in the manuscript: no research funding; the project was partially
