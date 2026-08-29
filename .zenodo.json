@@ -1,0 +1,21 @@
+{
+  "access_right": "open",
+  "creators": [
+    {
+      "name": "Chen, Aria",
+      "orcid": "0009-0001-6214-219X"
+    }
+  ],
+  "description": "A protocol-driven Python framework for auditable similarity-aware evaluation of protein classifiers, including deterministic cohort construction, strict similarity components, grouped splits, leakage audits, controlled Test access, replay, and aggregate reporting.",
+  "keywords": [
+    "bioinformatics",
+    "protein classification",
+    "sequence similarity",
+    "data leakage",
+    "reproducible research"
+  ],
+  "license": "Apache-2.0",
+  "title": "ProteinSplitAudit: Auditing Sequence-Similarity Leakage in Protein Enzyme Classification",
+  "upload_type": "software",
+  "version": "0.7.0"
+}

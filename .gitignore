@@ -49,6 +49,8 @@ dist/
 *.jsonl
 *.log
 /report/_build/
+/paper/build/
+/docs/paper/build/
 /notebooks/.ipynb_checkpoints/
 
 AGENTS.md

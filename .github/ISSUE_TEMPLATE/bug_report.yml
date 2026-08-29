@@ -1,0 +1,49 @@
+name: Bug report
+description: Report a reproducible software defect using sanitized or synthetic inputs.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Do not attach protein records, accessions, private paths, secrets, model weights,
+        formal ledgers, or unpublished record-level results.
+  - type: input
+    id: version
+    attributes:
+      label: ProteinSplitAudit version
+      placeholder: 0.6.0
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Sanitized environment
+      description: Operating system, architecture, Python version, and relevant tool version.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal synthetic reproduction
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data-safety confirmation
+      options:
+        - label: This report contains no controlled or record-level research data.
+          required: true
