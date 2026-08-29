@@ -20,8 +20,9 @@ Do not update dependency versions as part of unrelated work.
 
 ## Prepare a change
 
-Read `AGENTS.md`, `docs/PRD.md`, and the relevant plan or decision record before editing code. Keep
-the change inside the current milestone and do not add placeholder modules for future work.
+Read `README.md`, `docs/protocol.md`, and the relevant public protocol before editing code. For
+paper-facing changes, also read `docs/methods_paper_scope.md`. Keep the change inside the current
+milestone and do not add placeholder modules for future work.
 
 For behavior changes, begin with a failing test and implement only what is needed to pass it. Use
 small synthetic fixtures. Tests must never contact UniProt or another network service.
@@ -58,3 +59,7 @@ changes.
 Describe the scope, checks run, effect on data or licensing, and any unresolved risks. A
 contribution does not authorize anyone to commit for the maintainer, push, tag, publish a package,
 or create a release.
+
+Use a public GitHub issue for reproducible bug reports and feature proposals. Sensitive security
+reports follow `SECURITY.md`; support and maintenance expectations are in `SUPPORT.md`, and project
+decision authority is described in `GOVERNANCE.md`.

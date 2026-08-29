@@ -1,0 +1,55 @@
+schema_version: 1
+article_type: methods_software
+working_title: >-
+  ProteinSplitAudit: a protocol-driven framework for auditable
+  similarity-aware evaluation of protein classifiers
+development_version: 0.7.0
+submission_status: blocked
+
+completed:
+  claim_boundary_documented: true
+  manuscript_draft_present: true
+  bibliography_present: true
+  ai_use_disclosure_drafted: true
+  stable_release_results_immutable: true
+  root_software_license_present: true
+  public_synthetic_demo_present: true
+  deterministic_demo_tested: true
+  clean_checkout_ci_gate_present: true
+  venue_assessment_present: true
+  open_source_governance_present: true
+  public_issue_templates_present: true
+  repository_description_matches_claim_boundary: true
+  author_affiliation_confirmed: true
+  corresponding_author_metadata_confirmed: true
+  bilingual_typst_manuscript_present: true
+  elegant_paper_template_pinned: true
+  manuscript_numbers_cross_checked_against_released_artifacts: true
+  manuscript_source_hashes_registered: true
+  initial_preprint_platform_selected: true
+
+blocked:
+  target_journal: null
+  correspondence_postal_address_if_required: null
+  funding_statement: >-
+    Declared in the manuscript: no research funding; the project was partially
+    refined during the Zhijisong Minicamp2026 hackathon, AI+Life Science track
+    champion, prize a 500-CNY JD.com E-card (competition award, not research
+    funding).
+  contributor_roles: >-
+    Aria Chen (legal name Jiajie Chen) is the sole author and performed all
+    CRediT roles, as declared in the manuscript.
+  conflict_of_interest_statement: >-
+    Declared in the manuscript: the author declares no competing interests.
+  ai_use_disclosure_approved: true
+  independent_human_reproduction: false
+  submission_release_doi: null
+  manuscript_numbers_independently_verified: true
+  public_development_history_over_six_months: false
+  external_research_adoption: false
+
+prohibited_shortcuts:
+  - Do not invent missing author, funding, conflict, approval, or DOI metadata.
+  - Do not reopen Test or regenerate frozen formal analyses for manuscript drafting.
+  - Do not rewrite released artifacts to reflect later review states.
+  - Do not turn the bounded pilot into a general benchmark claim.

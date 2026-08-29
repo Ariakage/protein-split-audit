@@ -158,6 +158,7 @@ def test_help_lists_current_commands() -> None:
     assert "model" in result.stdout
     assert "evaluate" in result.stdout
     assert "experiment" in result.stdout
+    assert "demo" in result.stdout
     assert "download" not in result.stdout
     assert "build" not in result.stdout
     assert "profile" not in result.stdout

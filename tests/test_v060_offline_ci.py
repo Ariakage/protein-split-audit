@@ -18,11 +18,16 @@ def test_v060_ci_keeps_locked_offline_quality_and_wheel_checks() -> None:
         "uv run --locked --extra esm mypy src",
         "uv run --locked --extra esm pytest -v",
         "uv build --clear",
+        "unzip -l \"$WHEEL\" | grep -E 'dist-info/licenses/LICENSE$'",
         'uv run --isolated --no-project --with "$WHEEL" psaudit analysis --help',
         'uv run --isolated --no-project --with "$WHEEL" psaudit report --help',
+        'uv run --isolated --no-project --with "$WHEEL" psaudit demo --help',
+        'psaudit demo run --output-dir "$RUNNER_TEMP/methods-demo-a"',
+        'psaudit demo run --output-dir "$RUNNER_TEMP/methods-demo-b"',
+        "diff -ru --exclude=.psaudit-publication.lock",
     ):
         assert command in workflow
-    assert "protein_split_audit-0.6.0-*.whl" in workflow
+    assert "protein_split_audit-*.whl" in workflow
     assert "HF_HUB_OFFLINE" in workflow
     assert "TRANSFORMERS_OFFLINE" in workflow
     assert "UV_OFFLINE" in workflow

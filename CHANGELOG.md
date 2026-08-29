@@ -7,6 +7,43 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+## 0.7.0 - 2026-08-30
+
+### Added
+
+- A deterministic, fully offline synthetic end-to-end demonstration covering strict similarity
+  components, Random and Cluster30 splitting, Train-only AAC extraction, fixed logistic
+  regression, aggregate evaluation, and no-overwrite publication.
+- A methods-paper draft, reference library, public tutorial, claim boundary, and submission
+  readiness checklist.
+- Public support, governance, security, issue, pull-request, independent-reproduction, venue, and
+  manuscript-rendering guidance for external review.
+- A container-based clean-checkout verification script and an attempt record that documents the
+  operator, environment, per-step exit statuses, and findings without claiming independent
+  reproduction.
+
+### Changed
+
+- Released the v0.7.0 development line without changing the frozen v0.6.0 Test artifacts. The
+  release updates `CITATION.cff` so it describes v0.7.0, the new latest stable release.
+- Updated the public limitations to reflect the completed v0.5 Test evaluation and v0.6
+  post-Test analysis.
+- Unified software author metadata on Aria Chen, keeping the legal name as an alias only in
+  `CITATION.cff`.
+- Aligned the independent-reproduction dependency command with CI by adding the `--extra esm`
+  group required by the test suite.
+
+### Fixed
+
+- Suppressed the localized heading supplement in the Typst manuscript so section cross-references
+  render as bare numbers inside the hand-written "第 X 节" / "Section X" wrappers instead of the
+  duplicated "小节" / "Section" prefix.
+
+### Scope
+
+- Adds reproducibility and manuscript infrastructure only. It does not access Test, rerun a
+  formal analysis, change a frozen artifact, or add a new scientific result.
+
 ## 0.6.0 - 2026-07-18
 
 ### Added

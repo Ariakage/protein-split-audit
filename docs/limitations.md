@@ -2,52 +2,74 @@
 
 # Limitations
 
-ProteinSplitAudit is an audit pipeline, not a finished enzyme-function benchmark. Each release
-freezes a narrow engineering layer so that later comparisons can be traced to explicit inputs,
-configurations, and tool versions.
+ProteinSplitAudit is an audit workflow demonstrated on a small enzyme-classification pilot. It is
+not a representative protein benchmark, and the released results do not establish a universal
+model or split ranking.
 
-## Pilot data
+## Population and labels
 
-The frozen pilot cohort is small and comes from reviewed *E. coli* K-12 enzyme entries selected by
-the earlier candidate and cohort protocols. It is not representative of all bacteria, all
-enzymes, or UniProtKB/Swiss-Prot as a whole. EC level 2 is a coarse target, and curation and
-sampling choices can affect class balance and apparent difficulty.
+The frozen cohort contains 442 reviewed *E. coli* K-12 enzyme entries from five EC-level-2
+classes. It covers one organism, one UniProtKB/Swiss-Prot release, and a deliberately narrow
+candidate protocol. EC level 2 is a coarse label; Swiss-Prot review does not remove annotation,
+taxonomic, research-attention, or sampling bias. Results should not be generalized to other
+organisms, enzyme families, label granularities, or unreviewed proteins.
+
+The class distribution is uneven. Each Test split contains 66 proteins, with class supports of
+29, 13, 9, 8, and 7. Many v0.6 subgroup cells therefore fail the prespecified support or privacy
+rules. Suppressed cells are missing evidence, not zero effects.
 
 ## Similarity controls
 
-Random and cluster-aware splits answer different leakage questions. MMseqs2 thresholds and the
-connected-component construction reduce specified forms of within-cohort similarity leakage;
-they do not prove biological independence or absence of related proteins elsewhere. A zero
-reported threshold violation means only that the implemented audit found none under its frozen
-settings.
+MMseqs2 search and the 70%, 50%, and 30% identity thresholds operationalize one form of
+within-cohort similarity. Connected components prevent observed above-threshold pairs from
+crossing the matching cluster-aware split, but they do not prove evolutionary or biological
+independence. MMseqs2 is heuristic, and no reported hit is not proof that no relationship exists.
 
-## Validation-only model results
+The Random split already has low observed leakage under the fixed audit: four Test-to-Train pairs
+reach 30% identity, two reach 50%, and none reach 70%. The released pilot therefore has limited
+power to estimate how much random splitting inflates performance. All 21 prespecified
+Random-minus-cluster Macro-F1 intervals include zero; the project does not claim that a stricter
+split must reduce scores.
 
-The v0.3 and v0.4 experiments use Validation only. Real Test access remains disabled. Validation
-scores are useful for checking the pipeline and comparing frozen protocols, but they are not final
-benchmark estimates and should not be described as Test performance.
+## Models and evaluation
 
-## ESM-2 representations
+The matrix covers one seed, five classical methods, two ESM-2 checkpoints, one ESM pooling rule,
+and one linear-probe protocol. It does not cover fine-tuning, larger protein language models,
+alternative pooling or layers, structural inputs, tuned hyperparameters, repeated independently
+sampled cohorts, or external datasets.
 
-v0.4 covers only the approved 35M and 150M ESM-2 checkpoints, final-layer residue-mean pooling,
-and one fixed linear probe. It does not study fine-tuning, alternative layers or pooling, larger
-models, structural information, or hyperparameter optimization.
+The v0.5 Test gate permitted one formal run and one replay after a replay-identity revision. The
+replacement sessions were byte-identical across 430 deterministic artifacts. The v0.6 analysis
+then answered fixed descriptive questions without rerunning inference. These controls strengthen
+the evidence trail; they do not turn a small pilot into a confirmatory multi-dataset benchmark.
 
-ESM-2 pretraining-corpus contamination is not audited. The project therefore cannot claim that
-Validation or Test proteins, close homologs, or related annotations were absent from pretraining.
-Cluster-aware cohort splits do not resolve this uncertainty.
+Bootstrap intervals use frozen Cluster30 discovery components and are descriptive. They are not
+p-values, do not correct for a family of exploratory hypotheses, and should not be interpreted as
+population-level confidence intervals for all bacterial enzymes.
 
-## Reproducibility and hardware
+## Protein-language-model pretraining
 
-Formal v0.4 replay is defined on a fixed Darwin/arm64 CPU float32 environment and requires exact
-artifact equality. Cross-platform tolerance checks are diagnostic only. Exact replay on another
-operating system, architecture, dependency set, or accelerator is not promised. Model files,
-embeddings, detailed predictions, fitted estimators, and sequence-bearing inputs remain local and
-must be obtained or regenerated under their upstream terms.
+ESM-2 was pretrained outside this project. ProteinSplitAudit has not established whether pilot
+proteins, close homologs, or related annotations occurred in the pretraining corpus. Separating
+records inside the downstream cohort does not solve pretraining leakage. The ESM results must not
+be described as pretraining-independent generalization.
 
-## Interpretation
+## Reproduction and access
 
-The project records deterministic outputs and provenance; it does not guarantee that an input
-database annotation is correct, that a similarity threshold captures functional relatedness, or
-that a measured difference is scientifically meaningful. Formal conclusions require a separately
-approved analysis after the Test gate is opened in a future release.
+Raw downloads, protein sequences, identifiers, row-level predictions, nearest-neighbor rows,
+embeddings, fitted models, caches, and formal access ledgers remain local under the project's data
+and privacy policy. Public manifests and aggregates expose hashes and method identities, but an
+independent scientific replay still requires lawful regeneration of the source data and approved
+model snapshots.
+
+The public synthetic demo removes that access barrier for software verification. Because its
+records are generated and deliberately easy to separate, its metrics are smoke-test outputs only.
+They are not substitutes for the frozen pilot evidence.
+
+## Scope of a methods paper
+
+A defensible manuscript can describe the software architecture, protocol gates, deterministic
+artifacts, similarity-aware split audit, replay controls, and the bounded pilot demonstration. It
+cannot currently support a broad benchmark claim, a universal model ranking, or a claim that the
+workflow eliminates every source of protein-data leakage. The exact allowed and blocked claims
+are maintained in `docs/methods_paper_scope.md`.

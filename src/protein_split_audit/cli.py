@@ -39,6 +39,7 @@ from protein_split_audit.config import (
 from protein_split_audit.data.build_candidates import BuildError, build_candidate_dataset
 from protein_split_audit.data.download_uniprot import DownloadError, download_uniprot
 from protein_split_audit.data.profile import ProfileError, profile_candidate_dataset
+from protein_split_audit.demo import DemoError, run_synthetic_demo
 from protein_split_audit.embeddings.model_registry import (
     fetch_model_snapshot,
     verify_model_snapshot,
@@ -107,6 +108,7 @@ experiment_app = typer.Typer(help="Validation experiment commands.", no_args_is_
 embedding_app = typer.Typer(help="Frozen ESM-2 embedding commands.", no_args_is_help=True)
 analysis_app = typer.Typer(help="Attestation-gated frozen-output analysis.", no_args_is_help=True)
 report_app = typer.Typer(help="Sanitized aggregate reporting commands.", no_args_is_help=True)
+demo_app = typer.Typer(help="Offline synthetic demonstration commands.", no_args_is_help=True)
 app.add_typer(data_app, name="data")
 app.add_typer(cohort_app, name="cohort")
 app.add_typer(similarity_app, name="similarity")
@@ -118,6 +120,7 @@ app.add_typer(experiment_app, name="experiment")
 app.add_typer(embedding_app, name="embedding")
 app.add_typer(analysis_app, name="analysis")
 app.add_typer(report_app, name="report")
+app.add_typer(demo_app, name="demo")
 
 
 @dataclass(frozen=True, slots=True)
@@ -306,6 +309,32 @@ def _not_implemented(command: str) -> None:
 
     typer.echo(f"Error: {command} is not implemented in this task.", err=True)
     raise typer.Exit(code=1)
+
+
+@demo_app.command("run")
+def demo_run(
+    output_dir: Annotated[
+        Path,
+        typer.Option(
+            "--output-dir",
+            file_okay=False,
+            resolve_path=True,
+            help="New directory for deterministic aggregate synthetic-demo outputs.",
+        ),
+    ],
+) -> None:
+    """Run the fully offline synthetic end-to-end methods demonstration."""
+
+    try:
+        result = run_synthetic_demo(output_dir)
+    except (DemoError, OSError, ValueError) as error:
+        typer.echo(f"Error: synthetic demo failed: {error}", err=True)
+        raise typer.Exit(code=1) from error
+    typer.echo(
+        "Synthetic demo complete: "
+        f"{result.sequence_count} records, {result.component_count} components, "
+        f"{len(result.splits)} split strategies."
+    )
 
 
 @analysis_app.command("verify-inputs")

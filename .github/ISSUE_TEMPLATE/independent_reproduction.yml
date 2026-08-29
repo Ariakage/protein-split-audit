@@ -1,0 +1,53 @@
+name: Independent reproduction report
+description: Record an external clean-checkout reproduction of the public synthetic workflow.
+title: "repro: independent methods demo at "
+labels: [reproduction]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Follow docs/independent_reproduction.md. Do not include local paths, hostnames, secrets,
+        protein records, or controlled artifacts.
+  - type: input
+    id: commit
+    attributes:
+      label: Full reviewed commit SHA
+    validations:
+      required: true
+  - type: input
+    id: lock_hash
+    attributes:
+      label: uv.lock SHA-256
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Sanitized environment
+      description: Operating system, architecture, and Python version.
+    validations:
+      required: true
+  - type: textarea
+    id: checks
+    attributes:
+      label: Command results
+      description: Record every prescribed command and its exit status.
+    validations:
+      required: true
+  - type: textarea
+    id: hashes
+    attributes:
+      label: Demo artifact SHA-256 values
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I am independent from the primary implementation operation.
+          required: true
+        - label: The two generated demo directories matched exactly.
+          required: true
+        - label: This report contains no private or controlled material.
+          required: true
