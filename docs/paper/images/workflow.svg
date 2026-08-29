@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1105 430" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#33475b"/>
+    </marker>
+  </defs>
+
+  <!-- Row 1: stages 1-6 -->
+  <g fill="#eef2f7" stroke="#33475b" stroke-width="1.5">
+    <rect x="10"  y="40" width="160" height="70" rx="8"/>
+    <rect x="195" y="40" width="160" height="70" rx="8"/>
+    <rect x="380" y="40" width="160" height="70" rx="8"/>
+    <rect x="565" y="40" width="160" height="70" rx="8"/>
+    <rect x="750" y="40" width="160" height="70" rx="8"/>
+    <rect x="935" y="40" width="160" height="70" rx="8"/>
+  </g>
+  <g stroke="#33475b" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="170" y1="75" x2="193" y2="75"/>
+    <line x1="355" y1="75" x2="378" y2="75"/>
+    <line x1="540" y1="75" x2="563" y2="75"/>
+    <line x1="725" y1="75" x2="748" y2="75"/>
+    <line x1="910" y1="75" x2="933" y2="75"/>
+    <line x1="1015" y1="110" x2="1015" y2="238"/>
+  </g>
+
+  <!-- Row 2: stages 7-12, right to left -->
+  <g fill="#eef2f7" stroke="#33475b" stroke-width="1.5">
+    <rect x="935" y="240" width="160" height="70" rx="8"/>
+    <rect x="750" y="240" width="160" height="70" rx="8"/>
+    <rect x="565" y="240" width="160" height="70" rx="8"/>
+    <rect x="380" y="240" width="160" height="70" rx="8" fill="#fdf3e3"/>
+    <rect x="195" y="240" width="160" height="70" rx="8"/>
+    <rect x="10"  y="240" width="160" height="70" rx="8"/>
+  </g>
+  <g stroke="#33475b" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="935" y1="275" x2="912" y2="275"/>
+    <line x1="750" y1="275" x2="727" y2="275"/>
+    <line x1="565" y1="275" x2="542" y2="275"/>
+    <line x1="380" y1="275" x2="357" y2="275"/>
+    <line x1="195" y1="275" x2="172" y2="275"/>
+  </g>
+
+  <!-- Labels -->
+  <g fill="#1a2733" text-anchor="middle" font-size="13" font-weight="bold">
+    <text x="90" y="68">1. Source capture</text>
+    <text x="275" y="68">2. Candidate filter</text>
+    <text x="460" y="68">3. Exact dedup</text>
+    <text x="645" y="68">4. Cohort selection</text>
+    <text x="830" y="68">5. MMseqs2 search</text>
+    <text x="1015" y="68">6. Components</text>
+    <text x="1015" y="268">7. Grouped splits</text>
+    <text x="830" y="268">8. Boundary audit</text>
+    <text x="645" y="268">9. Baselines</text>
+    <text x="460" y="268">10. Test gate</text>
+    <text x="275" y="268">11. Exact replay</text>
+    <text x="90" y="268">12. Publication</text>
+  </g>
+  <g fill="#4c5a6a" text-anchor="middle" font-size="9.5">
+    <text x="90" y="88">UniProtKB/Swiss-Prot 2026_02</text>
+    <text x="275" y="88">EC, alphabet, length 50-1000</text>
+    <text x="460" y="88">conflict groups rejected</text>
+    <text x="645" y="88">5 classes, cap 250, seed 42</text>
+    <text x="830" y="88">frozen parameters</text>
+    <text x="1015" y="88">70% / 50% / 30% identity</text>
+    <text x="1015" y="288">nested, + Random control</text>
+    <text x="830" y="288">Test vs Train-only DB</text>
+    <text x="645" y="288">Train-only fitting</text>
+    <text x="460" y="288">attestation, 2 sessions</text>
+    <text x="275" y="288">byte-identical artifacts</text>
+    <text x="90" y="288">aggregate-only, allowlist</text>
+  </g>
+
+  <!-- Hash chain -->
+  <line x1="10" y1="360" x2="1095" y2="360" stroke="#7a8699" stroke-width="1.5" stroke-dasharray="7,5"/>
+  <text x="552" y="390" fill="#4c5a6a" text-anchor="middle" font-size="11">SHA-256 hash-linked manifests, attestations, and access ledgers bind every stage</text>
+</svg>

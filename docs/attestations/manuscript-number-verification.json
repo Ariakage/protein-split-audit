@@ -1,0 +1,359 @@
+{
+  "schema_version": 1,
+  "record_type": "manuscript_number_verification",
+  "manuscript": "docs/paper/paper.typ",
+  "manuscript_sources_sha256": {
+    "docs/paper/paper.typ": "734929c75f2576aff5c7de213d1a0d91b8e912960c74f916c2eddb48a694f743",
+    "docs/paper/references.bib": "a7ab3a1aa71e6b526404d3eeee7686da280caaf5b42e5ef82e2d16d382d41e08",
+    "docs/paper/images/workflow.svg": "2d6afe77558d15b144d19f1196aaad3151e1c8963ae9a74bedc8bfbd9241da3e"
+  },
+  "checks": [
+    {
+      "claim": "source records downloaded",
+      "expected": 2632,
+      "artifact_value": 2632,
+      "match": true
+    },
+    {
+      "claim": "accepted candidates",
+      "expected": 1182,
+      "artifact_value": 1182,
+      "match": true
+    },
+    {
+      "claim": "frozen cohort row count",
+      "expected": 442,
+      "artifact_value": 442,
+      "match": true
+    },
+    {
+      "claim": "selected per class (2.7, 3.1, 1.1, 2.1, 4.1)",
+      "expected": [
+        192,
+        85,
+        59,
+        57,
+        49
+      ],
+      "artifact_value": [
+        192,
+        85,
+        59,
+        57,
+        49
+      ],
+      "match": true
+    },
+    {
+      "claim": "cluster70 strict components",
+      "expected": 437,
+      "artifact_value": 437,
+      "match": true
+    },
+    {
+      "claim": "cluster50 strict components",
+      "expected": 427,
+      "artifact_value": 427,
+      "match": true
+    },
+    {
+      "claim": "cluster30 strict components",
+      "expected": 398,
+      "artifact_value": 398,
+      "match": true
+    },
+    {
+      "claim": "cluster30 split counts (train/validation/test)",
+      "expected": {
+        "train": 308,
+        "validation": 68,
+        "test": 66
+      },
+      "artifact_value": {
+        "test": 66,
+        "train": 308,
+        "validation": 68
+      },
+      "match": true
+    },
+    {
+      "claim": "cluster50 split counts (train/validation/test)",
+      "expected": {
+        "train": 308,
+        "validation": 68,
+        "test": 66
+      },
+      "artifact_value": {
+        "test": 66,
+        "train": 308,
+        "validation": 68
+      },
+      "match": true
+    },
+    {
+      "claim": "cluster70 split counts (train/validation/test)",
+      "expected": {
+        "train": 308,
+        "validation": 68,
+        "test": 66
+      },
+      "artifact_value": {
+        "test": 66,
+        "train": 308,
+        "validation": 68
+      },
+      "match": true
+    },
+    {
+      "claim": "random split counts (train/validation/test)",
+      "expected": {
+        "train": 308,
+        "validation": 68,
+        "test": 66
+      },
+      "artifact_value": {
+        "test": 66,
+        "train": 308,
+        "validation": 68
+      },
+      "match": true
+    },
+    {
+      "claim": "random-split exceedance counts at 0.30/0.50/0.70",
+      "expected": {
+        "0.30": 4,
+        "0.50": 2,
+        "0.70": 0
+      },
+      "artifact_value": {
+        "0.30": 4,
+        "0.50": 2,
+        "0.70": 0
+      },
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 majority / random",
+      "expected": 0.122,
+      "artifact_value": 0.122,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 length-logistic / random",
+      "expected": 0.171,
+      "artifact_value": 0.171,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 aac-logistic / random",
+      "expected": 0.236,
+      "artifact_value": 0.236,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 kmer3-logistic / random",
+      "expected": 0.358,
+      "artifact_value": 0.358,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 nearest-homolog / random",
+      "expected": 0.369,
+      "artifact_value": 0.369,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 esm2-35m / random",
+      "expected": 0.797,
+      "artifact_value": 0.797,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 esm2-150m / random",
+      "expected": 0.784,
+      "artifact_value": 0.784,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 majority / cluster70",
+      "expected": 0.122,
+      "artifact_value": 0.122,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 length-logistic / cluster70",
+      "expected": 0.142,
+      "artifact_value": 0.142,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 aac-logistic / cluster70",
+      "expected": 0.343,
+      "artifact_value": 0.343,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 kmer3-logistic / cluster70",
+      "expected": 0.418,
+      "artifact_value": 0.418,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 nearest-homolog / cluster70",
+      "expected": 0.462,
+      "artifact_value": 0.462,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 esm2-35m / cluster70",
+      "expected": 0.735,
+      "artifact_value": 0.735,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 esm2-150m / cluster70",
+      "expected": 0.807,
+      "artifact_value": 0.807,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 majority / cluster50",
+      "expected": 0.122,
+      "artifact_value": 0.122,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 length-logistic / cluster50",
+      "expected": 0.148,
+      "artifact_value": 0.148,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 aac-logistic / cluster50",
+      "expected": 0.349,
+      "artifact_value": 0.349,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 kmer3-logistic / cluster50",
+      "expected": 0.389,
+      "artifact_value": 0.389,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 nearest-homolog / cluster50",
+      "expected": 0.543,
+      "artifact_value": 0.543,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 esm2-35m / cluster50",
+      "expected": 0.86,
+      "artifact_value": 0.86,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 esm2-150m / cluster50",
+      "expected": 0.844,
+      "artifact_value": 0.844,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 majority / cluster30",
+      "expected": 0.122,
+      "artifact_value": 0.122,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 length-logistic / cluster30",
+      "expected": 0.189,
+      "artifact_value": 0.189,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 aac-logistic / cluster30",
+      "expected": 0.246,
+      "artifact_value": 0.246,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 kmer3-logistic / cluster30",
+      "expected": 0.389,
+      "artifact_value": 0.389,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 nearest-homolog / cluster30",
+      "expected": 0.307,
+      "artifact_value": 0.307,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 esm2-35m / cluster30",
+      "expected": 0.713,
+      "artifact_value": 0.713,
+      "match": true
+    },
+    {
+      "claim": "Table 2 Macro-F1 esm2-150m / cluster30",
+      "expected": 0.78,
+      "artifact_value": 0.78,
+      "match": true
+    },
+    {
+      "claim": "test support per class (2.7, 3.1, 1.1, 2.1, 4.1)",
+      "expected": {
+        "2.7": 29,
+        "3.1": 13,
+        "1.1": 9,
+        "2.1": 8,
+        "4.1": 7
+      },
+      "artifact_value": {
+        "2.7": 29,
+        "3.1": 13,
+        "1.1": 9,
+        "2.1": 8,
+        "4.1": 7
+      },
+      "match": true
+    },
+    {
+      "claim": "prespecified Random-minus-cluster intervals",
+      "expected": 21,
+      "artifact_value": 21,
+      "match": true
+    },
+    {
+      "claim": "all 21 intervals include zero",
+      "expected": true,
+      "artifact_value": true,
+      "match": true
+    },
+    {
+      "claim": "v0.5.0 replayed deterministic artifacts",
+      "expected": 430,
+      "artifact_value": 430,
+      "match": true
+    },
+    {
+      "claim": "v0.5.0 replay byte-identical",
+      "expected": true,
+      "artifact_value": true,
+      "match": true
+    },
+    {
+      "claim": "v0.6.0 replayed deterministic files",
+      "expected": 11,
+      "artifact_value": 11,
+      "match": true
+    },
+    {
+      "claim": "v0.6.0 replay deterministic mismatches",
+      "expected": 0,
+      "artifact_value": 0,
+      "match": true
+    }
+  ],
+  "all_match": true
+}
