@@ -1,6 +1,6 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-# Container clean-checkout reproduction attempt at v0.6.0
+# Container clean-checkout reproduction attempt at v0.6.0 and v0.7.0
 
 Date: 2026-08-30 (UTC+8).
 
@@ -94,6 +94,55 @@ matching the CI workflow of the same commit. All other commands unchanged.
 Overall: FAIL, with the software gate fully green: `pytest` reported
 `821 passed in 21.45s` in the clean container.
 
+## Attempt 3: released tag v0.7.0
+
+After the v0.7.0 release, the same container environment and the same script
+(`scripts/container_reproduction.sh`, with `CHECKOUT_TAG=v0.7.0`) cloned the
+public repository and checked out tag `v0.7.0`.
+
+Reviewed state:
+
+- Commit: `50b6ce08cccb3afe38ad53eeee0f6691fae66a82` (tag `v0.7.0`, merge
+  commit of pull request #6).
+- `uv.lock` SHA-256:
+  `edbd3bcf7b46636244391e9974ce49aa20a248cc59042551c8312d3b57a66552`.
+- Environment sync: `uv sync --locked --group dev --extra esm`.
+
+| Command | Exit |
+| --- | --- |
+| apt-get update | 0 |
+| apt-get install git ca-certificates | 0 |
+| pip install uv | 0 |
+| uv --version | 0 |
+| clone public repository | 0 |
+| checkout frozen tag v0.7.0 | 0 |
+| git status --porcelain (initial) | 0 |
+| git rev-parse HEAD | 0 |
+| shasum uv.lock | 0 |
+| uv lock --check | 0 |
+| uv sync --locked --group dev --extra esm | 0 |
+| uv run --locked ruff check . | 0 |
+| uv run --locked ruff format --check . | 0 |
+| uv run --locked mypy src | 0 |
+| uv run --locked pytest | 0 |
+| uv build --clear | 0 |
+| demo run external-demo-a | 0 |
+| demo run external-demo-b | 0 |
+| diff two demo runs | 0 |
+| sha256 demo files | 0 |
+| git status --porcelain (final) | 0 |
+
+Overall: PASS. `pytest` reported `837 passed in 20.89s` in the clean
+container. The two demo runs were byte-identical after excluding the
+publication lock file, and the demo artifacts hashed to:
+
+- `README.md`: `8ced30f3b64842d1e88b01bce20cfcd3bd4a5e5c38ae3fcfada8b17810a86491`
+- `split_summary.csv`: `e24c59813b365a9862dafc3b09e7e6968bd5cb6c30d9c297bcc8707e662d017c`
+- `demo_manifest.json`: `4eab5be9501b45d6b9d7a67d51eb561fe7a14780c16c5e7e8dbdbbbe05e6f1e8`
+
+This attempt resolves findings 1 and 2: the corrected sync command is the
+released protocol, and the demo code is included in the released tag.
+
 ## Findings
 
 1. Protocol defect (fixed in workspace). The reproduction protocol's sync
@@ -123,6 +172,9 @@ Overall: FAIL, with the software gate fully green: `pytest` reported
 
 - Independent reproduction: not achieved; remains a submission blocker per
   `paper/readiness.yaml`.
-- This attempt verifies that the v0.6.0 software gate (lock check, lint,
-  format, types, 821 tests, wheel build) reproduces in a clean isolated
-  environment once the environment sync matches CI.
+- Attempt 3 verifies that the complete v0.7.0 protocol (lock check, lint,
+  format, types, 837 tests, wheel build, and two byte-identical offline demo
+  runs) reproduces in a clean isolated environment from the public tag.
+- Attempts 1 and 2 verify that the v0.6.0 software gate (lock check, lint,
+  format, types, 821 tests, wheel build) reproduces once the environment sync
+  matches CI.
