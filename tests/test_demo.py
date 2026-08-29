@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import pytest
+from rich.text import Text
 from typer.testing import CliRunner
 
 from protein_split_audit.cli import app
@@ -58,16 +59,19 @@ def test_synthetic_demo_refuses_to_overwrite(tmp_path: Path) -> None:
         run_synthetic_demo(output)
 
 
-def test_demo_cli_help_and_run(tmp_path: Path) -> None:
+def test_demo_cli_help_and_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("NO_COLOR", "1")
     help_result = runner.invoke(app, ["demo", "run", "--help"])
+    help_text = " ".join(Text.from_ansi(help_result.stdout).plain.split())
 
     assert help_result.exit_code == 0
-    assert "--output-dir" in help_result.stdout
-    assert "synthetic" in help_result.stdout.lower()
+    assert "--output-dir" in help_text, repr(help_result.stdout)
+    assert "synthetic" in help_text.lower()
 
     output = tmp_path / "demo"
     result = runner.invoke(app, ["demo", "run", "--output-dir", str(output)])
 
     assert result.exit_code == 0
-    assert "Synthetic demo complete" in result.stdout
+    result_text = " ".join(Text.from_ansi(result.stdout).plain.split())
+    assert "Synthetic demo complete" in result_text
     assert (output / "demo_manifest.json").is_file()
