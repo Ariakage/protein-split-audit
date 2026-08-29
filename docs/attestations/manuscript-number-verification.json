@@ -3,7 +3,7 @@
   "record_type": "manuscript_number_verification",
   "manuscript": "docs/paper/paper.typ",
   "manuscript_sources_sha256": {
-    "docs/paper/paper.typ": "95351f671ee0932fe579c1a078d50d5e99517127cc6294944ba429a53c388117",
+    "docs/paper/paper.typ": "51922bca1e0ed971451e09db854aea4d1ad59ac1ea5b0661ba41ee0f2bc3be8e",
     "docs/paper/references.bib": "78ccd0e57defa8a155817fc60c257d2cc07b7e1a0226576f3418df559a68b042",
     "docs/paper/images/workflow.svg": "2d6afe77558d15b144d19f1196aaad3151e1c8963ae9a74bedc8bfbd9241da3e"
   },

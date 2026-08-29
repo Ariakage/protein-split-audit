@@ -321,7 +321,7 @@ uv run --locked psaudit demo run --output-dir results/runs/methods-demo
 
 Repeated runs produce byte-identical artifacts. The command verifies software behavior; its metrics are not scientific results.
 
-== A.2 投稿前待办事项的处理记录 (Pre-Submission Checklist Status) <sec:appendix:checklist>
+== A.2 投稿前清单的处理记录 (Pre-Submission Checklist Record) <sec:appendix:checklist>
 
 原清单共六项，六项均已完成并留有证据。
 

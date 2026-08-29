@@ -14,6 +14,8 @@ semantic versioning where it applies.
 
 ### Changed
 
+- Renamed manuscript appendix A.2 to "投稿前清单的处理记录 (Pre-Submission
+  Checklist Record)" now that all six checklist items are completed.
 - Registered the completed independent reproduction (GitHub issue #7) in the
   readiness record, the manuscript, and the readiness test guards.
 - Selected the Journal of Open Research Software (JORS) as the target journal
