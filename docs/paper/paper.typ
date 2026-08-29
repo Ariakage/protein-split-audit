@@ -275,9 +275,9 @@ This study covers one organism, one UniProt release, five coarse EC classes, one
 
 The frozen MMseqs2 search implements only one operational definition of similarity; it cannot exclude relationships that the heuristic search misses, and it cannot audit proteins outside the cohort. ESM-2 was pretrained outside this project, and whether the pilot proteins or their close relatives entered the pretraining corpus remains unknown @hermann2024pretraining. Clean downstream splits do not justify a claim that the models are independent of pretraining data.
 
-评估只包含两个 ESM-2 checkpoint、一种 pooling、一种线性 probe、5 个简单经典基线和一个种子。尚无外部物种或独立抽样队列检验相同结论。投稿前还需要由主要实现者之外的人完成一次干净检出的独立复现，并为投稿版本建立永久归档和 DOI。
+评估只包含两个 ESM-2 checkpoint、一种 pooling、一种线性 probe、5 个简单经典基线和一个种子。尚无外部物种或独立抽样队列检验相同结论。投稿前要求的一次干净检出独立复现已由主要实现者之外的审查人完成并公开记录（GitHub Issue #7）；投稿版本的永久归档与 DOI（`10.5281/zenodo.22164608`）也已建立。
 
-The evaluation contains only two ESM-2 checkpoints, one pooling scheme, one linear probe, five simple classical baselines, and one seed. No external organism or independently sampled cohort has tested the same conclusions. One independent reproduction from a clean checkout by someone other than the main implementer is still required, together with permanent archival and a DOI for the submission version at submission time.
+The evaluation contains only two ESM-2 checkpoints, one pooling scheme, one linear probe, five simple classical baselines, and one seed. No external organism or independently sampled cohort has tested the same conclusions. The independent reproduction from a clean checkout required before submission has been completed by a reviewer other than the main implementer and publicly recorded (GitHub issue #7); permanent archival and a DOI for the submission version (`10.5281/zenodo.22164608`) are also in place.
 
 = 结论 (Conclusion) <sec:conclusion>
 
@@ -323,9 +323,9 @@ Repeated runs produce byte-identical artifacts. The command verifies software be
 
 == A.2 投稿前待办事项的处理记录 (Pre-Submission Checklist Status) <sec:appendix:checklist>
 
-原清单共六项，五项已完成并留有证据，一项保留待办。
+原清单共六项，六项均已完成并留有证据。
 
-The original checklist had six items; five are completed with evidence on record, and one remains open.
+The original checklist had six items; all six are completed with evidence on record.
 
 One: 选定目标平台。以 arXiv 预印本（分类 q-bio.QM，许可 CC BY 4.0）作为首发平台；期刊投稿在公开历史满足要求后另行决定（JOSS 要求公开历史不少于六个月）。The initial venue is an arXiv preprint (category q-bio.QM, license CC BY 4.0); journal submission will be decided once the public development history is long enough (JOSS requires at least six months).
 
@@ -335,10 +335,8 @@ Three: 数字核验与稿件源哈希。全部数字已用 `scripts/verify_manus
 
 Four: 外部数据集预注册。决定暂不预注册：本研究的公开范围明确限定为单一物种示范，外部物种评估属于未来工作。Decision: no preregistration at this time; the public scope is bounded to the single-species demonstration, and external datasets remain future work.
 
+Five: 独立复现。已由主要实现者之外的审查人（GitHub 用户 urntt）从标签 v0.7.0 的干净检出完成，公开记录为 GitHub Issue #7：复核提交 `50b6ce08`，`uv.lock` 哈希与发布锁文件一致，837 项测试通过，两次 demo 运行逐字节一致，三个产物哈希与已归档容器运行逐字节一致，并附同提交 CI 运行链接与无偏差声明。Five: independent reproduction. Completed from a clean checkout of tag v0.7.0 by a reviewer other than the main implementer (GitHub user urntt); the public record is GitHub issue #7: reviewed commit `50b6ce08`, `uv.lock` hash matching the released lockfile, 837 passing tests, two byte-identical demo runs, three artifact hashes byte-identical to the archived container run, plus the CI run link for the same commit and a statement that no warnings, deviations, or failures occurred.
+
 Six: 永久归档。软件 v0.7.0 已向 Zenodo 存档（记录 22164608，DOI `10.5281/zenodo.22164608`，2026-08-29 发布），存档源码绑定 GitHub 标签 v0.7.0，许可 Apache-2.0。Software v0.7.0 has been archived on Zenodo (record 22164608, DOI `10.5281/zenodo.22164608`, published 2026-08-29); the archived source is bound to GitHub tag v0.7.0 under Apache-2.0.
-
-以下一项尚未完成，不得以声明代替执行。The following item remains open and must not be replaced by declarations.
-
-Five: 独立复现。须由主要实现者之外的人从干净检出完成一次复现，并公开复现记录。One independent reproduction from a clean checkout by someone other than the main implementer, with the reproduction record made public.
 
 #bibliography("references.bib", title: "参考文献 (References)", style: "gb-7714-2015-author-date")

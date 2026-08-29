@@ -7,6 +7,13 @@ semantic versioning where it applies.
 
 ## Unreleased
 
+### Changed
+
+- Registered the completed independent reproduction (GitHub issue #7, clean
+  checkout of tag v0.7.0) in `paper/readiness.yaml`, the manuscript, and the
+  readiness test guards; journal submission remains blocked on venue selection
+  and the six-month public-history requirement.
+
 ## 0.7.0 - 2026-08-30
 
 ### Added

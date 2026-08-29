@@ -134,7 +134,7 @@ def test_readiness_record_does_not_fabricate_submission_completion() -> None:
     assert readiness["completed"]["bilingual_typst_manuscript_present"] is True
     assert readiness["blocked"]["target_journal"] is None
     assert readiness["blocked"]["correspondence_postal_address_if_required"] is None
-    assert readiness["blocked"]["independent_human_reproduction"] is False
+    assert readiness["blocked"]["independent_human_reproduction"] is True
     assert readiness["blocked"]["submission_release_doi"] == "10.5281/zenodo.22164608"
 
 

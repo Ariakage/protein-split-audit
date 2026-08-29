@@ -17,9 +17,11 @@ embeddings, fitted models, caches, and run logs remain local and untracked.
 v0.7.0 ships a deterministic offline synthetic demonstration (`psaudit demo run`), a bilingual
 Typst manuscript draft with a number cross-check script, public governance, security, and
 independent-reproduction documentation, and a submission readiness checklist. It does not change
-pipeline behavior or touch the frozen v0.6.0 artifacts. Submission remains blocked until an
-independent third-party reproduction exists; the software archive DOI
-(`10.5281/zenodo.22164608`) has been deposited. See `paper/readiness.yaml`
+pipeline behavior or touch the frozen v0.6.0 artifacts. An independent
+third-party reproduction from a clean checkout of tag v0.7.0 exists
+(GitHub issue #7), and the software archive DOI (`10.5281/zenodo.22164608`)
+has been deposited; journal submission remains blocked on venue selection
+and the six-month public-history requirement. See `paper/readiness.yaml`
 and `docs/releases/v0.7.0.md`.
 
 ## v0.6.0 post-Test analysis

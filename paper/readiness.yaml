@@ -43,7 +43,9 @@ blocked:
   conflict_of_interest_statement: >-
     Declared in the manuscript: the author declares no competing interests.
   ai_use_disclosure_approved: true
-  independent_human_reproduction: false
+  independent_human_reproduction: true
+  # Evidence: GitHub issue #7 (reviewer urntt, v0.7.0 commit 50b6ce08, demo
+  # hashes byte-identical to the archived container run, CI run 33265971653).
   submission_release_doi: "10.5281/zenodo.22164608"
   manuscript_numbers_independently_verified: true
   public_development_history_over_six_months: false

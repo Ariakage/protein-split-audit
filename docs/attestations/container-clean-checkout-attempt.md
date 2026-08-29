@@ -170,8 +170,11 @@ released protocol, and the demo code is included in the released tag.
 
 ## Status
 
-- Independent reproduction: not achieved; remains a submission blocker per
-  `paper/readiness.yaml`.
+- Independent reproduction: achieved after this record was written. A reviewer
+  independent of the primary implementation operation (GitHub user urntt)
+  completed the protocol from a clean checkout of tag v0.7.0; the public record
+  is GitHub issue #7, whose demo artifact hashes are byte-identical to the
+  Attempt 3 container run.
 - Attempt 3 verifies that the complete v0.7.0 protocol (lock check, lint,
   format, types, 837 tests, wheel build, and two byte-identical offline demo
   runs) reproduces in a clean isolated environment from the public tag.
