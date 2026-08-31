@@ -24,7 +24,14 @@ authoritative submission artifact and must stay in sync with this rendering.
   Acknowledgements, References.
 - `paper.bib` — references copied from `paper/paper.bib`; the software entry
   is expressed as a `misc` entry so `plainnat` renders it without warnings.
+- `figures/workflow.pdf` — rendered from `docs/paper/images/workflow.svg`
+  (the same source the Typst manuscript uses); pdflatex cannot include SVG
+  directly. The Makefile regenerates it when the SVG changes.
 - `Makefile` — builds `build/paper.pdf` with latexmk (ignored by Git).
+
+The two result figures (Test Macro-F1 by split, Random-minus-cluster gaps)
+are referenced in place from the immutable v0.6.0 release at
+`results/released/v0.6.0/figures/` and are not copied into this folder.
 
 ## Build
 
@@ -34,6 +41,8 @@ make clean      # removes build outputs
 ```
 
 Requires a TeX Live distribution with `latexmk`, `natbib`, and `titlesec`.
+The workflow-figure rule additionally needs `mutool` (mupdf-tools); the
+checked-in `figures/workflow.pdf` lets the build skip that step.
 
 ## Content sync
 

@@ -9,6 +9,8 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{times}
 \usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{caption}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage{microtype}
 
@@ -123,6 +125,15 @@ approval. Predictions are sealed before Test labels are joined in memory. Formal
 resume a partial matrix or add a third session. Publication admits only a fixed aggregate file
 set and rejects record identifiers, sequences, private paths, and secrets.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/workflow.pdf}
+  \caption{Workflow overview of ProteinSplitAudit. SHA-256 hash-linked manifests and
+  attestations bind every stage; Test labels may be joined to predictions only after
+  the Test gate.}
+  \label{fig:workflow}
+\end{figure}
+
 \section*{Bounded Pilot Demonstration}
 
 The frozen pilot uses UniProtKB/Swiss-Prot release \texttt{2026\_02} and taxonomy ID 83333. Of
@@ -130,6 +141,14 @@ The frozen pilot uses UniProtKB/Swiss-Prot release \texttt{2026\_02} and taxonom
 EC-level-2 classes without model performance, producing 442 proteins. The strict graphs contain
 437, 427, and 398 components at 70\%, 50\%, and 30\% identity. Each split contains 308 Train, 68
 Validation, and 66 Test records.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.94\textwidth]{../../results/released/v0.6.0/figures/macro_f1_by_split.pdf}
+  \caption{Test Macro-F1 by method and split. Figure taken from the immutable v0.6.0
+  aggregate release.}
+  \label{fig:macro-f1}
+\end{figure}
 
 The three grouped splits have zero component crossings and zero matching-threshold Test-to-Train
 violations under the frozen MMseqs2 predicate. The Random control contains four reported pairs at
@@ -140,9 +159,18 @@ estimating how much random splitting inflates performance.
 Seven fixed methods were evaluated across four splits. After a session-identity defect was caught
 by replay and corrected using synthetic fixtures, two approved replacement Test sessions matched
 across 430 deterministic artifacts. The fixed post-Test analysis was also replayed exactly. All
-21 prespecified Random-minus-cluster Macro-F1 intervals include zero. ProteinSplitAudit therefore
+21 prespecified Random-minus-cluster Macro-F1 intervals include zero
+(Figure~\ref{fig:gaps}). ProteinSplitAudit therefore
 does not claim that increasingly strict clustering monotonically lowers performance or that one
 split is universally preferable.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.94\textwidth]{../../results/released/v0.6.0/figures/generalization_gap.pdf}
+  \caption{Random minus clustered Macro-F1 differences with frozen component-bootstrap
+  intervals. All intervals include zero.}
+  \label{fig:gaps}
+\end{figure}
 
 \section*{Reproducibility and Availability}
 

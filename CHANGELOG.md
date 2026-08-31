@@ -11,7 +11,9 @@ semantic versioning where it applies.
 
 - A LaTeX rendering of the JOSS paper (`paper/joss/`) with a latexmk
   Makefile; the Markdown draft remains the authoritative JOSS submission
-  artifact.
+  artifact. The rendering carries the three manuscript figures: the workflow
+  overview (rendered from the shared SVG) and the two result figures
+  referenced from the immutable v0.6.0 release.
 - A JORS-structured manuscript draft (`paper/jors/`): paper, references, and a
   pandoc Makefile rendering the submission DOCX.
 
