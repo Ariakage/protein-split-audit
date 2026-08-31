@@ -9,6 +9,9 @@ semantic versioning where it applies.
 
 ### Added
 
+- A LaTeX rendering of the JOSS paper (`paper/joss/`) with a latexmk
+  Makefile; the Markdown draft remains the authoritative JOSS submission
+  artifact.
 - A JORS-structured manuscript draft (`paper/jors/`): paper, references, and a
   pandoc Makefile rendering the submission DOCX.
 
